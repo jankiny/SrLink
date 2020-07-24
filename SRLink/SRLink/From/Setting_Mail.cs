@@ -21,7 +21,7 @@ namespace SRLink
             InitializeComponent();
             config = c;
             config_Mail = c.ReadConfig_Mail();
-            this.CBX_Enable.Checked = (config_Mail.Enable == 1);
+            this.CBX_Enable.Checked = (config_Mail.Enable == EEnable.True);
             if (config_Mail.Status == 0)
             {
                 this.LBL_Status.Text = "待验证";
@@ -39,7 +39,7 @@ namespace SRLink
         {
             if (this.TBX_Code.Text == code)
             {
-                config_Mail.Status = 1;
+                config_Mail.Status = EStatus.OK;
                 this.LBL_Status.Text = "验证成功";
                 this.LBL_Status.ForeColor = Color.LimeGreen;
             }
@@ -47,7 +47,7 @@ namespace SRLink
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            config_Mail.Enable = (this.CBX_Enable.Checked ? 1 : 0);
+            config_Mail.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
             config_Mail.Address = this.TBX_Address.Text.Trim();
             config.SaveConfig(config_Mail);
             this.DialogResult = DialogResult.OK;

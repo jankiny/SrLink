@@ -25,7 +25,7 @@ namespace SRLink
             InitializeComponent();
             config = c;
             config_Link = c.ReadConfig_Link();
-            this.CBX_Enable.Checked = (config_Link.Enable == 1);
+            this.CBX_Enable.Checked = (config_Link.Enable == EEnable.True);
             this.TBX_Path.Text = config_Link.Path;
             this.DDL_Way.SelectedIndex = config_Link.Way - 1;
         }
@@ -54,7 +54,7 @@ namespace SRLink
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            config_Link.Enable = (this.CBX_Enable.Checked ? 1 : 0);
+            config_Link.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
             config_Link.Way = this.DDL_Way.SelectedIndex + 1;
             config_Link.X = int.Parse(this.TBX_X.Text.Trim());
             config_Link.Y = int.Parse(this.TBX_Y.Text.Trim());

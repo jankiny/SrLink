@@ -1,8 +1,15 @@
-﻿namespace SRLink.Model
+﻿using System;
+
+namespace SRLink.Model
 {
     public abstract class SettingBase
     {
-        public int Enable
+        public EEnable Enable
+        {
+            get; set;
+        }
+
+        public EStatus Status
         {
             get; set;
         }
@@ -16,7 +23,7 @@
         // 返回配置状态
         public virtual bool GetConfigReady()
         {
-            return this.Enable == 1;
+            return this.Enable == EEnable.True;
         }
     }
 }

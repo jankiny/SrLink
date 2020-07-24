@@ -46,23 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="From\FRM_Config_Certify.cs">
+    <Compile Include="From\Setting_Certify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\FRM_Config_Certify.Designer.cs">
-      <DependentUpon>FRM_Config_Certify.cs</DependentUpon>
+    <Compile Include="From\Setting_Certify.Designer.cs">
+      <DependentUpon>Setting_Certify.cs</DependentUpon>
     </Compile>
-    <Compile Include="From\FRM_Config_Link.cs">
+    <Compile Include="From\Setting_Link.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\FRM_Config_Link.Designer.cs">
-      <DependentUpon>FRM_Config_Link.cs</DependentUpon>
+    <Compile Include="From\Setting_Link.Designer.cs">
+      <DependentUpon>Setting_Link.cs</DependentUpon>
     </Compile>
-    <Compile Include="From\FRM_Config_Mail.cs">
+    <Compile Include="From\Setting_Mail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\FRM_Config_Mail.Designer.cs">
-      <DependentUpon>FRM_Config_Mail.cs</DependentUpon>
+    <Compile Include="From\Setting_Mail.Designer.cs">
+      <DependentUpon>Setting_Mail.cs</DependentUpon>
     </Compile>
     <Compile Include="From\FRM_Main.cs">
       <SubType>Form</SubType>
@@ -75,20 +75,22 @@
     <Compile Include="Handler\LinkHandler.cs" />
     <Compile Include="Handler\MailHandler.cs" />
     <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\EEnable.cs" />
+    <Compile Include="Model\EStatus.cs" />
     <Compile Include="Model\SettingBase.cs" />
     <Compile Include="Model\Setting_Certify.cs" />
     <Compile Include="Model\Setting_Link.cs" />
     <Compile Include="Model\Setting_Mail.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="From\FRM_Config_Certify.resx">
-      <DependentUpon>FRM_Config_Certify.cs</DependentUpon>
+    <EmbeddedResource Include="From\Setting_Certify.resx">
+      <DependentUpon>Setting_Certify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="From\FRM_Config_Link.resx">
-      <DependentUpon>FRM_Config_Link.cs</DependentUpon>
+    <EmbeddedResource Include="From\Setting_Link.resx">
+      <DependentUpon>Setting_Link.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="From\FRM_Config_Mail.resx">
-      <DependentUpon>FRM_Config_Mail.cs</DependentUpon>
+    <EmbeddedResource Include="From\Setting_Mail.resx">
+      <DependentUpon>Setting_Mail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From\FRM_Main.resx">
       <DependentUpon>FRM_Main.cs</DependentUpon>
@@ -112,9 +114,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\check.png" />
-    <None Include="Resources\icon_cmail.png" />
-    <None Include="Resources\network_1.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

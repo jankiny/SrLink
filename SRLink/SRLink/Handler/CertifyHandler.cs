@@ -1,10 +1,15 @@
 ﻿using System.Text;
 using Kit.Utils;
+using SRLink.Model;
 
 namespace SRLink.Handler
 {
-    public static class CertifyHandler
+    public class CertifyHandler
     {
+        public readonly Setting_Certify setting = null;
+        public CertifyHandler()
+        {
+        }
         public static bool RegisterSchoolNet(string uid, string pwd)
         {
             if (Login(uid, pwd) != "认证成功")

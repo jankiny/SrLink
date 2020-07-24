@@ -67,8 +67,8 @@ namespace SRLink.Handler
         public Setting_Certify ReadConfig_Certify()
         {
             return new Setting_Certify(
-                int.Parse(appConfig.GetAppConfig("certify_enable")),
-                int.Parse(appConfig.GetAppConfig("certify_status")),
+                (EEnable)int.Parse(appConfig.GetAppConfig("certify_enable")),
+                (EStatus)int.Parse(appConfig.GetAppConfig("certify_status")),
                 appConfig.GetAppConfig("certify_student"),
                 appConfig.GetAppConfig("certify_password")
                 );
@@ -76,7 +76,7 @@ namespace SRLink.Handler
         public Setting_Link ReadConfig_Link()
         {
             return new Setting_Link(
-                int.Parse(appConfig.GetAppConfig("link_enable")),
+                (EEnable)int.Parse(appConfig.GetAppConfig("link_enable")),
                 appConfig.GetAppConfig("link_path"),
                 int.Parse(appConfig.GetAppConfig("link_way")),
                 int.Parse(appConfig.GetAppConfig("link_x")),
@@ -86,8 +86,8 @@ namespace SRLink.Handler
         public Setting_Mail ReadConfig_Mail()
         {
             return new Setting_Mail(
-                int.Parse(appConfig.GetAppConfig("mail_enable")),
-                int.Parse(appConfig.GetAppConfig("mail_status")),
+                (EEnable)int.Parse(appConfig.GetAppConfig("mail_enable")),
+                (EStatus)int.Parse(appConfig.GetAppConfig("mail_status")),
                 appConfig.GetAppConfig("mail_address")
                 );
         }

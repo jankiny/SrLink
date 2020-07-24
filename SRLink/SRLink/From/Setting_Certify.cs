@@ -14,7 +14,7 @@ namespace SRLink
 {
     public partial class FRM_Config_Certify : Form
     {
-        private readonly Setting_Certify config_Certify = null;
+        private readonly Setting_Certify setting = null;
         private readonly ConfigHandler config = null;
         public FRM_Config_Certify()
         {
@@ -24,14 +24,14 @@ namespace SRLink
         {
             InitializeComponent();
             config = c;
-            config_Certify = c.ReadConfig_Certify();
-            this.CBX_Enable.Checked = (config_Certify.Enable == 1);
-            if (config_Certify.Status == -1)
+            setting = c.ReadConfig_Certify();
+            this.CBX_Enable.Checked = (setting.Enable == EEnable.True);
+            if (setting.Status == EStatus.Error)
             {
                 this.LBL_Status.Text = "验证失败";
                 this.LBL_Status.ForeColor = Color.Red;
             }
-            else if (config_Certify.Status == 0)
+            else if (setting.Status == 0)
             {
                 this.LBL_Status.Text = "待验证";
                 this.LBL_Status.ForeColor = Color.DimGray;
@@ -41,22 +41,22 @@ namespace SRLink
                 this.LBL_Status.Text = "验证成功";
                 this.LBL_Status.ForeColor = Color.LimeGreen;
             }
-            if (config_Certify.Student != "未配置")
+            if (setting.Student != "未配置")
             {
-                this.TBX_ID.Text = config_Certify.Student;
+                this.TBX_ID.Text = setting.Student;
             }
-            if (config_Certify.Password != "未配置")
+            if (setting.Password != "未配置")
             {
-                this.TBX_Password.Text = config_Certify.Password;
+                this.TBX_Password.Text = setting.Password;
             }
         }
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            config_Certify.Enable = (this.CBX_Enable.Checked ? 1 : 0);
-            config_Certify.Student = this.TBX_ID.Text.Trim();
-            config_Certify.Password = this.TBX_Password.Text.Trim();
-            config.SaveConfig(config_Certify);
+            setting.Enable = this.CBX_Enable.Checked ? EEnable.True : EEnable.False;
+            setting.Student = this.TBX_ID.Text.Trim();
+            setting.Password = this.TBX_Password.Text.Trim();
+            config.SaveConfig(setting);
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -65,13 +65,13 @@ namespace SRLink
         {
             if (CertifyHandler.Login(this.TBX_ID.Text.Trim(), this.TBX_Password.Text.Trim()) == "认证成功")
             {
-                config_Certify.Status = 1;
+                setting.Status = EStatus.OK;
                 this.LBL_Status.Text = "验证成功";
                 this.LBL_Status.ForeColor = Color.LimeGreen;
             }
             else
             {
-                config_Certify.Status = -1;
+                setting.Status = EStatus.Error;
                 this.LBL_Status.Text = "验证失败";
                 this.LBL_Status.ForeColor = Color.Red;
             }

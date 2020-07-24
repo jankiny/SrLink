@@ -8,22 +8,6 @@ namespace SRLink.Model
 {
     public class Setting_Mail : SettingBase
     {
-        private int _Status; // 当前状态 
-        public int Status
-        {
-            get { return _Status; }
-            set
-            {
-                // 状态：待验证；验证成功
-                if (value == 0 || value == 1) this._Status = value;
-                else
-                {
-                    this._Status = 0;
-                    throw new Exception("状态不合法");
-
-                }
-            }
-        }
         public string Address;
         public Setting_Mail()
         {
@@ -32,10 +16,10 @@ namespace SRLink.Model
             this.Address = "未配置邮箱";
         }
 
-        public Setting_Mail(int able, int status, string mail)
+        public Setting_Mail(EEnable able, EStatus status, string mail)
         {
             this.Enable = able;
-            this._Status = status;
+            this.Status = status;
             this.Address = mail;
         }
 
@@ -55,7 +39,7 @@ namespace SRLink.Model
         // 返回配置状态
         public override bool GetConfigReady()
         {
-            if (this.Enable == 1 && this._Status == 1)
+            if (this.Enable == EEnable.True && this.Status == EStatus.OK)
             {
                 return true;
             }

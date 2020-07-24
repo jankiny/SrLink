@@ -34,7 +34,7 @@ namespace SRLink.Model
             this.X = 400;
             this.Y = 150;
         }
-        public Setting_Link(int able, string path, int way, int x, int y)
+        public Setting_Link(EEnable able, string path, int way, int x, int y)
         {
             this.Enable = able;
             this.Path = path;
