@@ -72,10 +72,12 @@
     </Compile>
     <Compile Include="Handler\CertifyHandler.cs" />
     <Compile Include="Handler\ConfigHandler.cs" />
+    <Compile Include="Handler\HandlerBase.cs" />
     <Compile Include="Handler\LinkHandler.cs" />
     <Compile Include="Handler\MailHandler.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\EEnable.cs" />
+    <Compile Include="Model\EHandler.cs" />
     <Compile Include="Model\EStatus.cs" />
     <Compile Include="Model\SettingBase.cs" />
     <Compile Include="Model\Setting_Certify.cs" />

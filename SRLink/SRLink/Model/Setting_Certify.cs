@@ -54,14 +54,7 @@ namespace SRLink.Model
 
         public override bool GetConfigReady()
         {
-            if (this.Enable == EEnable.True && this.Status == EStatus.OK)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (this.Enable == EEnable.True && this.Status == EStatus.OK);
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SRLink.Handler;
 using SRLink.Model;
@@ -16,15 +10,9 @@ namespace SRLink
     {
         private readonly Setting_Certify setting = null;
         private readonly ConfigHandler config = null;
-        public FRM_Config_Certify()
+        #region 刷新窗体数据
+        private void BindData()
         {
-            InitializeComponent();
-        }
-        public FRM_Config_Certify(ConfigHandler c)
-        {
-            InitializeComponent();
-            config = c;
-            setting = c.ReadConfig_Certify();
             this.CBX_Enable.Checked = (setting.Enable == EEnable.True);
             if (setting.Status == EStatus.Error)
             {
@@ -50,6 +38,18 @@ namespace SRLink
                 this.TBX_Password.Text = setting.Password;
             }
         }
+        #endregion
+        public FRM_Config_Certify()
+        {
+            InitializeComponent();
+        }
+        public FRM_Config_Certify(ConfigHandler c)
+        {
+            InitializeComponent();
+            config = c;
+            setting = config.ReadConfig_Certify();
+            BindData();
+        }
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
@@ -63,18 +63,11 @@ namespace SRLink
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            if (CertifyHandler.Login(this.TBX_ID.Text.Trim(), this.TBX_Password.Text.Trim()) == "认证成功")
-            {
-                setting.Status = EStatus.OK;
-                this.LBL_Status.Text = "验证成功";
-                this.LBL_Status.ForeColor = Color.LimeGreen;
-            }
-            else
-            {
-                setting.Status = EStatus.Error;
-                this.LBL_Status.Text = "验证失败";
-                this.LBL_Status.ForeColor = Color.Red;
-            }
+            setting.Student = this.TBX_ID.Text.Trim();
+            setting.Password = this.TBX_Password.Text.Trim();
+            CertifyHandler test_handler = new CertifyHandler(setting);
+            setting.Status = (test_handler.RegisterSchoolNet(out _) ? EStatus.OK : EStatus.Error);
+            BindData();
         }
     }
 }

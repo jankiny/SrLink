@@ -11,12 +11,19 @@ namespace Kit.Win
     {
         public static bool Run(string path)
         {
-            ProcessStartInfo startinfo = new ProcessStartInfo(path);
-            Process p = Process.Start(startinfo);
-            if (p == null)
-                //throw new Exception("Warning:process may already exist");
+            try
+            {
+                ProcessStartInfo startinfo = new ProcessStartInfo(path);
+                Process p = Process.Start(startinfo);
+                if (p == null)
+                    //throw new Exception("Warning:process may already exist");
+                    return false;
+                return true;
+            }
+            catch
+            {
                 return false;
-            return true;
+            }
         }
     }
 }

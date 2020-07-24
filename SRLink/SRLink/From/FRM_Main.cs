@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ namespace SRLink
 {
     public partial class FRM_Main : Form
     {
+        Queue<HandlerBase> ready;
         private readonly Handler.ConfigHandler config = null;
         Thread thread_autolink = null;
         bool TodayLink = false;
@@ -19,6 +21,7 @@ namespace SRLink
         public FRM_Main()
         {
             InitializeComponent();
+            ready = new Queue<HandlerBase>();
             this.TSP_SLB_Time.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
             this.TBX_Board.Text = "欢迎使用AutoLink";
             config = new Handler.ConfigHandler(System.Windows.Forms.Application.ExecutablePath);
@@ -115,7 +118,8 @@ namespace SRLink
                 DateTime.Now.Hour <=  23 &&
                 DateTime.Now.Hour >= 7 && 
                 DateTime.Now.Hour * 60 + DateTime.Now.Minute >= 
-                this.DTP_StartTime.Value.Hour * 60 + this.DTP_StartTime.Value.Minute)
+                this.DTP_StartTime.Value.Hour * 60 + this.DTP_StartTime.Value.Minute &&
+                ready.Count != 0)
             {
                 this.BTN_Start.PerformClick();
             }
@@ -145,6 +149,7 @@ namespace SRLink
                 thread_autolink.ThreadState == ThreadState.Aborted)
             {
                 WriteToBoard("开始连接...");
+                RefreshQueue();
                 thread_autolink = new Thread(Func);
                 thread_autolink.Start();
             }
@@ -162,9 +167,8 @@ namespace SRLink
                 thread_autolink.Abort();
             }
         }
-#endregion
-
-        #region 辅助函数
+        #endregion
+        #region UI控制
         void ChangeStatus(int step, int status)
         {
             Color c;
@@ -198,6 +202,28 @@ namespace SRLink
 
             }
         }
+        #endregion
+
+        #region 辅助函数
+        void RefreshQueue()
+        {
+            if (ready.Count != 0)
+            {
+                ready.Clear();
+            }
+            CertifyHandler certifyHandler = new CertifyHandler(config.ReadConfig_Certify(), 60, 3000, EHandler.Work);
+            if (certifyHandler.Ready())
+            {
+                ready.Enqueue(certifyHandler);
+            }
+            LinkHandler linkHandler = new LinkHandler(config.ReadConfig_Link(), 60, 3000, EHandler.Work);
+            if (linkHandler.Ready())
+            {
+                ready.Enqueue(linkHandler);
+            }
+
+        }
+
         /// <summary>
         /// 将message显示到Board上
         /// </summary>
@@ -227,91 +253,87 @@ namespace SRLink
         // 托管的方法
         void Func()
         {
-            int flag = 0;
-            Setting_Certify config_Certify = config.ReadConfig_Certify();
-            if (config_Certify.GetConfigReady())
+            while (ready.Count != 0)
             {
-                Step1(config_Certify, 60, 60000);
-                flag++;
-            }
-            Setting_Link config_Link = config.ReadConfig_Link();
-            if (config_Link.GetConfigReady())
-            {
-                Step2(config_Link, 30, 3000);
-                flag++;
-            }
-            Setting_Mail config_Mail = config.ReadConfig_Mail();
-            if (config_Mail.GetConfigReady())
-            {
-                Step3(config_Mail, 15, 3000);
-                flag++;
-            }
-            if (flag == 0)
-            {
-                this.TodayLink = true;
-                WriteToBoard("获取不到认证账号...");
-                WriteToBoard("（Notice）请到设置页面进行设置,然后手动连接。");
-            }
-        }
-
-        // 认证
-        void Step1(Setting_Certify config_Certify, int round, int delay)
-        {
-            if (config_Certify.GetConfigReady())
-            {
-                WriteToBoard("尝试认证...");
+                HandlerBase handler = ready.Dequeue();
+                WriteToBoard("尝试" + handler.HandleName);
                 int count = 1;
-                while (CertifyHandler.RegisterSchoolNet(config_Certify.Student, config_Certify.Password) != true)
+                string msg;
+                while (!handler.Run(out msg))
                 {
-                    if (count == round)
+                    if (count == handler.Count)
                     {
-                        WriteToBoard("第" + count + "次认证失败！停止认证。");
+                        WriteToBoard("第" + count + "次认证失败[" + msg + "] 停止认证。");
                         return;
                     }
-                    WriteToBoard(string.Format("第{0}次认证失败！{1}s后重试。", count, delay / 1000));
+                    WriteToBoard(string.Format("第{0}次认证失败[" + msg + "] {1}s后重试。", count, handler.Delay / 1000));
                     count++;
-                    Thread.Sleep(delay);
+                    Thread.Sleep(handler.Delay);
                 }
-                WriteToBoard("认证成功！");
-                Finish(LBL_Step1);
-                this.TodayLink = true;
+                WriteToBoard(handler.HandleName + "成功！");
                 Thread.Sleep(1000);
             }
+            //int flag = 0;
+            //Setting_Certify config_Certify = config.ReadConfig_Certify();
+            //if (config_Certify.GetConfigReady())
+            //{
+            //    Step1(config_Certify, 60, 60000);
+            //    flag++;
+            //}
+            //Setting_Link config_Link = config.ReadConfig_Link();
+            //if (config_Link.GetConfigReady())
+            //{
+            //    Step2(config_Link, 30, 3000);
+            //    flag++;
+            //}
+            //Setting_Mail config_Mail = config.ReadConfig_Mail();
+            //if (config_Mail.GetConfigReady())
+            //{
+            //    Step3(config_Mail, 15, 3000);
+            //    flag++;
+            //}
+            //if (flag == 0)
+            //{
+            //    this.TodayLink = true;
+            //    WriteToBoard("获取不到认证账号...");
+            //    WriteToBoard("（Notice）请到设置页面进行设置,然后手动连接。");
+            //}
         }
+
         // 连接随e行
-        void Step2(Setting_Link config_Link, int round, int delay)
-        {
-            if (config_Link.GetConfigReady())
-            {
-                int count = 1;
-                do
-                {
-                    if (count != 1)
-                    {
-                        WriteToBoard(string.Format("第{0}次连接失败！重新尝试连接。", count, delay / 1000));
-                    }
-                    else if (count == round)
-                    {
-                        WriteToBoard("第" + count + "次连接失败！停止连接。");
-                        return;
-                    }
-                    WriteToBoard("正在打开随e行...");
-                    flash = 1;
-                    LinkHandler.OpenSuiEXing(config_Link.Path);
-                    Thread.Sleep(delay); // 等待随e行打开
+        //void Step2(Setting_Link config_Link, int round, int delay)
+        //{
+        //    if (config_Link.GetConfigReady())
+        //    {
+        //        int count = 1;
+        //        do
+        //        {
+        //            if (count != 1)
+        //            {
+        //                WriteToBoard(string.Format("第{0}次连接失败！重新尝试连接。", count, delay / 1000));
+        //            }
+        //            else if (count == round)
+        //            {
+        //                WriteToBoard("第" + count + "次连接失败！停止连接。");
+        //                return;
+        //            }
+        //            WriteToBoard("正在打开随e行...");
+        //            flash = 1;
+        //            LinkHandler.OpenSuiEXing(config_Link.Path);
+        //            Thread.Sleep(delay); // 等待随e行打开
 
-                    WriteToBoard("正在连接网络...");
-                    LinkHandler.LinkSuiEXing(config_Link.X, config_Link.Y);
-                    Thread.Sleep(delay);
-                    count++;
-                } while (LinkHandler.IsConnectInternet() != true);
+        //            WriteToBoard("正在连接网络...");
+        //            LinkHandler.LinkSuiEXing(config_Link.X, config_Link.Y);
+        //            Thread.Sleep(delay);
+        //            count++;
+        //        } while (LinkHandler.IsConnectInternet() != true);
 
-                WriteToBoard("网络连接成功！");
-                Finish(LBL_Line1);
-                Finish(LBL_Step2);
-                Thread.Sleep(1000);
-            }
-        }
+        //        WriteToBoard("网络连接成功！");
+        //        Finish(LBL_Line1);
+        //        Finish(LBL_Step2);
+        //        Thread.Sleep(1000);
+        //    }
+        //}
         // 发送IP信息
         void Step3(Setting_Mail config_Mail, int round, int delay)
         {
