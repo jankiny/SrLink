@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SRLink.Handler;
 using SRLink.Model;
@@ -15,7 +9,7 @@ namespace SRLink
 {
     public partial class FRM_Main : Form
     {
-        private readonly Config config = null;
+        private readonly Handler.ConfigHandler config = null;
         Thread thread_autolink = null;
         bool TodayLink = false;
         int flash = 0;
@@ -27,7 +21,7 @@ namespace SRLink
             InitializeComponent();
             this.TSP_SLB_Time.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
             this.TBX_Board.Text = "欢迎使用AutoLink";
-            config = new Config(System.Windows.Forms.Application.ExecutablePath);
+            config = new Handler.ConfigHandler(System.Windows.Forms.Application.ExecutablePath);
             if (!config.HasConfig())
             {
                 WriteToBoard("第一次使用，请先到设置页输入认证账号等...");
@@ -267,7 +261,7 @@ namespace SRLink
             {
                 WriteToBoard("尝试认证...");
                 int count = 1;
-                while (Certify.RegisterSchoolNet(config_Certify.Student, config_Certify.Password) != true)
+                while (CertifyHandler.RegisterSchoolNet(config_Certify.Student, config_Certify.Password) != true)
                 {
                     if (count == round)
                     {
@@ -303,14 +297,14 @@ namespace SRLink
                     }
                     WriteToBoard("正在打开随e行...");
                     flash = 1;
-                    Link.OpenSuiEXing(config_Link.Path);
+                    LinkHandler.OpenSuiEXing(config_Link.Path);
                     Thread.Sleep(delay); // 等待随e行打开
 
                     WriteToBoard("正在连接网络...");
-                    Link.LinkSuiEXing(config_Link.X, config_Link.Y);
+                    LinkHandler.LinkSuiEXing(config_Link.X, config_Link.Y);
                     Thread.Sleep(delay);
                     count++;
-                } while (Link.IsConnectInternet() != true);
+                } while (LinkHandler.IsConnectInternet() != true);
 
                 WriteToBoard("网络连接成功！");
                 Finish(LBL_Line1);
@@ -324,7 +318,7 @@ namespace SRLink
             WriteToBoard("正在发送IP地址...");
             flash = 2;
             int count = 1;
-            while (Mail.SendIP(config_Mail.Address) != true)
+            while (MailHandler.SendIP(config_Mail.Address) != true)
             {
                 if (count == round)
                 {

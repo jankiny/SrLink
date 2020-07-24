@@ -15,12 +15,12 @@ namespace SRLink
     public partial class FRM_Config_Link : Form
     {
         private readonly Setting_Link config_Link = null;
-        private readonly Config config = null;
+        private readonly ConfigHandler config = null;
         public FRM_Config_Link()
         {
             InitializeComponent();
         }
-        public FRM_Config_Link(Config c)
+        public FRM_Config_Link(ConfigHandler c)
         {
             InitializeComponent();
             config = c;
@@ -65,10 +65,10 @@ namespace SRLink
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            if (Link.OpenSuiEXing(config_Link.Path))
+            if (LinkHandler.OpenSuiEXing(config_Link.Path))
             {
-                Link.TryClick(int.Parse(this.TBX_X.Text.Trim()), int.Parse(this.TBX_Y.Text.Trim()));
-                Link.IsConnectInternet();
+                LinkHandler.TryClick(int.Parse(this.TBX_X.Text.Trim()), int.Parse(this.TBX_Y.Text.Trim()));
+                LinkHandler.IsConnectInternet();
             }
         }
     }

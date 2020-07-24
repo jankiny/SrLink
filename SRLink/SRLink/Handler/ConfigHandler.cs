@@ -4,12 +4,12 @@ using SRLink.Helper;
 
 namespace SRLink.Handler
 {
-    public class Config
+    public class ConfigHandler
     {
-        private readonly ConfigHelper appConfig = null;
-        public Config(string appExecPath)
+        private readonly Config appConfig = null;
+        public ConfigHandler(string appExecPath)
         {
-            appConfig = new ConfigHelper(appExecPath);
+            appConfig = new Config(appExecPath);
         }
         public bool HasConfig()
         {

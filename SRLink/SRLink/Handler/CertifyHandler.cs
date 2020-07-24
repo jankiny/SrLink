@@ -3,7 +3,7 @@ using SRLink.Helper;
 
 namespace SRLink.Handler
 {
-    public static class Certify
+    public static class CertifyHandler
     {
         public static bool RegisterSchoolNet(string uid, string pwd)
         {

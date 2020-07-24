@@ -15,12 +15,12 @@ namespace SRLink
     public partial class FRM_Config_Certify : Form
     {
         private readonly Setting_Certify config_Certify = null;
-        private readonly Config config = null;
+        private readonly ConfigHandler config = null;
         public FRM_Config_Certify()
         {
             InitializeComponent();
         }
-        public FRM_Config_Certify(Config c)
+        public FRM_Config_Certify(ConfigHandler c)
         {
             InitializeComponent();
             config = c;
@@ -63,7 +63,7 @@ namespace SRLink
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            if (Certify.Login(this.TBX_ID.Text.Trim(), this.TBX_Password.Text.Trim()) == "认证成功")
+            if (CertifyHandler.Login(this.TBX_ID.Text.Trim(), this.TBX_Password.Text.Trim()) == "认证成功")
             {
                 config_Certify.Status = 1;
                 this.LBL_Status.Text = "验证成功";

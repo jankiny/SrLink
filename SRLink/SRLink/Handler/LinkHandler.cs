@@ -7,7 +7,7 @@ using SRLink.Helper;
 
 namespace SRLink.Handler
 {
-    public static class Link
+    public static class LinkHandler
     {
         public static bool OpenSuiEXing(string path)
         {

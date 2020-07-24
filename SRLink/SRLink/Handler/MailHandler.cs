@@ -2,7 +2,7 @@
 
 namespace SRLink.Handler
 {
-    public static class Mail
+    public static class MailHandler
     {
         public static bool SendIP(string address)
         {

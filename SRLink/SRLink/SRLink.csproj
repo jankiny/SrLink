@@ -70,16 +70,17 @@
     <Compile Include="From\FRM_Main.Designer.cs">
       <DependentUpon>FRM_Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Handler\Certify.cs" />
-    <Compile Include="Handler\Config.cs" />
-    <Compile Include="Handler\Link.cs" />
-    <Compile Include="Handler\Mail.cs" />
+    <Compile Include="Handler\CertifyHandler.cs" />
+    <Compile Include="Handler\ConfigHandler.cs" />
+    <Compile Include="Handler\LinkHandler.cs" />
+    <Compile Include="Handler\MailHandler.cs" />
     <Compile Include="Helper\CmdHelper.cs" />
     <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\ExeHelper.cs" />
     <Compile Include="Helper\MailHelper.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
+    <Compile Include="Model\Config.cs" />
     <Compile Include="Model\SettingBase.cs" />
     <Compile Include="Model\Setting_Certify.cs" />
     <Compile Include="Model\Setting_Link.cs" />

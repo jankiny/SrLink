@@ -9,14 +9,14 @@ namespace SRLink
     public partial class FRM_Config_Mail : Form
     {
         private readonly Setting_Mail config_Mail = null;
-        private readonly Config config = null;
+        private readonly ConfigHandler config = null;
         string code;
         int Count = 0;
         public FRM_Config_Mail()
         {
             InitializeComponent();
         }
-        public FRM_Config_Mail(Config c)
+        public FRM_Config_Mail(ConfigHandler c)
         {
             InitializeComponent();
             config = c;
@@ -62,7 +62,7 @@ namespace SRLink
             Count = 15;
             this.BTN_Sent.Enabled = false;
             this.BTN_Sent.Text = "15s";
-            code = Mail.TestMail(this.TBX_Address.Text);
+            code = MailHandler.TestMail(this.TBX_Address.Text);
         }
 
         private void TMR_ReSent_Tick(object sender, EventArgs e)
