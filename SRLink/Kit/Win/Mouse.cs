@@ -54,7 +54,7 @@ namespace Kit.Win
         private static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
         [DllImport("User32")]
-        public extern static void Mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
+        public extern static void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
         [DllImport("User32")]
         public extern static void SetCursorPos(int x, int y);
@@ -111,8 +111,8 @@ namespace Kit.Win
             try
             {
                 SetCursorPos(x, y);
-                Mouse_event((int)(MouseEventFlags.LeftDown | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
-                Mouse_event((int)(MouseEventFlags.LeftUp | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                mouse_event((int)(MouseEventFlags.LeftDown | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                mouse_event((int)(MouseEventFlags.LeftUp | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
             }
             finally
             {

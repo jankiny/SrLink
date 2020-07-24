@@ -38,7 +38,7 @@ namespace SRLink.Model
         {
             this.Enable = able;
             this.Path = path;
-            this._Way = way;
+            this.Way = way;
             this.X = x;
             this.Y = y;
         }

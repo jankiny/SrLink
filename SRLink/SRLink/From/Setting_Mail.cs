@@ -61,7 +61,7 @@ namespace SRLink
             this.TMR_ReSent.Enabled = true;
             Count = 15;
             this.BTN_Sent.Enabled = false;
-            this.BTN_Sent.Text = "15s";
+            this.BTN_Sent.Text = "15s";            
             code = MailHandler.TestMail(this.TBX_Address.Text);
         }
 

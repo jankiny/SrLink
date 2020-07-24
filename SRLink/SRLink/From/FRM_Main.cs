@@ -10,7 +10,7 @@ namespace SRLink
 {
     public partial class FRM_Main : Form
     {
-        Queue<HandlerBase> ready;
+        readonly Queue<HandlerBase> ready;
         private readonly Handler.ConfigHandler config = null;
         Thread thread_autolink = null;
         bool TodayLink = false;
@@ -221,7 +221,11 @@ namespace SRLink
             {
                 ready.Enqueue(linkHandler);
             }
-
+            MailHandler mailHandler = new MailHandler(config.ReadConfig_Mail(), 60, 3000, EHandler.Work);
+            if (mailHandler.Ready())
+            {
+                ready.Enqueue(mailHandler);
+            }
         }
 
         /// <summary>
@@ -258,8 +262,7 @@ namespace SRLink
                 HandlerBase handler = ready.Dequeue();
                 WriteToBoard("尝试" + handler.HandleName);
                 int count = 1;
-                string msg;
-                while (!handler.Run(out msg))
+                while (!handler.Run(out string msg))
                 {
                     if (count == handler.Count)
                     {
@@ -335,27 +338,27 @@ namespace SRLink
         //    }
         //}
         // 发送IP信息
-        void Step3(Setting_Mail config_Mail, int round, int delay)
-        {
-            WriteToBoard("正在发送IP地址...");
-            flash = 2;
-            int count = 1;
-            while (MailHandler.SendIP(config_Mail.Address) != true)
-            {
-                if (count == round)
-                {
-                    WriteToBoard("第" + count + "次发送IP失败！停止发送。");
-                    return;
-                }
-                WriteToBoard(string.Format("第{0}次认证失败！{1}s后重试。", count, delay / 1000));
-                count++;
-                Thread.Sleep(delay);
-            }
-            this.TodayLink = true;
-            WriteToBoard("IP地址发送成功！");
-            Finish(LBL_Line2);
-            Finish(LBL_Step3);
-        }
+        //void Step3(Setting_Mail config_Mail, int round, int delay)
+        //{
+        //    WriteToBoard("正在发送IP地址...");
+        //    flash = 2;
+        //    int count = 1;
+        //    while (MailHandler.SendIP(config_Mail.Address) != true)
+        //    {
+        //        if (count == round)
+        //        {
+        //            WriteToBoard("第" + count + "次发送IP失败！停止发送。");
+        //            return;
+        //        }
+        //        WriteToBoard(string.Format("第{0}次认证失败！{1}s后重试。", count, delay / 1000));
+        //        count++;
+        //        Thread.Sleep(delay);
+        //    }
+        //    this.TodayLink = true;
+        //    WriteToBoard("IP地址发送成功！");
+        //    Finish(LBL_Line2);
+        //    Finish(LBL_Step3);
+        //}
         // "设置"页更新配置信息
         private void UpdateConfig(Setting_Certify config_Certify)
         {

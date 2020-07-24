@@ -19,31 +19,31 @@ namespace SRLink.Handler
             appConfig.NewAppConfig("has_config", "1");
             appConfig.NewAppConfig("start_time", time.ToString("hh:mm"));
 
-            appConfig.NewAppConfig("certify_enable", config_Certify.Enable.ToString());
-            appConfig.NewAppConfig("certify_status", config_Certify.Status.ToString());
+            appConfig.NewAppConfig("certify_enable", ((int)config_Certify.Enable).ToString());
+            appConfig.NewAppConfig("certify_status", ((int)config_Certify.Status).ToString());
             appConfig.NewAppConfig("certify_student", config_Certify.Student);
             appConfig.NewAppConfig("certify_password", config_Certify.Password);
 
-            appConfig.NewAppConfig("link_enable", config_Link.Enable.ToString());
+            appConfig.NewAppConfig("link_enable", ((int)config_Link.Enable).ToString());
             appConfig.NewAppConfig("link_path", config_Link.Path);
             appConfig.NewAppConfig("link_way", config_Link.Way.ToString());
             appConfig.NewAppConfig("link_x", config_Link.X.ToString());
             appConfig.NewAppConfig("link_y", config_Link.Y.ToString());
 
-            appConfig.NewAppConfig("mail_enable", config_Mail.Enable.ToString());
-            appConfig.NewAppConfig("mail_status", config_Mail.Status.ToString());
+            appConfig.NewAppConfig("mail_enable", ((int)config_Mail.Enable).ToString());
+            appConfig.NewAppConfig("mail_status", ((int)config_Mail.Status).ToString());
             appConfig.NewAppConfig("mail_address", config_Mail.Address);
         }
         public void SaveConfig(Setting_Certify config_Certify)
         {
-            appConfig.UpdateAppConfig("certify_enable", config_Certify.Enable.ToString());
-            appConfig.UpdateAppConfig("certify_status", config_Certify.Status.ToString());
+            appConfig.UpdateAppConfig("certify_enable", ((int)config_Certify.Enable).ToString());
+            appConfig.UpdateAppConfig("certify_status", ((int)config_Certify.Status).ToString());
             appConfig.UpdateAppConfig("certify_student", config_Certify.Student);
             appConfig.UpdateAppConfig("certify_password", config_Certify.Password);
         }
         public void SaveConfig(Setting_Link config_Link)
         {
-            appConfig.UpdateAppConfig("link_enable", config_Link.Enable.ToString());
+            appConfig.UpdateAppConfig("link_enable", ((int)config_Link.Enable).ToString());
             appConfig.UpdateAppConfig("link_path", config_Link.Path);
             appConfig.UpdateAppConfig("link_way", config_Link.Way.ToString());
             appConfig.UpdateAppConfig("link_x", config_Link.X.ToString());
@@ -51,8 +51,8 @@ namespace SRLink.Handler
         }
         public void SaveConfig(Setting_Mail config_Mail)
         {
-            appConfig.UpdateAppConfig("mail_enable", config_Mail.Enable.ToString());
-            appConfig.UpdateAppConfig("mail_status", config_Mail.Status.ToString());
+            appConfig.UpdateAppConfig("mail_enable", ((int)config_Mail.Enable).ToString());
+            appConfig.UpdateAppConfig("mail_status", ((int)config_Mail.Status).ToString());
             appConfig.UpdateAppConfig("mail_address", config_Mail.Address);
         }
         public void SaveConfig(DateTime time)
