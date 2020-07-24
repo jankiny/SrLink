@@ -54,7 +54,7 @@ namespace SRLink.Handler
         }
         public void TryClick(int x, int y)
         {
-            Mouses.PerformClick("哈哈哈哈哈", x, y);
+            Mouses.PerformClick("随e行", x, y);
         }
         public bool IsConnectInternet()
         {
