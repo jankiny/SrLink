@@ -54,7 +54,7 @@ namespace SRLink.Helper
         private static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
         [DllImport("User32")]
-        public extern static void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
+        public extern static void Mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
         [DllImport("User32")]
         public extern static void SetCursorPos(int x, int y);
@@ -116,13 +116,12 @@ namespace SRLink.Helper
             GetWindowRect(mainWindows, ref rect);
             x += rect.Left;
             y += rect.Top;
-            POINT p = new POINT();
-            GetCursorPos(out p);
+            GetCursorPos(out POINT p);
             try
             {
                 SetCursorPos(x, y);
-                mouse_event((int)(MouseEventFlags.LeftDown | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
-                mouse_event((int)(MouseEventFlags.LeftUp | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                Mouse_event((int)(MouseEventFlags.LeftDown | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                Mouse_event((int)(MouseEventFlags.LeftUp | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
             }
             finally
             {

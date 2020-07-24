@@ -20,10 +20,12 @@ namespace SRLink.Helper
                 string host = "smtp.163.com";//设置邮件的服务器
                 string mailAddress = "yzll995@163.com"; //替换成你的hotmail账户
 
-                SmtpClient smtp = new SmtpClient(host);
-                smtp.EnableSsl = true; //开启安全连接。
-                smtp.Credentials = new NetworkCredential(user, password); //创建用户凭证
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network; //使用网络传送
+                SmtpClient smtp = new SmtpClient(host)
+                {
+                    EnableSsl = true, //开启安全连接。
+                    Credentials = new NetworkCredential(user, password), //创建用户凭证
+                    DeliveryMethod = SmtpDeliveryMethod.Network //使用网络传送
+                };
                 MailMessage message = new MailMessage(mailAddress, address, title, context); //创建邮件
                 smtp.Send(message); //发送邮件
                 return true;

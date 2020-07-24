@@ -14,8 +14,8 @@ namespace SRLink
 {
     public partial class FRM_Config_Certify : Form
     {
-        Config_Certify config_Certify = null;
-        Config config = null;
+        private readonly Setting_Certify config_Certify = null;
+        private readonly Config config = null;
         public FRM_Config_Certify()
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace SRLink
             InitializeComponent();
             config = c;
             config_Certify = c.ReadConfig_Certify();
-            this.CBX_Enable.Checked = ( config_Certify.Enable == 1 ? true : false );
+            this.CBX_Enable.Checked = (config_Certify.Enable == 1);
             if (config_Certify.Status == -1)
             {
                 this.LBL_Status.Text = "验证失败";

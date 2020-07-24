@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SRLink.Model
 {
-    public class Config_Link : ConfigBase
+    public class Setting_Link : SettingBase
     {
         public string Path;
         private int _Way;
@@ -30,15 +26,15 @@ namespace SRLink.Model
         public int X;
         public int Y;
 
-        public Config_Link()
+        public Setting_Link()
         {
-            this._Enable = false;
+            this.Enable = 0;
             this.Path = @"C:\Program Files (x86)\cmclient\bin\CMClient.exe";
             this._Way = 2;
             this.X = 400;
             this.Y = 150;
         }
-        public Config_Link(int able, string path, int way, int x, int y)
+        public Setting_Link(int able, string path, int way, int x, int y)
         {
             this.Enable = able;
             this.Path = path;

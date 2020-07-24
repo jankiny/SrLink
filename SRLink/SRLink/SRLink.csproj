@@ -80,10 +80,10 @@
     <Compile Include="Helper\MailHelper.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
-    <Compile Include="Model\ConfigBase.cs" />
-    <Compile Include="Model\Config_Certify.cs" />
-    <Compile Include="Model\Config_Link.cs" />
-    <Compile Include="Model\Config_Mail.cs" />
+    <Compile Include="Model\SettingBase.cs" />
+    <Compile Include="Model\Setting_Certify.cs" />
+    <Compile Include="Model\Setting_Link.cs" />
+    <Compile Include="Model\Setting_Mail.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="From\FRM_Config_Certify.resx">

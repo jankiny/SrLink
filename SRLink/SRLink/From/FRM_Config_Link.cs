@@ -14,8 +14,8 @@ namespace SRLink
 {
     public partial class FRM_Config_Link : Form
     {
-        Config_Link config_Link = null;
-        Config config = null;
+        private readonly Setting_Link config_Link = null;
+        private readonly Config config = null;
         public FRM_Config_Link()
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace SRLink
             InitializeComponent();
             config = c;
             config_Link = c.ReadConfig_Link();
-            this.CBX_Enable.Checked = (config_Link.Enable == 1 ? true : false);
+            this.CBX_Enable.Checked = (config_Link.Enable == 1);
             this.TBX_Path.Text = config_Link.Path;
             this.DDL_Way.SelectedIndex = config_Link.Way - 1;
         }

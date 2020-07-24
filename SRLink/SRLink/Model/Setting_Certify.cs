@@ -2,7 +2,7 @@
 
 namespace SRLink.Model
 {
-    public class Config_Certify : ConfigBase
+    public class Setting_Certify : SettingBase
     {
         private int _Status; // 当前状态 
         public int Status
@@ -24,19 +24,19 @@ namespace SRLink.Model
         public string Password; // 认证密码（一般为身份证后6位）
         
         // 用于第一次创建
-        public Config_Certify()
+        public Setting_Certify()
         {
-            this._Enable = false;
-            this._Status = 0;
+            base.Enable = 0;
+            this.Status = 0;
             this.Student = "未配置";
             this.Password = "未配置";
         }
 
         // 用于读取保存的config
-        public Config_Certify(int able, int status, string id, string pwd)
+        public Setting_Certify(int able, int status, string id, string pwd)
         {
             this.Enable = able;
-            this._Status = status;
+            this.Status = status;
             this.Student = id;
             this.Password = pwd;
         }
@@ -70,7 +70,7 @@ namespace SRLink.Model
 
         public override bool GetConfigReady()
         {
-            if (this._Enable && this._Status == 1)
+            if (this.Enable == 1 && this._Status == 1)
             {
                 return true;
             }

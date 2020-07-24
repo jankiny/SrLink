@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SRLink.Model
 {
-    public class Config_Mail : ConfigBase
+    public class Setting_Mail : SettingBase
     {
         private int _Status; // 当前状态 
         public int Status
@@ -25,14 +25,14 @@ namespace SRLink.Model
             }
         }
         public string Address;
-        public Config_Mail()
+        public Setting_Mail()
         {
-            this._Enable = false;
-            this._Status = 0;
+            this.Enable = 0;
+            this.Status = 0;
             this.Address = "未配置邮箱";
         }
 
-        public Config_Mail(int able, int status, string mail)
+        public Setting_Mail(int able, int status, string mail)
         {
             this.Enable = able;
             this._Status = status;
@@ -55,7 +55,7 @@ namespace SRLink.Model
         // 返回配置状态
         public override bool GetConfigReady()
         {
-            if (this._Enable && this._Status == 1)
+            if (this.Enable == 1 && this._Status == 1)
             {
                 return true;
             }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SRLink.Handler;
+﻿using SRLink.Handler;
 using SRLink.Model;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SRLink
 {
     public partial class FRM_Config_Mail : Form
     {
-        Config_Mail config_Mail = null;
-        Config config = null;
+        private readonly Setting_Mail config_Mail = null;
+        private readonly Config config = null;
         string code;
         int Count = 0;
         public FRM_Config_Mail()
@@ -27,7 +21,7 @@ namespace SRLink
             InitializeComponent();
             config = c;
             config_Mail = c.ReadConfig_Mail();
-            this.CBX_Enable.Checked = (config_Mail.Enable == 1 ? true : false);
+            this.CBX_Enable.Checked = (config_Mail.Enable == 1);
             if (config_Mail.Status == 0)
             {
                 this.LBL_Status.Text = "待验证";
