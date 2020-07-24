@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{300A52F0-096E-4BC4-825C-AD46DC8E7093}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SRLink</RootNamespace>
+    <AssemblyName>SRLink</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="From\FRM_Config_Certify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="From\FRM_Config_Certify.Designer.cs">
+      <DependentUpon>FRM_Config_Certify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="From\FRM_Config_Link.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="From\FRM_Config_Link.Designer.cs">
+      <DependentUpon>FRM_Config_Link.cs</DependentUpon>
+    </Compile>
+    <Compile Include="From\FRM_Config_Mail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="From\FRM_Config_Mail.Designer.cs">
+      <DependentUpon>FRM_Config_Mail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="From\FRM_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="From\FRM_Main.Designer.cs">
+      <DependentUpon>FRM_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\Certify.cs" />
+    <Compile Include="Handler\Config.cs" />
+    <Compile Include="Handler\Link.cs" />
+    <Compile Include="Handler\Mail.cs" />
+    <Compile Include="Helper\CmdHelper.cs" />
+    <Compile Include="Helper\ConfigHelper.cs" />
+    <Compile Include="Helper\ExeHelper.cs" />
+    <Compile Include="Helper\MailHelper.cs" />
+    <Compile Include="Helper\MathHelper.cs" />
+    <Compile Include="Helper\WebHelper.cs" />
+    <Compile Include="Model\ConfigBase.cs" />
+    <Compile Include="Model\Config_Certify.cs" />
+    <Compile Include="Model\Config_Link.cs" />
+    <Compile Include="Model\Config_Mail.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="From\FRM_Config_Certify.resx">
+      <DependentUpon>FRM_Config_Certify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="From\FRM_Config_Link.resx">
+      <DependentUpon>FRM_Config_Link.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="From\FRM_Config_Mail.resx">
+      <DependentUpon>FRM_Config_Mail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="From\FRM_Main.resx">
+      <DependentUpon>FRM_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\check.png" />
+    <None Include="Resources\icon_cmail.png" />
+    <None Include="Resources\network_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\check_error.png" />
+    <Content Include="Resources\check_normal.png" />
+    <Content Include="Resources\check_ok.png" />
+    <Content Include="Resources\mail_error.png" />
+    <Content Include="Resources\mail_normal.png" />
+    <Content Include="Resources\mail_ok.png" />
+    <Content Include="Resources\network_error.png" />
+    <Content Include="Resources\network_normal.png" />
+    <Content Include="Resources\network_ok.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
