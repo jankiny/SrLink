@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using SRLink.Helper;
+﻿using System.Threading;
+using Kit.Win;
+using Kit.Utils;
 
 namespace SRLink.Handler
 {
@@ -11,10 +8,10 @@ namespace SRLink.Handler
     {
         public static bool OpenSuiEXing(string path)
         {
-            if (ExeHelper.Run(path))
+            if (ExeFile.Run(path))
             {
                 // 关闭非管理员启动的提示
-                ExeHelper.PerformClick("提示", "确定");
+                Mouses.PerformClick("提示", "确定");
                 return true;
             }
             return false;
@@ -27,11 +24,11 @@ namespace SRLink.Handler
         }
         public static void TryClick(int x, int y)
         {
-            ExeHelper.PerformClick("哈哈哈哈哈", x, y);
+            Mouses.PerformClick("哈哈哈哈哈", x, y);
         }
         public static bool IsConnectInternet()
         {
-            return WebHelper.IsConnectInternet();
+            return Web.IsConnectInternet();
         }
     }
 }

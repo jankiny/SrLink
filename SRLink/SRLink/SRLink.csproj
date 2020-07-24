@@ -74,12 +74,6 @@
     <Compile Include="Handler\ConfigHandler.cs" />
     <Compile Include="Handler\LinkHandler.cs" />
     <Compile Include="Handler\MailHandler.cs" />
-    <Compile Include="Helper\CmdHelper.cs" />
-    <Compile Include="Helper\ConfigHelper.cs" />
-    <Compile Include="Helper\ExeHelper.cs" />
-    <Compile Include="Helper\MailHelper.cs" />
-    <Compile Include="Helper\MathHelper.cs" />
-    <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\SettingBase.cs" />
     <Compile Include="Model\Setting_Certify.cs" />
@@ -135,6 +129,12 @@
     <Content Include="Resources\network_error.png" />
     <Content Include="Resources\network_normal.png" />
     <Content Include="Resources\network_ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kit\Kit.csproj">
+      <Project>{a6b8cc31-cd5f-4bb3-aecd-f4aad51cd501}</Project>
+      <Name>Kit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,12 +1,12 @@
 ﻿using System.Configuration;
 
-namespace SRLink.Helper
+namespace Kit.Utils
 {
-    public class ConfigHelper
+    public class Config
     {
         public string AppExecPath;
 
-        public ConfigHelper(string appExecPath)
+        public Config(string appExecPath)
         {
             // 外界传入，参考语句：System.Windows.Forms.Application.ExecutablePath
             AppExecPath = appExecPath;

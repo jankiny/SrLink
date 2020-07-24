@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace SRLink.Helper
+namespace Kit.Win
 {
-    public class ExeHelper
+    public class Mouses
     {
         public const int BM_CLICK = 0xF5;
         /// <summary>
@@ -83,15 +83,6 @@ namespace SRLink.Helper
             MiddleUp = 0x0040,
             Wheel = 0x0800,
             Absolute = 0x8000
-        }
-        public static bool Run(string path)
-        {
-            ProcessStartInfo startinfo = new ProcessStartInfo(path);
-            Process p = Process.Start(startinfo);
-            if (p == null)
-                //throw new Exception("Warning:process may already exist");
-                return false;
-            return true;
         }
 
         public static bool PerformClick(string title, string button_text)

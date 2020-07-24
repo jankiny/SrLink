@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using SRLink.Helper;
+using Kit.Utils;
 
 namespace SRLink.Handler
 {
@@ -19,9 +19,9 @@ namespace SRLink.Handler
             //string username = "201705021331";
             //string passwd = "MTgxMDE4";
 
-            string param = "action=login&username=" + uid + "&password={B}" + WebHelper.ToBase64String(pwd) + "&ac_id=2&user_ip=&nas_ip=&user_mac=&save_me=1&ajax=1";
+            string param = "action=login&username=" + uid + "&password={B}" + Web.ToBase64String(pwd) + "&ac_id=2&user_ip=&nas_ip=&user_mac=&save_me=1&ajax=1";
 
-            string res = WebHelper.PostWebRequest("http://172.8.231.22:802/include/auth_action.php", param, 107, Encoding.UTF8);
+            string res = Web.PostWebRequest("http://172.8.231.22:802/include/auth_action.php", param, 107, Encoding.UTF8);
 
             if (res == "操作超时")
             {

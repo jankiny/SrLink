@@ -3,14 +3,45 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SRLink.Helper
+namespace Kit.Utils
 {
-    public class WebHelper
+    public class Web
     {
+        /// <summary>
+        /// 发送邮件
+        /// </summary>
+        /// <param name="address">目标邮箱</param>
+        /// <param name="title">邮件标题</param>
+        /// <param name="context">邮件内容</param>
+        /// <returns></returns>
+        public static bool SendMail(string address, string title, string context)
+        {
+            try
+            {
+                string user = "yzll995@163.com";
+                string password = "54yangzl1999";
+                string host = "smtp.163.com";//设置邮件的服务器
+
+                SmtpClient smtp = new SmtpClient(host)
+                {
+                    EnableSsl = true, //开启安全连接。
+                    Credentials = new NetworkCredential(user, password), //创建用户凭证
+                    DeliveryMethod = SmtpDeliveryMethod.Network //使用网络传送
+                };
+                MailMessage message = new MailMessage(user, address, title, context); //创建邮件
+                smtp.Send(message); //发送邮件
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Post数据接口(用json传递参数)
         /// </summary>
