@@ -269,7 +269,7 @@ namespace SRLink
                         WriteToBoard("第" + count + "次认证失败[" + msg + "] 停止认证。");
                         return;
                     }
-                    WriteToBoard(string.Format("第{0}次认证失败[" + msg + "] {1}s后重试。", count, handler.Delay / 1000));
+                    WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。", count, handler.HandleName, msg, handler.Delay / 1000));
                     count++;
                     Thread.Sleep(handler.Delay);
                 }
