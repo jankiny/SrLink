@@ -4,7 +4,7 @@ namespace SRLink.Model
 {
     public class Setting_Certify : SettingBase
     {
-        public string Student; // 学号
+        public string StudentID; // 学号
         public string Password; // 认证密码（一般为身份证后6位）
         
         // 用于第一次创建
@@ -12,7 +12,7 @@ namespace SRLink.Model
         {
             base.Enable = 0;
             this.Status = 0;
-            this.Student = "未配置";
+            this.StudentID = "未配置";
             this.Password = "未配置";
         }
 
@@ -21,17 +21,17 @@ namespace SRLink.Model
         {
             this.Enable = able;
             this.Status = status;
-            this.Student = id;
+            this.StudentID = id;
             this.Password = pwd;
         }
 
-        private string Convert(EStatus status)
+        public string ShowStatus()
         {
-            switch(status)
+            switch(this.Status)
             {
                 case EStatus.Error:
                     return "验证失败";
-                case EStatus.Notmal:
+                case EStatus.Normal:
                     return "待验证";
                 case EStatus.OK:
                     return "验证成功";
@@ -42,9 +42,9 @@ namespace SRLink.Model
 
         public override string GetConfigInfo()
         {
-            if (!string.IsNullOrEmpty(this.Student))
+            if (!string.IsNullOrEmpty(this.StudentID))
             {
-                return string.Format("{0}({1})", this.Student, Convert(this.Status));
+                return string.Format("{0}({1})", this.StudentID, this.ShowStatus());
             }
             else
             {

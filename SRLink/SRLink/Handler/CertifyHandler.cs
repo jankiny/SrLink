@@ -12,6 +12,7 @@ namespace SRLink.Handler
 
         public CertifyHandler(Setting_Certify setting_Certify, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
+            ID = 1;
             HandleName = "认证";
             Setting = setting_Certify;
             Count = count;
@@ -27,7 +28,7 @@ namespace SRLink.Handler
                 return false;
             }
             string param = string.Format("action=login&username={0}&password={{B}}{1}&ac_id=2&user_ip=&nas_ip=&user_mac=&save_me=1&ajax=1",
-                Setting.Student, Web.ToBase64String(Setting.Password));
+                Setting.StudentID, Web.ToBase64String(Setting.Password));
 
             string res = Web.PostWebRequest("http://172.8.231.22:802/include/auth_action.php", param, 107, Encoding.UTF8);
 

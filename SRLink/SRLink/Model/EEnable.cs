@@ -8,7 +8,7 @@ namespace SRLink.Model
 {
     public enum EEnable
     {
-        True = 1,
-        False = 0
+        False = 0,
+        True = 1
     }
 }

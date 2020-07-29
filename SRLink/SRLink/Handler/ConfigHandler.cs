@@ -21,7 +21,7 @@ namespace SRLink.Handler
 
             appConfig.NewAppConfig("certify_enable", ((int)config_Certify.Enable).ToString());
             appConfig.NewAppConfig("certify_status", ((int)config_Certify.Status).ToString());
-            appConfig.NewAppConfig("certify_student", config_Certify.Student);
+            appConfig.NewAppConfig("certify_student", config_Certify.StudentID);
             appConfig.NewAppConfig("certify_password", config_Certify.Password);
 
             appConfig.NewAppConfig("link_enable", ((int)config_Link.Enable).ToString());
@@ -38,7 +38,7 @@ namespace SRLink.Handler
         {
             appConfig.UpdateAppConfig("certify_enable", ((int)config_Certify.Enable).ToString());
             appConfig.UpdateAppConfig("certify_status", ((int)config_Certify.Status).ToString());
-            appConfig.UpdateAppConfig("certify_student", config_Certify.Student);
+            appConfig.UpdateAppConfig("certify_student", config_Certify.StudentID);
             appConfig.UpdateAppConfig("certify_password", config_Certify.Password);
         }
         public void SaveConfig(Setting_Link config_Link)

@@ -70,6 +70,7 @@
     <Compile Include="From\FRM_Main.Designer.cs">
       <DependentUpon>FRM_Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Global.cs" />
     <Compile Include="Handler\CertifyHandler.cs" />
     <Compile Include="Handler\ConfigHandler.cs" />
     <Compile Include="Handler\HandlerBase.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\EEnable.cs" />
     <Compile Include="Model\EHandler.cs" />
+    <Compile Include="Model\ELinkWay.cs" />
     <Compile Include="Model\EStatus.cs" />
     <Compile Include="Model\SettingBase.cs" />
     <Compile Include="Model\Setting_Certify.cs" />

@@ -10,6 +10,7 @@ namespace SRLink.Handler
         readonly Setting_Link Setting;
         public LinkHandler(Setting_Link setting_Link, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
+            ID = 2;
             HandleName = "连接网络";
             Setting = setting_Link;
             Count = count;

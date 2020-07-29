@@ -5,6 +5,7 @@ namespace SRLink.Model
     public class Setting_Link : SettingBase
     {
         public string Path;
+        // TODO: 改成枚举类型
         private int _Way;
         public int Way
         {

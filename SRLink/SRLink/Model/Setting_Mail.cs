@@ -16,11 +16,11 @@ namespace SRLink.Model
             this.Address = "未配置邮箱";
         }
 
-        public Setting_Mail(EEnable able, EStatus status, string mail)
+        public Setting_Mail(EEnable able, EStatus status, string address)
         {
             this.Enable = able;
             this.Status = status;
-            this.Address = mail;
+            this.Address = address;
         }
 
         // 返回配置信息

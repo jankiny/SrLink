@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace SRLink.Model
 {
-    public enum EStatus
+    public enum ELinkWay
     {
-        Error = -1,
-        Normal = 0,
-        OK = 1
-
+        SuiEXing = 1,
+        ShanXun = 2
     }
 }

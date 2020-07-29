@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SRLink.Model
+namespace SRLink
 {
-    public enum EStatus
+    class Global
     {
-        Error = -1,
-        Normal = 0,
-        OK = 1
-
+        //public rigester;
     }
 }

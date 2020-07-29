@@ -9,6 +9,7 @@ namespace SRLink.Handler
 {
     public class HandlerBase
     {
+        public int ID;
         protected EHandler Mode;
         public string HandleName;
         public int Delay;

@@ -29,9 +29,9 @@ namespace SRLink
                 this.LBL_Status.Text = "验证成功";
                 this.LBL_Status.ForeColor = Color.LimeGreen;
             }
-            if (setting.Student != "未配置")
+            if (setting.StudentID != "未配置")
             {
-                this.TBX_ID.Text = setting.Student;
+                this.TBX_ID.Text = setting.StudentID;
             }
             if (setting.Password != "未配置")
             {
@@ -54,7 +54,7 @@ namespace SRLink
         private void BTN_Save_Click(object sender, EventArgs e)
         {
             setting.Enable = this.CBX_Enable.Checked ? EEnable.True : EEnable.False;
-            setting.Student = this.TBX_ID.Text.Trim();
+            setting.StudentID = this.TBX_ID.Text.Trim();
             setting.Password = this.TBX_Password.Text.Trim();
             config.SaveConfig(setting);
             this.DialogResult = DialogResult.OK;
@@ -63,7 +63,7 @@ namespace SRLink
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            setting.Student = this.TBX_ID.Text.Trim();
+            setting.StudentID = this.TBX_ID.Text.Trim();
             setting.Password = this.TBX_Password.Text.Trim();
             CertifyHandler test_handler = new CertifyHandler(setting);
             setting.Status = (test_handler.RegisterSchoolNet(out _) ? EStatus.OK : EStatus.Error);

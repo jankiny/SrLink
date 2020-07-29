@@ -11,10 +11,11 @@ namespace SRLink
     public partial class FRM_Main : Form
     {
         readonly Queue<HandlerBase> ready;
-        private readonly Handler.ConfigHandler config = null;
+        private readonly ConfigHandler config = null;
         Thread thread_autolink = null;
         bool TodayLink = false;
         int flash = 0;
+        bool Busy = false;
         // 定义委托类型
         delegate void SetTextCallback(String str);
         #region WindowsFrom事件
@@ -119,9 +120,18 @@ namespace SRLink
                 DateTime.Now.Hour >= 7 && 
                 DateTime.Now.Hour * 60 + DateTime.Now.Minute >= 
                 this.DTP_StartTime.Value.Hour * 60 + this.DTP_StartTime.Value.Minute &&
+                ready.Count == 0 )
+            {
+                RefreshQueue();
+                this.TodayLink = true;
+            }
+            if (!this.Busy &&
                 ready.Count != 0)
             {
-                this.BTN_Start.PerformClick();
+                WriteToBoard("开始连接...");
+                this.Busy = true;
+                thread_autolink = new Thread(Func);
+                thread_autolink.Start();
             }
             // ToolBar状态显示
             if (thread_autolink != null)
@@ -149,6 +159,7 @@ namespace SRLink
                 thread_autolink.ThreadState == ThreadState.Aborted)
             {
                 WriteToBoard("开始连接...");
+                this.Busy = true;
                 RefreshQueue();
                 thread_autolink = new Thread(Func);
                 thread_autolink.Start();
@@ -157,7 +168,7 @@ namespace SRLink
 
         private void BTN_Stop_Click(object sender, EventArgs e)
         {
-            this.TodayLink = true;
+            //this.TodayLink = true;
             WriteToBoard("(User Command)停止连接...");
             flash = 0;
             if (thread_autolink.ThreadState == ThreadState.WaitSleepJoin || 
@@ -249,11 +260,11 @@ namespace SRLink
                 this.TBX_Board.Text += string.Format(Environment.NewLine + "{0}: {1}", this.TSP_SLB_Time.Text, msg);
             }
         }
-        void Finish(Label label)
-        {
-            flash = 0;
-            label.ForeColor = Color.LimeGreen;
-        }
+        //void Finish(Label label)
+        //{
+        //    flash = 0;
+        //    label.ForeColor = Color.LimeGreen;
+        //}
         // 托管的方法
         void Func()
         {
@@ -269,13 +280,14 @@ namespace SRLink
                         WriteToBoard("第" + count + "次认证失败[" + msg + "] 停止认证。");
                         return;
                     }
-                    WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。", count, handler.HandleName, msg, handler.Delay / 1000));
+                    WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。", 
+                        count, handler.HandleName, msg, handler.Delay / 1000));
                     count++;
                     Thread.Sleep(handler.Delay);
                 }
                 WriteToBoard(handler.HandleName + "成功！");
-                Thread.Sleep(1000);
             }
+            this.Busy = false;
             //int flag = 0;
             //Setting_Certify config_Certify = config.ReadConfig_Certify();
             //if (config_Certify.GetConfigReady())
