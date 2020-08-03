@@ -8,21 +8,21 @@ namespace SRLink
 {
     public partial class FRM_Config_Mail : Form
     {
-        private readonly Setting_Mail config_Mail = null;
-        private readonly ConfigHandler config = null;
+        private readonly Setting_Mail Setting_Mail = null;
+        private readonly ConfigHandler Config = null;
         string code;
         int Count = 0;
         public FRM_Config_Mail()
         {
             InitializeComponent();
         }
-        public FRM_Config_Mail(ConfigHandler c)
+        public FRM_Config_Mail(ConfigHandler config)
         {
             InitializeComponent();
-            config = c;
-            config_Mail = c.ReadConfig_Mail();
-            this.CBX_Enable.Checked = (config_Mail.Enable == EEnable.True);
-            if (config_Mail.Status == 0)
+            Config = config;
+            this.Setting_Mail = Config.Setting_Mail;
+            this.CBX_Enable.Checked = (this.Setting_Mail.Enable == EEnable.True);
+            if (this.Setting_Mail.Status == 0)
             {
                 this.LBL_Status.Text = "待验证";
                 this.LBL_Status.ForeColor = Color.DimGray;
@@ -32,14 +32,14 @@ namespace SRLink
                 this.LBL_Status.Text = "验证成功";
                 this.LBL_Status.ForeColor = Color.LimeGreen;
             }
-            this.TBX_Address.Text = config_Mail.Address;
+            this.TBX_Address.Text = this.Setting_Mail.Address;
         }
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
             if (this.TBX_Code.Text == code)
             {
-                config_Mail.Status = EStatus.OK;
+                this.Setting_Mail.Status = EStatus.OK;
                 this.LBL_Status.Text = "验证成功";
                 this.LBL_Status.ForeColor = Color.LimeGreen;
             }
@@ -47,9 +47,9 @@ namespace SRLink
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            config_Mail.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
-            config_Mail.Address = this.TBX_Address.Text.Trim();
-            config.SaveConfig(config_Mail);
+            this.Setting_Mail.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
+            this.Setting_Mail.Address = this.TBX_Address.Text.Trim();
+            Config.Setting_Mail = this.Setting_Mail;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

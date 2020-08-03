@@ -1,10 +1,84 @@
 ﻿using System;
 using SRLink.Model;
+using Kit.Utils;
 
 namespace SRLink.Handler
 {
     public class ConfigHandler
     {
+        private Setting_Certify _Setting_Certify;
+        public Setting_Certify Setting_Certify
+        {
+            get
+            {
+                if (this._Setting_Certify == null)
+                {
+                    this._Setting_Certify = this.ReadConfig_Certify();
+                    return this._Setting_Certify;
+                }
+                return this._Setting_Certify;
+            }
+            set
+            {
+                this.SaveConfig(value);
+                this._Setting_Certify = value;
+            }
+        }
+        private Setting_Link _Setting_Link;
+        public Setting_Link Setting_Link
+        {
+            get
+            {
+                if (this._Setting_Link == null)
+                {
+                    this._Setting_Link = this.ReadConfig_Link();
+                    return this._Setting_Link;
+                }
+                return this._Setting_Link;
+            }
+            set
+            {
+                this.SaveConfig(value);
+                this._Setting_Link = value;
+            }
+        }
+        private Setting_Mail _Setting_Mail;
+        public Setting_Mail Setting_Mail
+        {
+            get
+            {
+                if (this._Setting_Mail == null)
+                {
+                    this._Setting_Mail = this.ReadConfig_Mail();
+                    return this._Setting_Mail;
+                }
+                return this._Setting_Mail;
+            }
+            set
+            {
+                this.SaveConfig(value);
+                this._Setting_Mail = value;
+            }
+        }
+        private DateTime _Start_Time;
+        public DateTime Start_Time
+        {
+            get
+            {
+                if (this._Start_Time == null)
+                {
+                    this._Start_Time = this.ReadConfig_Time();
+                    return this._Start_Time;
+                }
+                return this._Start_Time;
+            }
+            set
+            {
+                this.SaveConfig(value);
+                this._Start_Time = value;
+            }
+        }
+
         private readonly Config appConfig = null;
         public ConfigHandler(string appExecPath)
         {
@@ -34,14 +108,14 @@ namespace SRLink.Handler
             appConfig.NewAppConfig("mail_status", ((int)config_Mail.Status).ToString());
             appConfig.NewAppConfig("mail_address", config_Mail.Address);
         }
-        public void SaveConfig(Setting_Certify config_Certify)
+        private void SaveConfig(Setting_Certify config_Certify)
         {
             appConfig.UpdateAppConfig("certify_enable", ((int)config_Certify.Enable).ToString());
             appConfig.UpdateAppConfig("certify_status", ((int)config_Certify.Status).ToString());
             appConfig.UpdateAppConfig("certify_student", config_Certify.StudentID);
             appConfig.UpdateAppConfig("certify_password", config_Certify.Password);
         }
-        public void SaveConfig(Setting_Link config_Link)
+        private void SaveConfig(Setting_Link config_Link)
         {
             appConfig.UpdateAppConfig("link_enable", ((int)config_Link.Enable).ToString());
             appConfig.UpdateAppConfig("link_path", config_Link.Path);
@@ -49,22 +123,22 @@ namespace SRLink.Handler
             appConfig.UpdateAppConfig("link_x", config_Link.X.ToString());
             appConfig.UpdateAppConfig("link_y", config_Link.Y.ToString());
         }
-        public void SaveConfig(Setting_Mail config_Mail)
+        private void SaveConfig(Setting_Mail config_Mail)
         {
             appConfig.UpdateAppConfig("mail_enable", ((int)config_Mail.Enable).ToString());
             appConfig.UpdateAppConfig("mail_status", ((int)config_Mail.Status).ToString());
             appConfig.UpdateAppConfig("mail_address", config_Mail.Address);
         }
-        public void SaveConfig(DateTime time)
+        private void SaveConfig(DateTime time)
         {
             appConfig.UpdateAppConfig("start_time", time.ToString("hh:mm"));
         }
-        public DateTime ReadConfig_Time()
+        private DateTime ReadConfig_Time()
         {
             string time = appConfig.GetAppConfig("start_time");
             return DateTime.Parse(time);
         }
-        public Setting_Certify ReadConfig_Certify()
+        private Setting_Certify ReadConfig_Certify()
         {
             return new Setting_Certify(
                 (EEnable)int.Parse(appConfig.GetAppConfig("certify_enable")),
@@ -73,7 +147,7 @@ namespace SRLink.Handler
                 appConfig.GetAppConfig("certify_password")
                 );
         }
-        public Setting_Link ReadConfig_Link()
+        private Setting_Link ReadConfig_Link()
         {
             return new Setting_Link(
                 (EEnable)int.Parse(appConfig.GetAppConfig("link_enable")),
@@ -83,7 +157,7 @@ namespace SRLink.Handler
                 int.Parse(appConfig.GetAppConfig("link_y"))
                 );
         }
-        public Setting_Mail ReadConfig_Mail()
+        private Setting_Mail ReadConfig_Mail()
         {
             return new Setting_Mail(
                 (EEnable)int.Parse(appConfig.GetAppConfig("mail_enable")),

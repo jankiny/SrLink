@@ -25,7 +25,7 @@ namespace SRLink
             ready = new Queue<HandlerBase>();
             this.TSP_SLB_Time.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
             this.TBX_Board.Text = "欢迎使用AutoLink";
-            config = new Handler.ConfigHandler(System.Windows.Forms.Application.ExecutablePath);
+            config = new ConfigHandler(Application.ExecutablePath);
             if (!config.HasConfig())
             {
                 WriteToBoard("第一次使用，请先到设置页输入认证账号等...");

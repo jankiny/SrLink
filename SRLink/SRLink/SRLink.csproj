@@ -76,7 +76,6 @@
     <Compile Include="Handler\HandlerBase.cs" />
     <Compile Include="Handler\LinkHandler.cs" />
     <Compile Include="Handler\MailHandler.cs" />
-    <Compile Include="Model\Config.cs" />
     <Compile Include="Model\EEnable.cs" />
     <Compile Include="Model\EHandler.cs" />
     <Compile Include="Model\ELinkWay.cs" />
