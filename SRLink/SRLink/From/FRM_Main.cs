@@ -42,18 +42,18 @@ namespace SRLink
             else
             {
                 WriteToBoard("载入配置文件...");
-                this.DTP_StartTime.Value = config.ReadConfig_Time();
-                Setting_Certify config_Certify = config.ReadConfig_Certify();
+                this.DTP_StartTime.Value = config.Start_Time;
+                Setting_Certify config_Certify = config.Setting_Certify;
                 UpdateConfig(config_Certify);
                 this.PBX_Certify.BackgroundImage = (config_Certify.GetConfigReady() ? Properties.Resources.check_normal : Properties.Resources.check_error);
                 ChangeStatus(1, (config_Certify.GetConfigReady() ? 0 : -1));
 
-                Setting_Link config_Link = config.ReadConfig_Link();
+                Setting_Link config_Link = config.Setting_Link;
                 UpdateConfig(config_Link);
                 this.PBX_Link.BackgroundImage = (config_Link.GetConfigReady() ? Properties.Resources.network_normal : Properties.Resources.network_error);
                 ChangeStatus(2, (config_Link.GetConfigReady() ? 0 : -1));
 
-                Setting_Mail config_Mail = config.ReadConfig_Mail();
+                Setting_Mail config_Mail = config.Setting_Mail;
                 UpdateConfig(config_Mail);
                 this.PBX_Mail.BackgroundImage = (config_Mail.GetConfigReady() ? Properties.Resources.mail_normal : Properties.Resources.mail_error);
                 ChangeStatus(3, (config_Mail.GetConfigReady() ? 0 : -1));
@@ -63,7 +63,7 @@ namespace SRLink
 
         private void BTN_Set_Click(object sender, EventArgs e)
         {
-            config.SaveConfig(this.DTP_StartTime.Value);
+            config.Start_Time = this.DTP_StartTime.Value;
         }
 
         // CerifyConfig弹窗
@@ -72,7 +72,7 @@ namespace SRLink
             FRM_Config_Certify f = new FRM_Config_Certify(config);
             if (f.ShowDialog() == DialogResult.OK)
             {
-                Setting_Certify config_Certify = config.ReadConfig_Certify();
+                Setting_Certify config_Certify = config.Setting_Certify;
                 UpdateConfig(config_Certify);
                 this.PBX_Certify.BackgroundImage = (config_Certify.GetConfigReady() ? Properties.Resources.check_normal : Properties.Resources.check_error);
             }
@@ -84,7 +84,7 @@ namespace SRLink
             FRM_Config_Link f = new FRM_Config_Link(config);
             if (f.ShowDialog() == DialogResult.OK)
             {
-                Setting_Link config_Link = config.ReadConfig_Link();
+                Setting_Link config_Link = config.Setting_Link;
                 UpdateConfig(config_Link);
                 this.PBX_Link.BackgroundImage = (config_Link.GetConfigReady() ? Properties.Resources.network_normal : Properties.Resources.network_error);
             }
@@ -96,7 +96,7 @@ namespace SRLink
             FRM_Config_Mail f = new FRM_Config_Mail(config);
             if (f.ShowDialog() == DialogResult.OK)
             {
-                Setting_Mail config_Mail = config.ReadConfig_Mail();
+                Setting_Mail config_Mail = config.Setting_Mail;
                 UpdateConfig(config_Mail);
                 this.PBX_Mail.BackgroundImage = (config_Mail.GetConfigReady() ? Properties.Resources.mail_normal : Properties.Resources.mail_error);
             }
@@ -222,17 +222,17 @@ namespace SRLink
             {
                 ready.Clear();
             }
-            CertifyHandler certifyHandler = new CertifyHandler(config.ReadConfig_Certify(), 60, 3000, EHandler.Work);
+            CertifyHandler certifyHandler = new CertifyHandler(config.Setting_Certify, 60, 3000, EHandler.Work);
             if (certifyHandler.Ready())
             {
                 ready.Enqueue(certifyHandler);
             }
-            LinkHandler linkHandler = new LinkHandler(config.ReadConfig_Link(), 60, 3000, EHandler.Work);
+            LinkHandler linkHandler = new LinkHandler(config.Setting_Link, 60, 3000, EHandler.Work);
             if (linkHandler.Ready())
             {
                 ready.Enqueue(linkHandler);
             }
-            MailHandler mailHandler = new MailHandler(config.ReadConfig_Mail(), 60, 3000, EHandler.Work);
+            MailHandler mailHandler = new MailHandler(config.Setting_Mail, 60, 3000, EHandler.Work);
             if (mailHandler.Ready())
             {
                 ready.Enqueue(mailHandler);

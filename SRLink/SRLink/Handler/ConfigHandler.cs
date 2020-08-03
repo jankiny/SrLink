@@ -65,11 +65,12 @@ namespace SRLink.Handler
         {
             get
             {
-                if (this._Start_Time == null)
-                {
-                    this._Start_Time = this.ReadConfig_Time();
-                    return this._Start_Time;
-                }
+                //if (this._Start_Time == null)
+                //{
+                //    this._Start_Time = this.ReadConfig_Time();
+                //    return this._Start_Time;
+                //}
+                this._Start_Time = this.ReadConfig_Time();
                 return this._Start_Time;
             }
             set
