@@ -179,7 +179,8 @@ namespace SRLink
             }
         }
         #endregion
-        #region UI控制
+
+        #region 提示信息
         /// <summary>
         /// 将message显示到Board上
         /// </summary>
@@ -198,9 +199,28 @@ namespace SRLink
             }
             else
             {
-                this.TBX_Board.Text += string.Format(Environment.NewLine + "{0}: {1}", this.TSP_SLB_Time.Text, msg);
+                ShowMsg(msg);
             }
         }
+        private void ShowMsg(string msg)
+        {
+            if (this.TBX_Board.Lines.Length > 999)
+            {
+                ClearMsg();
+            }
+            this.TBX_Board.AppendText(string.Format("{0}: {1}", this.TSP_SLB_Time.Text, msg));
+            if (!msg.EndsWith(Environment.NewLine))
+            {
+                this.TBX_Board.AppendText(Environment.NewLine);
+            }
+        }
+        private void ClearMsg()
+        {
+            this.TBX_Board.Clear();
+        }
+        #endregion
+
+        #region UI控制
         /// <summary>
         /// 根据状态值改变主界面UI显示
         /// </summary>

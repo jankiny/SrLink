@@ -22,8 +22,8 @@
         /// <summary>
         /// 发送邮件使用的账号
         /// </summary>
-        public const string Mail_AuthorizationCode = "XRDCVAVKHGXICICQ";
         public const string Mail_User = "srlink@yeah.net";
+        public const string Mail_AuthorizationCode = "XRDCVAVKHGXICICQ";
         public const string Mail_Host = "smtp.yeah.net";
 
         #endregion
