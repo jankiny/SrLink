@@ -228,15 +228,15 @@ namespace SRLink
                 switch (status)
                 {
                     case EStatus.Error:
-                        this.LBL_Step2.ForeColor = this.LBL_Step2.ForeColor = Color.Red;
+                        this.LBL_Step2.ForeColor = this.LBL_Line1.ForeColor = Color.Red;
                         this.PBX_Link.BackgroundImage = Properties.Resources.network_error;
                         break;
                     case EStatus.Normal:
-                        this.LBL_Step2.ForeColor = this.LBL_Step2.ForeColor = Color.Gold;
+                        this.LBL_Step2.ForeColor = this.LBL_Line1.ForeColor = Color.Gold;
                         this.PBX_Link.BackgroundImage = Properties.Resources.network_normal;
                         break;
                     case EStatus.OK:
-                        this.LBL_Step2.ForeColor = this.LBL_Step2.ForeColor = Color.LimeGreen;
+                        this.LBL_Step2.ForeColor = this.LBL_Line1.ForeColor = Color.LimeGreen;
                         this.PBX_Link.BackgroundImage = Properties.Resources.network_ok;
                         break;
                     default:
