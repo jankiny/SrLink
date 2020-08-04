@@ -1,6 +1,7 @@
 ﻿using SRLink.Helper;
 using Kit.Utils;
 using SRLink.Model;
+using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
@@ -33,6 +34,10 @@ namespace SRLink.Handler
             Web.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
                 address, "验证邮箱", "请将收到的验证码填入AutoLink中，验证码：\n" + code);
             return code;
+        }
+        public override void RegisteUI(PictureBox picture, Label label)
+        {
+            base.RegisteUI(picture, label);
         }
         public override bool Run(out string msg)
         {

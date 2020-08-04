@@ -2,6 +2,7 @@
 using Kit.Win;
 using Kit.Utils;
 using SRLink.Model;
+using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
@@ -60,6 +61,10 @@ namespace SRLink.Handler
         public bool IsConnectInternet()
         {
             return Web.IsConnectInternet();
+        }
+        public override void RegisteUI(PictureBox picture, Label label)
+        {
+            base.RegisteUI(picture, label);
         }
         public override bool Run(out string msg)
         {

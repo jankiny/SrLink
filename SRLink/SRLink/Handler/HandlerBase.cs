@@ -1,9 +1,5 @@
 ﻿using SRLink.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
@@ -15,6 +11,10 @@ namespace SRLink.Handler
         public int Delay;
         public int Count;
 
+
+        public PictureBox Picture;
+        public Label Line;
+
         public virtual bool Run(out string msg)
         {
             msg = "";
@@ -25,6 +25,16 @@ namespace SRLink.Handler
         public virtual bool Ready()
         {
             return false;
+        }
+
+        public virtual void RegisteUI(PictureBox picture)
+        {
+            this.Picture = picture;
+        }
+        public virtual void RegisteUI(PictureBox picture, Label label)
+        {
+            this.Picture = picture;
+            this.Line = label;
         }
     }
 }

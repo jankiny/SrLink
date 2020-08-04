@@ -1,6 +1,5 @@
-﻿using System;
-using System.Net.Configuration;
-using System.Text;
+﻿using System.Text;
+using System.Windows.Forms;
 using Kit.Utils;
 using SRLink.Model;
 
@@ -50,7 +49,10 @@ namespace SRLink.Handler
                 //this.tss_lbl_info.Text = this.tss_lbl_time + ": " + "认证页面接口改变！！！";
             }
         }
-
+        public override void RegisteUI(PictureBox picture)
+        {
+            base.RegisteUI(picture);
+        }
         public override bool Run(out string msg)
         {
             return RegisterSchoolNet(out msg);

@@ -70,7 +70,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.TMR_Now = new System.Windows.Forms.Timer(this.components);
+            this.TMR_Handle = new System.Windows.Forms.Timer(this.components);
+            this.TMR_UpdateTime = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -516,11 +517,16 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "版本：";
             // 
-            // TMR_Now
+            // TMR_Handle
             // 
-            this.TMR_Now.Enabled = true;
-            this.TMR_Now.Interval = 500;
-            this.TMR_Now.Tick += new System.EventHandler(this.TMR_Now_Tick);
+            this.TMR_Handle.Interval = 200;
+            this.TMR_Handle.Tick += new System.EventHandler(this.TMR_Handle_Tick);
+            // 
+            // TMR_UpdateTime
+            // 
+            this.TMR_UpdateTime.Enabled = true;
+            this.TMR_UpdateTime.Interval = 500;
+            this.TMR_UpdateTime.Tick += new System.EventHandler(this.TMR_UpdateTime_Tick);
             // 
             // FRM_Main
             // 
@@ -580,7 +586,7 @@
         private System.Windows.Forms.Button BTN_MailConfig;
         private System.Windows.Forms.Button BTN_LinkConfig;
         private System.Windows.Forms.Label LBL_LinkInfo;
-        private System.Windows.Forms.Timer TMR_Now;
+        private System.Windows.Forms.Timer TMR_Handle;
         private System.Windows.Forms.Panel PNL_Step1;
         private System.Windows.Forms.Label LBL_Step1;
         private System.Windows.Forms.Panel PNL_Step3;
@@ -599,6 +605,7 @@
         private System.Windows.Forms.PictureBox PBX_Certify;
         private System.Windows.Forms.PictureBox PBX_Mail;
         private System.Windows.Forms.PictureBox PBX_Link;
+        private System.Windows.Forms.Timer TMR_UpdateTime;
     }
 }
 
