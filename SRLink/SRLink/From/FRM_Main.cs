@@ -10,8 +10,8 @@ namespace SRLink
 {
     public partial class FRM_Main : Form
     {
-        readonly Queue<HandlerBase> ready;
-        private readonly ConfigHandler config = null;
+        readonly Queue<HandlerBase> Ready;
+        readonly ConfigHandler Config = null;
         Thread thread_autolink = null;
         bool TodayLink = false;
         int flash = 0;
@@ -22,57 +22,60 @@ namespace SRLink
         public FRM_Main()
         {
             InitializeComponent();
-            ready = new Queue<HandlerBase>();
+            Ready = new Queue<HandlerBase>();
+            Config = new ConfigHandler(Application.ExecutablePath);
+        }
+
+        private void FRM_Main_Load(object sender, EventArgs e)
+        {
+            this.TBX_Board.Text = Global.WelcomeWord;
             this.TSP_SLB_Time.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
-            this.TBX_Board.Text = "欢迎使用AutoLink";
-            config = new ConfigHandler(Application.ExecutablePath);
-            if (!config.HasConfig())
+            if (!Config.HasConfig())
             {
                 WriteToBoard("第一次使用，请先到设置页输入认证账号等...");
                 this.TodayLink = true;
                 Setting_Certify config_Certify = new Setting_Certify();
                 Setting_Link config_Link = new Setting_Link();
                 Setting_Mail config_Mail = new Setting_Mail();
-                config.NewConfig(config_Certify, config_Link, config_Mail, DateTime.Parse("08:00"));
+                Config.NewConfig(config_Certify, config_Link, config_Mail, DateTime.Parse("08:00"));
                 this.PBX_Certify.BackgroundImage = Properties.Resources.check_error;
                 this.PBX_Link.BackgroundImage = Properties.Resources.network_error;
                 this.PBX_Mail.BackgroundImage = Properties.Resources.mail_error;
-                
+
             }
             else
             {
                 WriteToBoard("载入配置文件...");
-                this.DTP_StartTime.Value = config.Start_Time;
-                Setting_Certify config_Certify = config.Setting_Certify;
+                this.DTP_StartTime.Value = Config.Start_Time;
+                Setting_Certify config_Certify = Config.Setting_Certify;
                 UpdateConfig(config_Certify);
                 this.PBX_Certify.BackgroundImage = (config_Certify.GetConfigReady() ? Properties.Resources.check_normal : Properties.Resources.check_error);
                 ChangeStatus(1, (config_Certify.GetConfigReady() ? 0 : -1));
 
-                Setting_Link config_Link = config.Setting_Link;
+                Setting_Link config_Link = Config.Setting_Link;
                 UpdateConfig(config_Link);
                 this.PBX_Link.BackgroundImage = (config_Link.GetConfigReady() ? Properties.Resources.network_normal : Properties.Resources.network_error);
                 ChangeStatus(2, (config_Link.GetConfigReady() ? 0 : -1));
 
-                Setting_Mail config_Mail = config.Setting_Mail;
+                Setting_Mail config_Mail = Config.Setting_Mail;
                 UpdateConfig(config_Mail);
                 this.PBX_Mail.BackgroundImage = (config_Mail.GetConfigReady() ? Properties.Resources.mail_normal : Properties.Resources.mail_error);
                 ChangeStatus(3, (config_Mail.GetConfigReady() ? 0 : -1));
                 WriteToBoard("配置文件载入成功");
             }
         }
-
         private void BTN_Set_Click(object sender, EventArgs e)
         {
-            config.Start_Time = this.DTP_StartTime.Value;
+            Config.Start_Time = this.DTP_StartTime.Value;
         }
 
         // CerifyConfig弹窗
         private void BTN_CerifyConfig_Click(object sender, EventArgs e)
         {
-            FRM_Config_Certify f = new FRM_Config_Certify(config);
+            FRM_Config_Certify f = new FRM_Config_Certify(Config);
             if (f.ShowDialog() == DialogResult.OK)
             {
-                Setting_Certify config_Certify = config.Setting_Certify;
+                Setting_Certify config_Certify = Config.Setting_Certify;
                 UpdateConfig(config_Certify);
                 this.PBX_Certify.BackgroundImage = (config_Certify.GetConfigReady() ? Properties.Resources.check_normal : Properties.Resources.check_error);
             }
@@ -81,10 +84,10 @@ namespace SRLink
         // LinkConfig弹窗
         private void BTN_LinkConfig_Click(object sender, EventArgs e)
         {
-            FRM_Config_Link f = new FRM_Config_Link(config);
+            FRM_Config_Link f = new FRM_Config_Link(Config);
             if (f.ShowDialog() == DialogResult.OK)
             {
-                Setting_Link config_Link = config.Setting_Link;
+                Setting_Link config_Link = Config.Setting_Link;
                 UpdateConfig(config_Link);
                 this.PBX_Link.BackgroundImage = (config_Link.GetConfigReady() ? Properties.Resources.network_normal : Properties.Resources.network_error);
             }
@@ -93,10 +96,10 @@ namespace SRLink
         // MailConfig弹窗
         private void BTN_MailConfig_Click(object sender, EventArgs e)
         {
-            FRM_Config_Mail f = new FRM_Config_Mail(config);
+            FRM_Config_Mail f = new FRM_Config_Mail(Config);
             if (f.ShowDialog() == DialogResult.OK)
             {
-                Setting_Mail config_Mail = config.Setting_Mail;
+                Setting_Mail config_Mail = Config.Setting_Mail;
                 UpdateConfig(config_Mail);
                 this.PBX_Mail.BackgroundImage = (config_Mail.GetConfigReady() ? Properties.Resources.mail_normal : Properties.Resources.mail_error);
             }
@@ -120,13 +123,13 @@ namespace SRLink
                 DateTime.Now.Hour >= 7 && 
                 DateTime.Now.Hour * 60 + DateTime.Now.Minute >= 
                 this.DTP_StartTime.Value.Hour * 60 + this.DTP_StartTime.Value.Minute &&
-                ready.Count == 0 )
+                Ready.Count == 0 )
             {
                 RefreshQueue();
                 this.TodayLink = true;
             }
             if (!this.Busy &&
-                ready.Count != 0)
+                Ready.Count != 0)
             {
                 WriteToBoard("开始连接...");
                 this.Busy = true;
@@ -218,24 +221,24 @@ namespace SRLink
         #region 辅助函数
         void RefreshQueue()
         {
-            if (ready.Count != 0)
+            if (Ready.Count != 0)
             {
-                ready.Clear();
+                Ready.Clear();
             }
-            CertifyHandler certifyHandler = new CertifyHandler(config.Setting_Certify, 60, 3000, EHandler.Work);
+            CertifyHandler certifyHandler = new CertifyHandler(Config.Setting_Certify, 60, 3000, EHandler.Work);
             if (certifyHandler.Ready())
             {
-                ready.Enqueue(certifyHandler);
+                Ready.Enqueue(certifyHandler);
             }
-            LinkHandler linkHandler = new LinkHandler(config.Setting_Link, 60, 3000, EHandler.Work);
+            LinkHandler linkHandler = new LinkHandler(Config.Setting_Link, 60, 3000, EHandler.Work);
             if (linkHandler.Ready())
             {
-                ready.Enqueue(linkHandler);
+                Ready.Enqueue(linkHandler);
             }
-            MailHandler mailHandler = new MailHandler(config.Setting_Mail, 60, 3000, EHandler.Work);
+            MailHandler mailHandler = new MailHandler(Config.Setting_Mail, 60, 3000, EHandler.Work);
             if (mailHandler.Ready())
             {
-                ready.Enqueue(mailHandler);
+                Ready.Enqueue(mailHandler);
             }
         }
 
@@ -268,9 +271,9 @@ namespace SRLink
         // 托管的方法
         void Func()
         {
-            while (ready.Count != 0)
+            while (Ready.Count != 0)
             {
-                HandlerBase handler = ready.Dequeue();
+                HandlerBase handler = Ready.Dequeue();
                 WriteToBoard("尝试" + handler.HandleName);
                 int count = 1;
                 while (!handler.Run(out string msg))

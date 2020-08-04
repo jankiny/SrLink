@@ -531,6 +531,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Name = "FRM_Main";
             this.Text = "树大网络AutoLink";
+            this.Load += new System.EventHandler(this.FRM_Main_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);

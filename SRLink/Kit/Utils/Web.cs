@@ -19,18 +19,14 @@ namespace Kit.Utils
         /// <param name="title">邮件标题</param>
         /// <param name="context">邮件内容</param>
         /// <returns></returns>
-        public static bool SendMail(string address, string title, string context)
+        public static bool SendMail(string user, string pwd, string host, string address, string title, string context)
         {
             try
             {
-                string user = "yzll995@163.com";
-                string password = "54yangzl1999";
-                string host = "smtp.163.com";//设置邮件的服务器
-
                 SmtpClient smtp = new SmtpClient(host)
                 {
                     EnableSsl = true, //开启安全连接。
-                    Credentials = new NetworkCredential(user, password), //创建用户凭证
+                    Credentials = new NetworkCredential(user, pwd), //创建用户凭证
                     DeliveryMethod = SmtpDeliveryMethod.Network //使用网络传送
                 };
                 MailMessage message = new MailMessage(user, address, title, context); //创建邮件

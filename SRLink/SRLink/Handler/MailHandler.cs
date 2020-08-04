@@ -18,7 +18,8 @@ namespace SRLink.Handler
         }
         public bool SendIP(out string msg)
         {
-            if (!Web.SendMail(Setting.Address, "IP地址", Cmd.ExecuteCommand("ipconfig")))
+            if (!Web.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
+                Setting.Address, "IP地址", Cmd.ExecuteCommand("ipconfig")))
             {
                 msg = "等待超时";
                 return false;
@@ -29,7 +30,8 @@ namespace SRLink.Handler
         public static string TestMail(string address)
         {
             string code = MathHelper.GenerateRandomString(6);
-            Web.SendMail(address, "验证邮箱", "请将收到的验证码填入AutoLink中，验证码：\n\t\t" + code);
+            Web.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
+                address, "验证邮箱", "请将收到的验证码填入AutoLink中，验证码：\n" + code);
             return code;
         }
         public override bool Run(out string msg)
