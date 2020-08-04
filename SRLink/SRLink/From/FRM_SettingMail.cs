@@ -4,19 +4,18 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SRLink
+namespace SRLink.From
 {
-    public partial class FRM_Config_Mail : Form
+    public partial class FRM_SettingMail : BaseForm
     {
         private readonly SettingMail SettingMail = null;
-        private readonly Config Config = null;
         string code;
         int Count = 0;
-        public FRM_Config_Mail()
+        public FRM_SettingMail()
         {
             InitializeComponent();
         }
-        public FRM_Config_Mail(Config config)
+        public FRM_SettingMail(Config config)
         {
             InitializeComponent();
             Config = config;

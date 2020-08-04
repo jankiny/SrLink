@@ -1,6 +1,6 @@
-﻿namespace SRLink
+﻿namespace SRLink.From
 {
-    partial class FRM_Config_Certify
+    partial class FRM_SettingCertify
     {
         /// <summary>
         /// Required designer variable.

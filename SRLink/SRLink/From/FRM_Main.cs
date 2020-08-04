@@ -76,7 +76,7 @@ namespace SRLink.From
         // CerifyConfig弹窗
         private void BTN_CerifyConfig_Click(object sender, EventArgs e)
         {
-            FRM_Config_Certify f = new FRM_Config_Certify(Config);
+            FRM_SettingCertify f = new FRM_SettingCertify(Config);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 SettingCertify setting_Certify = Config.SettingCertify;
@@ -88,7 +88,7 @@ namespace SRLink.From
         // LinkConfig弹窗
         private void BTN_LinkConfig_Click(object sender, EventArgs e)
         {
-            FRM_Config_Link f = new FRM_Config_Link(Config);
+            FRM_SettingLink f = new FRM_SettingLink(Config);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 SettingLink setting_Link = Config.SettingLink;
@@ -100,7 +100,7 @@ namespace SRLink.From
         // MailConfig弹窗
         private void BTN_MailConfig_Click(object sender, EventArgs e)
         {
-            FRM_Config_Mail f = new FRM_Config_Mail(Config);
+            FRM_SettingMail f = new FRM_SettingMail(Config);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 SettingMail setting_Mail = Config.SettingMail;

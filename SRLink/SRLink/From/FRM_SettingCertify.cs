@@ -4,12 +4,11 @@ using System.Windows.Forms;
 using SRLink.Handler;
 using SRLink.Model;
 
-namespace SRLink
+namespace SRLink.From
 {
-    public partial class FRM_Config_Certify : Form
+    public partial class FRM_SettingCertify : BaseForm
     {
         private readonly SettingCertify SettingCertify = null;
-        private readonly Config Config = null;
         #region 刷新窗体数据
         private void BindData()
         {
@@ -39,11 +38,11 @@ namespace SRLink
             }
         }
         #endregion
-        public FRM_Config_Certify()
+        public FRM_SettingCertify()
         {
             InitializeComponent();
         }
-        public FRM_Config_Certify(Config config)
+        public FRM_SettingCertify(Config config)
         {
             InitializeComponent();
             Config = config;
@@ -56,7 +55,7 @@ namespace SRLink
             this.SettingCertify.Enable = this.CBX_Enable.Checked ? EEnable.True : EEnable.False;
             this.SettingCertify.StudentID = this.TBX_ID.Text.Trim();
             this.SettingCertify.Password = this.TBX_Password.Text.Trim();
-            this.Config.SettingCertify = this.SettingCertify;
+            Config.SettingCertify = this.SettingCertify;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

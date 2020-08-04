@@ -52,23 +52,23 @@
     <Compile Include="From\BaseForm.Designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="From\Setting_Certify.cs">
+    <Compile Include="From\FRM_SettingCertify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\Setting_Certify.Designer.cs">
-      <DependentUpon>Setting_Certify.cs</DependentUpon>
+    <Compile Include="From\FRM_SettingCertify.Designer.cs">
+      <DependentUpon>FRM_SettingCertify.cs</DependentUpon>
     </Compile>
-    <Compile Include="From\Setting_Link.cs">
+    <Compile Include="From\FRM_SettingLink.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\Setting_Link.Designer.cs">
-      <DependentUpon>Setting_Link.cs</DependentUpon>
+    <Compile Include="From\FRM_SettingLink.Designer.cs">
+      <DependentUpon>FRM_SettingLink.cs</DependentUpon>
     </Compile>
-    <Compile Include="From\Setting_Mail.cs">
+    <Compile Include="From\FRM_SettingMail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\Setting_Mail.Designer.cs">
-      <DependentUpon>Setting_Mail.cs</DependentUpon>
+    <Compile Include="From\FRM_SettingMail.Designer.cs">
+      <DependentUpon>FRM_SettingMail.cs</DependentUpon>
     </Compile>
     <Compile Include="From\FRM_Main.cs">
       <SubType>Form</SubType>
@@ -93,14 +93,14 @@
     <EmbeddedResource Include="From\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="From\Setting_Certify.resx">
-      <DependentUpon>Setting_Certify.cs</DependentUpon>
+    <EmbeddedResource Include="From\FRM_SettingCertify.resx">
+      <DependentUpon>FRM_SettingCertify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="From\Setting_Link.resx">
-      <DependentUpon>Setting_Link.cs</DependentUpon>
+    <EmbeddedResource Include="From\FRM_SettingLink.resx">
+      <DependentUpon>FRM_SettingLink.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="From\Setting_Mail.resx">
-      <DependentUpon>Setting_Mail.cs</DependentUpon>
+    <EmbeddedResource Include="From\FRM_SettingMail.resx">
+      <DependentUpon>FRM_SettingMail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From\FRM_Main.resx">
       <DependentUpon>FRM_Main.cs</DependentUpon>
