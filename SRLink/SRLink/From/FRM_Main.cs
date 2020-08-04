@@ -201,6 +201,11 @@ namespace SRLink
                 this.TBX_Board.Text += string.Format(Environment.NewLine + "{0}: {1}", this.TSP_SLB_Time.Text, msg);
             }
         }
+        /// <summary>
+        /// 根据状态值改变主界面UI显示
+        /// </summary>
+        /// <param name="step">第n步，对应各个habdler的ID</param>
+        /// <param name="status">状态值</param>
         void ChangeStatus(int step, EStatus status)
         {
             if (step == 1)
@@ -286,7 +291,7 @@ namespace SRLink
         }
         #endregion
 
-        #region 辅助函数
+        #region Handler辅助函数
         void RefreshQueue()
         {
             if (Ready.Count != 0)
