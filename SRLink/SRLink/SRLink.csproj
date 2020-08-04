@@ -87,6 +87,7 @@
     <Compile Include="Model\EHandler.cs" />
     <Compile Include="Model\ELinkWay.cs" />
     <Compile Include="Model\EStatus.cs" />
+    <Compile Include="Model\LinkProcess.cs" />
     <Compile Include="Model\SettingBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

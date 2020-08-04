@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using Kit.Utils;
 using SRLink.Handler;
 using SRLink.Model;
 
@@ -12,17 +13,18 @@ namespace SRLink.From
     {
         readonly Queue<HandlerBase> Ready = null;
         readonly List<Label> Runing = null;
-        Thread thread_autolink = null;
-        bool TodayLink = false;
-        bool Busy = false;
+        readonly LinkProcess LinkProcess;
+        bool Linked = false;
         // 定义委托类型
         delegate void SetTextCallback(String str);
+
         #region WindowsFrom事件
         public FRM_Main()
         {
             InitializeComponent();
             Ready = new Queue<HandlerBase>();
             Runing = new List<Label>();
+            LinkProcess = new LinkProcess();
 
             Application.ApplicationExit += (sender, args) =>
             {
@@ -40,31 +42,28 @@ namespace SRLink.From
             if (!Config.HasConfig)
             {
                 WriteToBoard("第一次使用，请先到设置页输入认证账号等...");
-                this.TodayLink = true;
-                //Setting_Certify config_Certify = new Setting_Certify();
-                //Setting_Link config_Link = new Setting_Link();
-                //Setting_Mail config_Mail = new Setting_Mail();
-                //Config.NewConfig(config_Certify, config_Link, config_Mail, DateTime.Parse("08:00"));
-                ChangeStatus(1, EStatus.Error);
-                ChangeStatus(2, EStatus.Error);
-                ChangeStatus(3, EStatus.Error);
-
+                ChangeStatus(EStatus.Error);
+                this.Linked = true;
             }
             else
             {
                 this.DTP_StartTime.Value = Config.StartTime;
-                //Setting_Certify Setting_Certify = Config.Setting_Certify;
-                UpdateConfig(Config.SettingCertify);
+
+                ConfigUpdate(Config.SettingCertify);
                 ChangeStatus(1, (Config.SettingCertify.GetConfigReady() ? EStatus.Normal : EStatus.Error));
 
-                //Setting_Link Setting_Link = Config.Setting_Link;
-                UpdateConfig(Config.SettingLink);
+                ConfigUpdate(Config.SettingLink);
                 ChangeStatus(2, (Config.SettingLink.GetConfigReady() ? EStatus.Normal : EStatus.Error));
 
-                //Setting_Mail Setting_Mail = Config.Setting_Mail;
-                UpdateConfig(Config.SettingMail);
+                ConfigUpdate(Config.SettingMail);
                 ChangeStatus(3, (Config.SettingMail.GetConfigReady() ? EStatus.Normal : EStatus.Error));
                 WriteToBoard("配置文件载入成功");
+            }
+            this.Linked = Web.IsConnectInternet();
+            if (this.Linked)
+            {
+                WriteToBoard("检测到网络已连接");
+                ChangeStatus(2, EStatus.OK);
             }
         }
         // Config页面时间设置按钮
@@ -80,7 +79,7 @@ namespace SRLink.From
             if (f.ShowDialog() == DialogResult.OK)
             {
                 SettingCertify setting_Certify = Config.SettingCertify;
-                UpdateConfig(setting_Certify);
+                ConfigUpdate(setting_Certify);
                 ChangeStatus(1, (setting_Certify.GetConfigReady() ? EStatus.Normal : EStatus.Error));
             }
         }
@@ -92,7 +91,7 @@ namespace SRLink.From
             if (f.ShowDialog() == DialogResult.OK)
             {
                 SettingLink setting_Link = Config.SettingLink;
-                UpdateConfig(setting_Link);
+                ConfigUpdate(setting_Link);
                 ChangeStatus(2, (setting_Link.GetConfigReady() ? EStatus.Normal : EStatus.Error));
             }
         }
@@ -104,38 +103,39 @@ namespace SRLink.From
             if (f.ShowDialog() == DialogResult.OK)
             {
                 SettingMail setting_Mail = Config.SettingMail;
-                UpdateConfig(setting_Mail);
+                ConfigUpdate(setting_Mail);
                 ChangeStatus(3, (setting_Mail.GetConfigReady() ? EStatus.Normal : EStatus.Error));
             }
         }
 
         private void TMR_UpdateTime_Tick(object sender, EventArgs e)
         {
-            this.TSP_SLB_Time.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
-            if (!this.TodayLink &&
-                DateTime.Now.Hour <= 23 &&
-                DateTime.Now.Hour >= 7 &&
-                DateTime.Now.Hour * 60 + DateTime.Now.Minute >=
-                this.DTP_StartTime.Value.Hour * 60 + this.DTP_StartTime.Value.Minute &&
+            this.TSP_SLB_Time.Text = DateTime.Now.ToString(Global.DateTimeFormatString);
+            if (!this.Linked &&
+                Config.EnableLink() &&
                 Ready.Count == 0)
             {
                 RefreshQueue();
-                this.TodayLink = true;
+                this.Linked = true;
                 this.TMR_Handle.Enabled = true;
             }
             // ToolBar状态显示
-            if (thread_autolink != null)
+            if (this.LinkProcess.Thread != null)
             {
-                if (thread_autolink.ThreadState == ThreadState.Aborted)
+                if (this.LinkProcess.Thread.ThreadState == ThreadState.Aborted)
                 {
                     this.TSP_SLB_Statu.Text = "连接中断";
                 }
-                else if (thread_autolink.ThreadState == ThreadState.Running ||
-                    thread_autolink.ThreadState == ThreadState.WaitSleepJoin)
+                else if (this.LinkProcess.Thread.ThreadState == ThreadState.Running ||
+                    this.LinkProcess.Thread.ThreadState == ThreadState.WaitSleepJoin)
                 {
                     this.TSP_SLB_Statu.Text = "连接中";
                 }
-                else if (thread_autolink.ThreadState == ThreadState.Stopped)
+                else if (this.LinkProcess.Thread.ThreadState == ThreadState.Stopped)
+                {
+                    this.TSP_SLB_Statu.Text = "欢迎使用";
+                }
+                else
                 {
                     this.TSP_SLB_Statu.Text = "欢迎使用";
                 }
@@ -148,40 +148,46 @@ namespace SRLink.From
             {
                 label.ForeColor = (this.LBL_Line1.ForeColor == Color.DimGray ? Color.LimeGreen : Color.DimGray);
             }
-            if (!this.Busy && Ready.Count != 0)
+            if (!this.LinkProcess.Busy && Ready.Count != 0)
             {
                 WriteToBoard("开始连接...");
-                this.Busy = true;
-                thread_autolink = new Thread(Func);
-                thread_autolink.Start();
+                this.LinkProcess.Busy = true;
+                this.LinkProcess.Thread = new Thread(Func);
+                this.LinkProcess.Thread.Start();
             }
         }
 
         private void BTN_Start_Click(object sender, EventArgs e)
         {
-            if (thread_autolink == null ||
-                thread_autolink.ThreadState == ThreadState.Stopped ||
-                thread_autolink.ThreadState == ThreadState.Aborted)
+            if (this.LinkProcess.Thread == null ||
+                this.LinkProcess.Thread.ThreadState == ThreadState.Stopped ||
+                this.LinkProcess.Thread.ThreadState == ThreadState.Aborted)
             {
-                WriteToBoard("开始连接...");
-                this.Busy = true;
+                WriteToBoard("(User Command)开始连接...");
+                this.LinkProcess.Busy = true;
                 RefreshQueue();
-                thread_autolink = new Thread(Func);
-                thread_autolink.Start();
+                this.LinkProcess.Thread = new Thread(Func);
+                this.LinkProcess.Thread.Start();
             }
         }  
 
         private void BTN_Stop_Click(object sender, EventArgs e)
         {
             //this.TodayLink = true;
-            WriteToBoard("(User Command)停止连接...");
             Ready.Clear();
-            if (thread_autolink == null ||
-                thread_autolink.ThreadState == ThreadState.WaitSleepJoin || 
-                thread_autolink.ThreadState == ThreadState.Running)
+            if (this.LinkProcess.Thread != null)
             {
-                WriteToBoard("进程已被终止！");
-                thread_autolink.Abort();
+                if (this.LinkProcess.Thread.ThreadState == ThreadState.WaitSleepJoin ||
+                    this.LinkProcess.Thread.ThreadState == ThreadState.Running)
+                {
+                    this.LinkProcess.Busy = false;
+                    this.LinkProcess.Thread.Abort();
+                }
+                WriteToBoard("(User Command)进程已被终止!");
+            }
+            else
+            {
+                WriteToBoard("(User Command)没用在运行的进程!");
             }
         }
         #endregion
@@ -225,7 +231,8 @@ namespace SRLink.From
                 {
                     if (count == handler.Count)
                     {
-                        WriteToBoard("第" + count + "次认证失败[" + msg + "] 停止认证。");
+                        WriteToBoard(string.Format("第{0}次{1}失败[{2}] 停止认证。", 
+                            count, handler.HandleName, msg));
                         return;
                     }
                     WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。",
@@ -235,10 +242,11 @@ namespace SRLink.From
                 }
                 Runing.Clear();
                 ChangeStatus(handler.ID, EStatus.OK);
+                Config.LastLinkTime = DateTime.Now; // 暂时没用
                 WriteToBoard(handler.HandleName + "成功！");
             }
             this.TMR_Handle.Enabled = false;
-            this.Busy = false;
+            this.LinkProcess.Busy = false;
         }
         #endregion
 
@@ -283,6 +291,43 @@ namespace SRLink.From
         #endregion
 
         #region UI控制
+        /// <summary>
+        /// 根据状态值改变所有主界面UI显示
+        /// </summary>
+        /// <param name="status">状态值</param>
+        void ChangeStatus(EStatus status)
+        {
+            switch (status)
+            {
+                case EStatus.Error:
+                    this.LBL_Step1.ForeColor = Color.Red;
+                    this.PBX_Certify.BackgroundImage = Properties.Resources.check_error;
+                    this.LBL_Step2.ForeColor = this.LBL_Line1.ForeColor = Color.Red;
+                    this.PBX_Link.BackgroundImage = Properties.Resources.network_error;
+                    this.LBL_Step3.ForeColor = this.LBL_Line2.ForeColor = Color.Red;
+                    this.PBX_Mail.BackgroundImage = Properties.Resources.mail_error;
+                    break;
+                case EStatus.Normal:
+                    this.LBL_Step1.ForeColor = Color.Gold;
+                    this.PBX_Certify.BackgroundImage = Properties.Resources.check_normal;
+                    this.LBL_Step2.ForeColor = this.LBL_Line1.ForeColor = Color.Gold;
+                    this.PBX_Link.BackgroundImage = Properties.Resources.network_normal;
+                    this.LBL_Step3.ForeColor = this.LBL_Line2.ForeColor = Color.Gold;
+                    this.PBX_Mail.BackgroundImage = Properties.Resources.mail_normal;
+                    break;
+                case EStatus.OK:
+                    this.LBL_Step1.ForeColor = Color.LimeGreen;
+                    this.PBX_Certify.BackgroundImage = Properties.Resources.check_ok;
+                    this.LBL_Step2.ForeColor = this.LBL_Line1.ForeColor = Color.LimeGreen;
+                    this.PBX_Link.BackgroundImage = Properties.Resources.network_ok;
+                    this.LBL_Step3.ForeColor = this.LBL_Line2.ForeColor = Color.LimeGreen;
+                    this.PBX_Mail.BackgroundImage = Properties.Resources.mail_ok;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         /// <summary>
         /// 根据状态值改变主界面UI显示
         /// </summary>
@@ -352,20 +397,23 @@ namespace SRLink.From
             }
         }
 
-        // "设置"页更新配置信息
-        private void UpdateConfig(SettingCertify settingCertify)
+        /// <summary>
+        /// 设置页刷新UI
+        /// </summary>
+        /// <param name="settingCertify"></param>
+        private void ConfigUpdate(SettingCertify settingCertify)
         {
             this.LBL_CertifyInfo.Text = settingCertify.GetConfigInfo();
             this.LBL_CertifyEnable.Text = (settingCertify.GetConfigReady() ? "就绪" : "未就绪");
             this.LBL_CertifyEnable.ForeColor = (settingCertify.GetConfigReady() ? Color.LimeGreen : Color.Red);
         }
-        private void UpdateConfig(SettingLink settingLink)
+        private void ConfigUpdate(SettingLink settingLink)
         {
             this.LBL_LinkInfo.Text = settingLink.GetConfigInfo();
             this.LBL_LinkEnable.Text = (settingLink.GetConfigReady() ? "就绪" : "未就绪");
             this.LBL_LinkEnable.ForeColor = (settingLink.GetConfigReady() ? Color.LimeGreen : Color.Red);
         }
-        private void UpdateConfig(SettingMail settingMail)
+        private void ConfigUpdate(SettingMail settingMail)
         {
             this.LBL_MailInfo.Text = settingMail.GetConfigInfo();
             this.LBL_MailEnable.Text = (settingMail.GetConfigReady() ? "就绪" : "未就绪");

@@ -21,7 +21,7 @@ namespace SRLink.From
             Config = config;
             this.SettingMail = Config.SettingMail;
             this.CBX_Enable.Checked = (this.SettingMail.Enable == EEnable.True);
-            if (this.SettingMail.Status == 0)
+            if (this.SettingMail.Status == EStatus.Normal)
             {
                 this.LBL_Status.Text = "待验证";
                 this.LBL_Status.ForeColor = Color.DimGray;
@@ -57,11 +57,11 @@ namespace SRLink.From
         {
             this.LBL_Status.Text = "待验证";
             this.LBL_Status.ForeColor = Color.DimGray;
-            this.TMR_ReSent.Enabled = true;
-            Count = 15;
             this.BTN_Sent.Enabled = false;
-            this.BTN_Sent.Text = "15s";            
+            this.BTN_Sent.Text = "15s";
+            this.Count = 15;
             code = MailHandler.TestMail(this.TBX_Address.Text);
+            this.TMR_ReSent.Enabled = true;       
         }
 
         private void TMR_ReSent_Tick(object sender, EventArgs e)
