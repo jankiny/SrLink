@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kit.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,12 @@ namespace SRLink.Model
         {
             get; set;
         }
+
+        public bool EnableLink()
+        {
+            int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            return now >= StartTime.Hour * 60 + StartTime.Minute && now < Global.NightNotLink;
+        }
     }
 
     [Serializable]
@@ -50,8 +57,10 @@ namespace SRLink.Model
         {
             base.Enable = 0;
             this.Status = 0;
-            this.StudentID = "未配置";
-            this.Password = "未配置";
+            //this.StudentID = "未配置";
+            //this.Password = "未配置";
+            this.StudentID = "";
+            this.Password = "";
         }
 
         // 用于读取保存的config
@@ -115,7 +124,7 @@ namespace SRLink.Model
                 else
                 {
                     this._Way = 1;
-                    throw new Exception("状态不合法");
+                    Log.SaveLog("SettingLink.Way赋值不合法");
                 }
             }
         }
@@ -125,7 +134,8 @@ namespace SRLink.Model
         public SettingLink()
         {
             this.Enable = 0;
-            this.Path = @"C:\Program Files (x86)\cmclient\bin\CMClient.exe";
+            //this.Path = @"C:\Program Files (x86)\cmclient\bin\CMClient.exe";
+            this.Path = "";
             this._Way = 2;
             this.X = 400;
             this.Y = 150;
@@ -166,7 +176,8 @@ namespace SRLink.Model
         {
             this.Enable = 0;
             this.Status = 0;
-            this.Address = "未配置邮箱";
+            //this.Address = "未配置邮箱";
+            this.Address = "";
         }
 
         public SettingMail(EEnable able, EStatus status, string address)

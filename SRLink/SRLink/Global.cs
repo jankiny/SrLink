@@ -1,4 +1,6 @@
-﻿namespace SRLink
+﻿using System;
+
+namespace SRLink
 {
     class Global
     {
@@ -31,7 +33,15 @@
         /// </summary>
         public const string ConfigFileName = "SRLinkConfig.json";
 
-        public const string DateTimeFormatString = "yyyy-MM-dd hh:mm:ss";
+        /// <summary>
+        /// 时间格式
+        /// </summary>
+        public const string DateTimeFormatString = "yyyy-MM-dd HH:mm:ss";
+
+        /// <summary>
+        /// 一天最晚连接时间（23:00）
+        /// </summary>
+        public const int NightNotLink = 23 * 60;
         #endregion
     }
 }

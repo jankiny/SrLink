@@ -3,17 +3,16 @@ using System.Windows.Forms;
 using SRLink.Handler;
 using SRLink.Model;
 
-namespace SRLink
+namespace SRLink.From
 {
-    public partial class FRM_Config_Link : Form
+    public partial class FRM_SettingLink : BaseForm
     {
         private readonly SettingLink SettingLink = null;
-        private readonly Config Config = null;
-        public FRM_Config_Link()
+        public FRM_SettingLink()
         {
             InitializeComponent();
         }
-        public FRM_Config_Link(Config config)
+        public FRM_SettingLink(Config config)
         {
             InitializeComponent();
             Config = config;
