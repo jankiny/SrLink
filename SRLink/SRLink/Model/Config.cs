@@ -39,6 +39,11 @@ namespace SRLink.Model
             get; set;
         }
 
+        public bool AutoRun
+        {
+            get; set;
+        }
+
         public bool EnableLink()
         {
             int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;

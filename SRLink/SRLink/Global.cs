@@ -47,6 +47,16 @@ namespace SRLink
         /// 测试网络是否连通的测试网址
         /// </summary>
         public const string TestConnectionUrl = "www.baidu.com";
+
+        /// <summary>
+        /// 注册表开机启动名称
+        /// </summary>
+        public const string autoRunName = "SRLinkAutoRun";
+
+        /// <summary>
+        /// 注册表设置开机启动路径
+        /// </summary>
+        public const string autoRunRegPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
         #endregion
     }
 }

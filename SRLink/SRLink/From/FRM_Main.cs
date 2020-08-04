@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Kit.Utils;
+using Kit.Win;
 using SRLink.Handler;
 using SRLink.Model;
 
@@ -58,6 +59,9 @@ namespace SRLink.From
 
                 ConfigUpdate(Config.SettingMail);
                 ChangeStatus(3, (Config.SettingMail.GetConfigReady() ? EStatus.Normal : EStatus.Error));
+
+                this.CHK_AutoRun.Checked = Config.AutoRun;
+
                 WriteToBoard("配置文件载入成功");
             }
             this.Linked = Web.IsConnectInternet(Global.TestConnectionUrl);
@@ -76,6 +80,9 @@ namespace SRLink.From
         // Config页面时间设置按钮
         private void BTN_Set_Click(object sender, EventArgs e)
         {
+            Sys.SetAutoRun(Global.autoRunRegPath, Global.autoRunName, Config.AutoRun);
+            // 开机启动的程序用Environment.CurrentDirectory获取到的时system32文件夹
+            // WriteToBoard("写入到：" + Environment.CurrentDirectory); 
             Config.StartTime = this.DTP_StartTime.Value;
             ConfigHandler.SaveConfig(ref Config);
             this.TSP_SLB_Statu.Text = "保存成功";
@@ -444,5 +451,10 @@ namespace SRLink.From
             this.LBL_MailEnable.ForeColor = (settingMail.GetConfigReady() ? Color.LimeGreen : Color.Red);
         }
         #endregion
+
+        private void CHK_AutoRun_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.AutoRun = this.CHK_AutoRun.Checked;
+        }
     }
 }

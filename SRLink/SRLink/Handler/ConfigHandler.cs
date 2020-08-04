@@ -1,6 +1,8 @@
 ﻿using System;
 using SRLink.Model;
 using Kit.Utils;
+using Kit.Win;
+using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
@@ -16,7 +18,8 @@ namespace SRLink.Handler
         public static int LoadConfig(ref Config config)
         {
             //载入配置文件 
-            string result = Json.LoadResource(Json.GetPath(configPath));
+            //string result = Json.LoadResource(Sys.GetPath(configPath)); 问题见Sys.GetPaht
+            string result = Json.LoadResource(Sys.Combine(Application.StartupPath, configPath));
             if (!string.IsNullOrEmpty(result))
             {
                 //转成Json
@@ -31,7 +34,8 @@ namespace SRLink.Handler
                     LastLinkTime = DateTime.Now.AddDays(-1),
                     SettingCertify = new SettingCertify(),
                     SettingLink = new SettingLink(),
-                    SettingMail = new SettingMail()
+                    SettingMail = new SettingMail(),
+                    AutoRun = false
                 };
             }
             return 0;
@@ -44,7 +48,8 @@ namespace SRLink.Handler
         /// <returns></returns>
         public static int SaveConfig(ref Config config, bool reload = true)
         {
-            Json.ToJsonFile(config, Json.GetPath(configPath));
+            //Json.ToJsonFile(config, Sys.GetPath(configPath));
+            Json.ToJsonFile(config, Sys.Combine(Application.StartupPath, configPath));
 
             return 0;
         }

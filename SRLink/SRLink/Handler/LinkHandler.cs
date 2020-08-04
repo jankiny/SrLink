@@ -20,7 +20,7 @@ namespace SRLink.Handler
         }
         public bool OpenSuiEXing()
         {
-            if (ExeFile.Run(Setting.Path))
+            if (Sys.Run(Setting.Path))
             {
                 // 关闭非管理员启动的提示
                 Mouses.PerformClick("提示", "确定");

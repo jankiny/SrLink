@@ -74,6 +74,9 @@
             this.TMR_Handle = new System.Windows.Forms.Timer(this.components);
             this.TMR_UpdateTime = new System.Windows.Forms.Timer(this.components);
             this.TMR_ToolBarRetain = new System.Windows.Forms.Timer(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.CHK_AutoRun = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -86,6 +89,8 @@
             this.tabPage2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -300,21 +305,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox2);
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.panel1);
-            this.tabPage2.Controls.Add(this.LBL_LinkInfo);
-            this.tabPage2.Controls.Add(this.LBL_MailInfo);
-            this.tabPage2.Controls.Add(this.LBL_CertifyInfo);
-            this.tabPage2.Controls.Add(this.BTN_MailConfig);
-            this.tabPage2.Controls.Add(this.BTN_LinkConfig);
-            this.tabPage2.Controls.Add(this.BTN_CerifyConfig);
-            this.tabPage2.Controls.Add(this.LBL_MailEnable);
-            this.tabPage2.Controls.Add(this.LBL_LinkEnable);
-            this.tabPage2.Controls.Add(this.LBL_CertifyEnable);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.label1);
-            this.tabPage2.Controls.Add(this.DTP_StartTime);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -346,7 +339,7 @@
             // 
             this.LBL_LinkInfo.AutoSize = true;
             this.LBL_LinkInfo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.LBL_LinkInfo.Location = new System.Drawing.Point(156, 126);
+            this.LBL_LinkInfo.Location = new System.Drawing.Point(149, 90);
             this.LBL_LinkInfo.Name = "LBL_LinkInfo";
             this.LBL_LinkInfo.Size = new System.Drawing.Size(29, 12);
             this.LBL_LinkInfo.TabIndex = 11;
@@ -356,7 +349,7 @@
             // 
             this.LBL_MailInfo.AutoSize = true;
             this.LBL_MailInfo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.LBL_MailInfo.Location = new System.Drawing.Point(156, 160);
+            this.LBL_MailInfo.Location = new System.Drawing.Point(149, 124);
             this.LBL_MailInfo.Name = "LBL_MailInfo";
             this.LBL_MailInfo.Size = new System.Drawing.Size(53, 12);
             this.LBL_MailInfo.TabIndex = 11;
@@ -366,7 +359,7 @@
             // 
             this.LBL_CertifyInfo.AutoSize = true;
             this.LBL_CertifyInfo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.LBL_CertifyInfo.Location = new System.Drawing.Point(156, 91);
+            this.LBL_CertifyInfo.Location = new System.Drawing.Point(149, 56);
             this.LBL_CertifyInfo.Name = "LBL_CertifyInfo";
             this.LBL_CertifyInfo.Size = new System.Drawing.Size(125, 12);
             this.LBL_CertifyInfo.TabIndex = 11;
@@ -374,7 +367,7 @@
             // 
             // BTN_MailConfig
             // 
-            this.BTN_MailConfig.Location = new System.Drawing.Point(320, 155);
+            this.BTN_MailConfig.Location = new System.Drawing.Point(313, 119);
             this.BTN_MailConfig.Name = "BTN_MailConfig";
             this.BTN_MailConfig.Size = new System.Drawing.Size(25, 23);
             this.BTN_MailConfig.TabIndex = 10;
@@ -384,7 +377,7 @@
             // 
             // BTN_LinkConfig
             // 
-            this.BTN_LinkConfig.Location = new System.Drawing.Point(320, 121);
+            this.BTN_LinkConfig.Location = new System.Drawing.Point(313, 85);
             this.BTN_LinkConfig.Name = "BTN_LinkConfig";
             this.BTN_LinkConfig.Size = new System.Drawing.Size(25, 23);
             this.BTN_LinkConfig.TabIndex = 10;
@@ -394,7 +387,7 @@
             // 
             // BTN_CerifyConfig
             // 
-            this.BTN_CerifyConfig.Location = new System.Drawing.Point(320, 86);
+            this.BTN_CerifyConfig.Location = new System.Drawing.Point(313, 51);
             this.BTN_CerifyConfig.Name = "BTN_CerifyConfig";
             this.BTN_CerifyConfig.Size = new System.Drawing.Size(25, 23);
             this.BTN_CerifyConfig.TabIndex = 10;
@@ -406,7 +399,7 @@
             // 
             this.LBL_MailEnable.AutoSize = true;
             this.LBL_MailEnable.ForeColor = System.Drawing.Color.Red;
-            this.LBL_MailEnable.Location = new System.Drawing.Point(357, 160);
+            this.LBL_MailEnable.Location = new System.Drawing.Point(350, 124);
             this.LBL_MailEnable.Name = "LBL_MailEnable";
             this.LBL_MailEnable.Size = new System.Drawing.Size(41, 12);
             this.LBL_MailEnable.TabIndex = 9;
@@ -416,7 +409,7 @@
             // 
             this.LBL_LinkEnable.AutoSize = true;
             this.LBL_LinkEnable.ForeColor = System.Drawing.Color.Red;
-            this.LBL_LinkEnable.Location = new System.Drawing.Point(357, 126);
+            this.LBL_LinkEnable.Location = new System.Drawing.Point(350, 90);
             this.LBL_LinkEnable.Name = "LBL_LinkEnable";
             this.LBL_LinkEnable.Size = new System.Drawing.Size(41, 12);
             this.LBL_LinkEnable.TabIndex = 9;
@@ -426,7 +419,7 @@
             // 
             this.LBL_CertifyEnable.AutoSize = true;
             this.LBL_CertifyEnable.ForeColor = System.Drawing.Color.Red;
-            this.LBL_CertifyEnable.Location = new System.Drawing.Point(357, 91);
+            this.LBL_CertifyEnable.Location = new System.Drawing.Point(350, 56);
             this.LBL_CertifyEnable.Name = "LBL_CertifyEnable";
             this.LBL_CertifyEnable.Size = new System.Drawing.Size(41, 12);
             this.LBL_CertifyEnable.TabIndex = 9;
@@ -435,7 +428,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 160);
+            this.label4.Location = new System.Drawing.Point(19, 124);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(101, 12);
             this.label4.TabIndex = 6;
@@ -444,7 +437,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 126);
+            this.label3.Location = new System.Drawing.Point(19, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 12);
             this.label3.TabIndex = 5;
@@ -453,7 +446,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 91);
+            this.label2.Location = new System.Drawing.Point(19, 56);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 12);
             this.label2.TabIndex = 4;
@@ -462,7 +455,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 23);
+            this.label1.Location = new System.Drawing.Point(19, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(101, 12);
             this.label1.TabIndex = 3;
@@ -472,7 +465,7 @@
             // 
             this.DTP_StartTime.CustomFormat = "HH:mm";
             this.DTP_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTP_StartTime.Location = new System.Drawing.Point(156, 17);
+            this.DTP_StartTime.Location = new System.Drawing.Point(149, 18);
             this.DTP_StartTime.Name = "DTP_StartTime";
             this.DTP_StartTime.ShowUpDown = true;
             this.DTP_StartTime.Size = new System.Drawing.Size(66, 21);
@@ -544,6 +537,52 @@
             this.TMR_ToolBarRetain.Interval = 3000;
             this.TMR_ToolBarRetain.Tick += new System.EventHandler(this.TMR_ToolBarRetain_Tick);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.DTP_StartTime);
+            this.groupBox1.Controls.Add(this.LBL_LinkInfo);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.LBL_MailInfo);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.LBL_CertifyInfo);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.BTN_MailConfig);
+            this.groupBox1.Controls.Add(this.LBL_CertifyEnable);
+            this.groupBox1.Controls.Add(this.BTN_LinkConfig);
+            this.groupBox1.Controls.Add(this.LBL_LinkEnable);
+            this.groupBox1.Controls.Add(this.BTN_CerifyConfig);
+            this.groupBox1.Controls.Add(this.LBL_MailEnable);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(416, 152);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "关键设置";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.CHK_AutoRun);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 155);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(416, 53);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "其他";
+            // 
+            // CHK_AutoRun
+            // 
+            this.CHK_AutoRun.AutoSize = true;
+            this.CHK_AutoRun.Location = new System.Drawing.Point(21, 26);
+            this.CHK_AutoRun.Name = "CHK_AutoRun";
+            this.CHK_AutoRun.Size = new System.Drawing.Size(96, 16);
+            this.CHK_AutoRun.TabIndex = 0;
+            this.CHK_AutoRun.Text = "开机自动启动";
+            this.CHK_AutoRun.UseVisualStyleBackColor = true;
+            this.CHK_AutoRun.CheckedChanged += new System.EventHandler(this.CHK_AutoRun_CheckedChanged);
+            // 
             // FRM_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -571,10 +610,13 @@
             this.PNL_Step1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PBX_Certify)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -627,6 +669,9 @@
         private System.Windows.Forms.Timer TMR_UpdateTime;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Timer TMR_ToolBarRetain;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox CHK_AutoRun;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 
