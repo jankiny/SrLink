@@ -317,7 +317,6 @@ namespace SRLink
                 Ready.Enqueue(mailHandler);
             }
         }
-
         // 托管的方法
         void Func()
         {

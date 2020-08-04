@@ -26,10 +26,10 @@ namespace SRLink.Handler
                 msg = "配置出错";
                 return false;
             }
-            string param = string.Format("action=login&username={0}&password={{B}}{1}&ac_id=2&user_ip=&nas_ip=&user_mac=&save_me=1&ajax=1",
+            string param = string.Format(Global.Certify_UrlParam,
                 Setting.StudentID, Web.ToBase64String(Setting.Password));
 
-            string res = Web.PostWebRequest("http://172.8.231.22:802/include/auth_action.php", param, 107, Encoding.UTF8);
+            string res = Web.PostWebRequest(Global.Certify_Url, param, 107, Encoding.UTF8);
 
             if (res == "操作超时")
             {

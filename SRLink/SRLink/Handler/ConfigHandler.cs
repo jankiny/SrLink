@@ -109,6 +109,7 @@ namespace SRLink.Handler
             appConfig.NewAppConfig("mail_status", ((int)config_Mail.Status).ToString());
             appConfig.NewAppConfig("mail_address", config_Mail.Address);
         }
+        #region 辅助函数（待优化）
         private void SaveConfig(Setting_Certify config_Certify)
         {
             appConfig.UpdateAppConfig("certify_enable", ((int)config_Certify.Enable).ToString());
@@ -166,5 +167,6 @@ namespace SRLink.Handler
                 appConfig.GetAppConfig("mail_address")
                 );
         }
+        #endregion
     }
 }
