@@ -6,8 +6,8 @@ namespace SRLink.Handler
 {
     public class MailHandler : HandlerBase
     {
-        readonly Setting_Mail Setting;
-        public MailHandler(Setting_Mail setting_Mail, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
+        readonly SettingMail Setting;
+        public MailHandler(SettingMail setting_Mail, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
             ID = 3;
             HandleName = "发送邮件";

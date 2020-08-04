@@ -7,9 +7,9 @@ namespace SRLink.Handler
 {
     public class CertifyHandler : HandlerBase
     {
-        readonly Setting_Certify Setting;
+        readonly SettingCertify Setting;
 
-        public CertifyHandler(Setting_Certify setting_Certify, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
+        public CertifyHandler(SettingCertify setting_Certify, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
             ID = 1;
             HandleName = "认证";

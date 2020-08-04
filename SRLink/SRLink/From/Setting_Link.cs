@@ -7,20 +7,20 @@ namespace SRLink
 {
     public partial class FRM_Config_Link : Form
     {
-        private readonly Setting_Link Setting_Link = null;
-        private readonly ConfigHandler Config = null;
+        private readonly SettingLink SettingLink = null;
+        private readonly Config Config = null;
         public FRM_Config_Link()
         {
             InitializeComponent();
         }
-        public FRM_Config_Link(ConfigHandler config)
+        public FRM_Config_Link(Config config)
         {
             InitializeComponent();
             Config = config;
-            this.Setting_Link = config.Setting_Link;
-            this.CBX_Enable.Checked = (this.Setting_Link.Enable == EEnable.True);
-            this.TBX_Path.Text = this.Setting_Link.Path;
-            this.DDL_Way.SelectedIndex = this.Setting_Link.Way - 1;
+            this.SettingLink = Config.SettingLink;
+            this.CBX_Enable.Checked = (this.SettingLink.Enable == EEnable.True);
+            this.TBX_Path.Text = this.SettingLink.Path;
+            this.DDL_Way.SelectedIndex = this.SettingLink.Way - 1;
         }
 
         private void BTN_ChoosePath_Click(object sender, EventArgs e)
@@ -28,7 +28,7 @@ namespace SRLink
             this.OFD_Path.InitialDirectory = this.TBX_Path.Text;
             this.OFD_Path.ShowDialog();
             this.TBX_Path.Text = this.OFD_Path.FileName;
-            this.Setting_Link.Path = this.OFD_Path.FileName;
+            this.SettingLink.Path = this.OFD_Path.FileName;
         }
 
         private void DDL_Way_SelectedIndexChanged(object sender, EventArgs e)
@@ -36,8 +36,8 @@ namespace SRLink
             if (this.DDL_Way.SelectedIndex == 1)
             {
                 this.PNL_Position.Enabled = true;
-                this.TBX_X.Text = this.Setting_Link.X.ToString();
-                this.TBX_Y.Text = this.Setting_Link.Y.ToString();
+                this.TBX_X.Text = this.SettingLink.X.ToString();
+                this.TBX_Y.Text = this.SettingLink.Y.ToString();
             }
             else
             {
@@ -47,18 +47,18 @@ namespace SRLink
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            this.Setting_Link.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
-            this.Setting_Link.Way = this.DDL_Way.SelectedIndex + 1;
-            this.Setting_Link.X = int.Parse(this.TBX_X.Text.Trim());
-            this.Setting_Link.Y = int.Parse(this.TBX_Y.Text.Trim());
-            Config.Setting_Link = this.Setting_Link;
+            this.SettingLink.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
+            this.SettingLink.Way = this.DDL_Way.SelectedIndex + 1;
+            this.SettingLink.X = int.Parse(this.TBX_X.Text.Trim());
+            this.SettingLink.Y = int.Parse(this.TBX_Y.Text.Trim());
+            Config.SettingLink = this.SettingLink;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            LinkHandler test_handler = new LinkHandler(this.Setting_Link);
+            LinkHandler test_handler = new LinkHandler(this.SettingLink);
             if (test_handler.OpenSuiEXing())
             {
                 test_handler.TryClick(int.Parse(this.TBX_X.Text.Trim()), int.Parse(this.TBX_Y.Text.Trim()));
