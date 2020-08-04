@@ -8,8 +8,8 @@ namespace SRLink.Handler
 {
     public class LinkHandler : HandlerBase
     {
-        readonly Setting_Link Setting;
-        public LinkHandler(Setting_Link setting_Link, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
+        readonly SettingLink Setting;
+        public LinkHandler(SettingLink setting_Link, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
             ID = 2;
             HandleName = "连接网络";

@@ -4,8 +4,21 @@ using System.IO;
 
 namespace Kit.Utils
 {
-    class Json
+    public class Json
     {
+        /// <summary>
+        /// 获取启动了应用程序的可执行文件的路径
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPath(string fileName)
+        {
+            string startupPath = Environment.CurrentDirectory;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return startupPath;
+            }
+            return Path.Combine(startupPath, fileName);
+        }
         /// <summary>
         /// 取得存储资源
         /// </summary>

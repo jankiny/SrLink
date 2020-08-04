@@ -1,4 +1,4 @@
-﻿namespace SRLink
+﻿namespace SRLink.From
 {
     partial class FRM_Main
     {
