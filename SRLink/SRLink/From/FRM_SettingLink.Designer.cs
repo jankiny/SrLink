@@ -172,7 +172,7 @@
             this.BTN_Save.Name = "BTN_Save";
             this.BTN_Save.Size = new System.Drawing.Size(75, 23);
             this.BTN_Save.TabIndex = 17;
-            this.BTN_Save.Text = "保存";
+            this.BTN_Save.Text = "应用";
             this.BTN_Save.UseVisualStyleBackColor = true;
             this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
             // 
@@ -186,7 +186,7 @@
             this.BTN_Test.UseVisualStyleBackColor = true;
             this.BTN_Test.Click += new System.EventHandler(this.BTN_Test_Click);
             // 
-            // FRM_Config_Link
+            // FRM_SettingLink
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -203,7 +203,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FRM_Config_Link";
+            this.Name = "FRM_SettingLink";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "配置连接";

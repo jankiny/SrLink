@@ -42,6 +42,11 @@ namespace SRLink
         /// 一天最晚连接时间（23:00）
         /// </summary>
         public const int NightNotLink = 23 * 60;
+
+        /// <summary>
+        /// 测试网络是否连通的测试网址
+        /// </summary>
+        public const string TestConnectionUrl = "www.baidu.com";
         #endregion
     }
 }

@@ -43,6 +43,7 @@ namespace SRLink.From
             {
                 WriteToBoard("第一次使用，请先到设置页输入认证账号等...");
                 ChangeStatus(EStatus.Error);
+                // 用Linked使软件不进入连接状态
                 this.Linked = true;
             }
             else
@@ -59,17 +60,26 @@ namespace SRLink.From
                 ChangeStatus(3, (Config.SettingMail.GetConfigReady() ? EStatus.Normal : EStatus.Error));
                 WriteToBoard("配置文件载入成功");
             }
-            this.Linked = Web.IsConnectInternet();
+            this.Linked = Web.IsConnectInternet(Global.TestConnectionUrl);
             if (this.Linked)
             {
                 WriteToBoard("检测到网络已连接");
                 ChangeStatus(2, EStatus.OK);
             }
         }
+
+        private void FRM_Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Log.SaveLog(this.TBX_Board.Text);
+        }
+
         // Config页面时间设置按钮
         private void BTN_Set_Click(object sender, EventArgs e)
         {
             Config.StartTime = this.DTP_StartTime.Value;
+            ConfigHandler.SaveConfig(ref Config);
+            this.TSP_SLB_Statu.Text = "保存成功";
+            this.TSP_SLB_Statu.ForeColor = Color.LimeGreen;
         }
 
         // CerifyConfig弹窗
@@ -111,6 +121,10 @@ namespace SRLink.From
         private void TMR_UpdateTime_Tick(object sender, EventArgs e)
         {
             this.TSP_SLB_Time.Text = DateTime.Now.ToString(Global.DateTimeFormatString);
+            if (!this.LinkProcess.Busy && this.TSP_SLB_Statu.Text != "欢迎使用")
+            {
+                this.TMR_ToolBarRetain.Enabled = true;
+            }
             if (!this.Linked &&
                 Config.EnableLink() &&
                 Ready.Count == 0)
@@ -155,6 +169,12 @@ namespace SRLink.From
                 this.LinkProcess.Thread = new Thread(Func);
                 this.LinkProcess.Thread.Start();
             }
+        }
+        private void TMR_ToolBarRetain_Tick(object sender, EventArgs e)
+        {
+            this.TSP_SLB_Statu.Text = "欢迎使用";
+            this.TSP_SLB_Statu.ForeColor = Color.Black;
+            this.TMR_ToolBarRetain.Enabled = false;
         }
 
         private void BTN_Start_Click(object sender, EventArgs e)
@@ -221,6 +241,10 @@ namespace SRLink.From
         // 托管的方法
         void Func()
         {
+            if (Ready.Count == 0)
+            {
+                WriteToBoard("当前配置不可用");
+            }
             while (Ready.Count != 0)
             {
                 HandlerBase handler = Ready.Dequeue();
@@ -420,6 +444,5 @@ namespace SRLink.From
             this.LBL_MailEnable.ForeColor = (settingMail.GetConfigReady() ? Color.LimeGreen : Color.Red);
         }
         #endregion
-
     }
 }
