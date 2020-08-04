@@ -67,7 +67,7 @@
             this.DTP_StartTime = new System.Windows.Forms.DateTimePicker();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label8 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.LBL_Version = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.TMR_Handle = new System.Windows.Forms.Timer(this.components);
@@ -294,7 +294,6 @@
             this.TBX_Board.Size = new System.Drawing.Size(416, 187);
             this.TBX_Board.TabIndex = 0;
             this.TBX_Board.TabStop = false;
-            this.TBX_Board.Text = "time: message";
             // 
             // tabPage2
             // 
@@ -471,7 +470,7 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.label8);
-            this.tabPage3.Controls.Add(this.label6);
+            this.tabPage3.Controls.Add(this.LBL_Version);
             this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -490,14 +489,14 @@
             this.label8.TabIndex = 1;
             this.label8.Text = "Jankiny";
             // 
-            // label6
+            // LBL_Version
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(80, 55);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(119, 12);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "v2.0.0_200629_alpha";
+            this.LBL_Version.AutoSize = true;
+            this.LBL_Version.Location = new System.Drawing.Point(80, 55);
+            this.LBL_Version.Name = "LBL_Version";
+            this.LBL_Version.Size = new System.Drawing.Size(119, 12);
+            this.LBL_Version.TabIndex = 1;
+            this.LBL_Version.Text = "vX.X.X_yymmdd_alpha";
             // 
             // label7
             // 
@@ -535,6 +534,7 @@
             this.ClientSize = new System.Drawing.Size(454, 315);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FRM_Main";
             this.Text = "树大网络AutoLink";
             this.Load += new System.EventHandler(this.FRM_Main_Load);
@@ -597,7 +597,7 @@
         private System.Windows.Forms.Label LBL_Line2;
         private System.Windows.Forms.Label LBL_Line1;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label LBL_Version;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;

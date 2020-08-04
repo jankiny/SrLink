@@ -29,8 +29,9 @@ namespace SRLink
 
         private void FRM_Main_Load(object sender, EventArgs e)
         {
-            this.TBX_Board.Text = Global.WelcomeWord;
             this.TSP_SLB_Time.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+            this.TBX_Board.Text = string.Format("{0}[{1}]" + Environment.NewLine,  Global.SoftwareName, Global.Version);
+            this.LBL_Version.Text = Global.Version;
             if (!Config.HasConfig())
             {
                 WriteToBoard("第一次使用，请先到设置页输入认证账号等...");
@@ -46,7 +47,6 @@ namespace SRLink
             }
             else
             {
-                WriteToBoard("载入配置文件...");
                 this.DTP_StartTime.Value = Config.Start_Time;
                 Setting_Certify Setting_Certify = Config.Setting_Certify;
                 UpdateConfig(Setting_Certify);
@@ -180,6 +180,62 @@ namespace SRLink
         }
         #endregion
 
+        #region Handler辅助函数
+        void RefreshQueue()
+        {
+            if (Ready.Count != 0)
+            {
+                Ready.Clear();
+            }
+            CertifyHandler certifyHandler = new CertifyHandler(Config.Setting_Certify, 60, 3000, EHandler.Work);
+            certifyHandler.RegisteUI(this.PBX_Certify);
+            if (certifyHandler.Ready())
+            {
+                Ready.Enqueue(certifyHandler);
+            }
+            LinkHandler linkHandler = new LinkHandler(Config.Setting_Link, 60, 3000, EHandler.Work);
+            linkHandler.RegisteUI(this.PBX_Link, this.LBL_Line1);
+            if (linkHandler.Ready())
+            {
+                Ready.Enqueue(linkHandler);
+            }
+            MailHandler mailHandler = new MailHandler(Config.Setting_Mail, 60, 3000, EHandler.Work);
+            mailHandler.RegisteUI(this.PBX_Mail, this.LBL_Line2);
+            if (mailHandler.Ready())
+            {
+                Ready.Enqueue(mailHandler);
+            }
+        }
+        // 托管的方法
+        void Func()
+        {
+            while (Ready.Count != 0)
+            {
+                HandlerBase handler = Ready.Dequeue();
+                Runing.Add(handler.Line);
+                WriteToBoard("尝试" + handler.HandleName);
+                int count = 1;
+                while (!handler.Run(out string msg))
+                {
+                    if (count == handler.Count)
+                    {
+                        WriteToBoard("第" + count + "次认证失败[" + msg + "] 停止认证。");
+                        return;
+                    }
+                    WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。",
+                        count, handler.HandleName, msg, handler.Delay / 1000));
+                    count++;
+                    Thread.Sleep(handler.Delay);
+                }
+                Runing.Clear();
+                ChangeStatus(handler.ID, EStatus.OK);
+                WriteToBoard(handler.HandleName + "成功！");
+            }
+            this.TMR_Handle.Enabled = false;
+            this.Busy = false;
+        }
+        #endregion
+
         #region 提示信息
         /// <summary>
         /// 将message显示到Board上
@@ -208,7 +264,7 @@ namespace SRLink
             {
                 ClearMsg();
             }
-            this.TBX_Board.AppendText(string.Format("{0}: {1}", this.TSP_SLB_Time.Text, msg));
+            this.TBX_Board.AppendText(string.Format("{0}: {1}", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), msg));
             if (!msg.EndsWith(Environment.NewLine))
             {
                 this.TBX_Board.AppendText(Environment.NewLine);
@@ -309,62 +365,6 @@ namespace SRLink
             this.LBL_MailEnable.Text = (config_Mail.GetConfigReady() ? "就绪" : "未就绪");
             this.LBL_MailEnable.ForeColor = (config_Mail.GetConfigReady() ? Color.LimeGreen : Color.Red);
         }
-        #endregion
-
-        #region Handler辅助函数
-        void RefreshQueue()
-        {
-            if (Ready.Count != 0)
-            {
-                Ready.Clear();
-            }
-            CertifyHandler certifyHandler = new CertifyHandler(Config.Setting_Certify, 60, 3000, EHandler.Work);
-            certifyHandler.RegisteUI(this.PBX_Certify);
-            if (certifyHandler.Ready())
-            {
-                Ready.Enqueue(certifyHandler);
-            }
-            LinkHandler linkHandler = new LinkHandler(Config.Setting_Link, 60, 3000, EHandler.Work);
-            linkHandler.RegisteUI(this.PBX_Link, this.LBL_Line1);
-            if (linkHandler.Ready())
-            {
-                Ready.Enqueue(linkHandler);
-            }
-            MailHandler mailHandler = new MailHandler(Config.Setting_Mail, 60, 3000, EHandler.Work);
-            mailHandler.RegisteUI(this.PBX_Mail, this.LBL_Line2);
-            if (mailHandler.Ready())
-            {
-                Ready.Enqueue(mailHandler);
-            }
-        }
-        // 托管的方法
-        void Func()
-        {
-            while (Ready.Count != 0)
-            {
-                HandlerBase handler = Ready.Dequeue();
-                Runing.Add(handler.Line);
-                WriteToBoard("尝试" + handler.HandleName);
-                int count = 1;
-                while (!handler.Run(out string msg))
-                {
-                    if (count == handler.Count)
-                    {
-                        WriteToBoard("第" + count + "次认证失败[" + msg + "] 停止认证。");
-                        return;
-                    }
-                    WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。", 
-                        count, handler.HandleName, msg, handler.Delay / 1000));
-                    count++;
-                    Thread.Sleep(handler.Delay);
-                }
-                Runing.Clear();
-                ChangeStatus(handler.ID, EStatus.OK);
-                WriteToBoard(handler.HandleName + "成功！");
-            }
-            this.TMR_Handle.Enabled = false;
-            this.Busy = false;
-        }       
         #endregion
 
     }

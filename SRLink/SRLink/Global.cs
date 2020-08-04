@@ -4,10 +4,10 @@
     {
         #region 常量
         /// <summary>
-        /// Welcome Words
+        /// info
         /// </summary>
-        public const string WelcomeWord = "欢迎使用AutoLink";
-        //public const string HintWord_FirstUse = "第一次使用，请先到设置页输入认证账号等...";
+        public const string SoftwareName = "SRLink";
+        public const string Version = "v2.0.0_200629_alpha";
 
         /// <summary>
         /// 校园认证地址

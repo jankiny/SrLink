@@ -27,7 +27,7 @@ namespace SRLink.Handler
                 return false;
             }
             string param = string.Format(Global.Certify_UrlParam,
-                Setting.StudentID, Web.ToBase64String(Setting.Password));
+                Setting.StudentID, Encrypt.Base64Encode(Setting.Password));
 
             string res = Web.PostWebRequest(Global.Certify_Url, param, 107, Encoding.UTF8);
 
