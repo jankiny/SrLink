@@ -54,7 +54,7 @@
             this.BTN_Save.Name = "BTN_Save";
             this.BTN_Save.Size = new System.Drawing.Size(75, 23);
             this.BTN_Save.TabIndex = 13;
-            this.BTN_Save.Text = "保存";
+            this.BTN_Save.Text = "应用";
             this.BTN_Save.UseVisualStyleBackColor = true;
             this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
             // 
@@ -129,7 +129,7 @@
             this.TMR_ReSent.Interval = 1000;
             this.TMR_ReSent.Tick += new System.EventHandler(this.TMR_ReSent_Tick);
             // 
-            // FRM_Config_Mail
+            // FRM_SettingMail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -146,7 +146,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FRM_Config_Mail";
+            this.Name = "FRM_SettingMail";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "配置邮箱";

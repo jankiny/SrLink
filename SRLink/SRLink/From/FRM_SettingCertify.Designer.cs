@@ -92,7 +92,7 @@
             this.BTN_Save.Name = "BTN_Save";
             this.BTN_Save.Size = new System.Drawing.Size(75, 23);
             this.BTN_Save.TabIndex = 5;
-            this.BTN_Save.Text = "保存";
+            this.BTN_Save.Text = "应用";
             this.BTN_Save.UseVisualStyleBackColor = true;
             this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
             // 
@@ -111,7 +111,7 @@
             this.TBX_Password.TabIndex = 3;
             this.TBX_Password.UseSystemPasswordChar = true;
             // 
-            // FRM_Config_Certify
+            // FRM_SettingCertify
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -127,7 +127,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FRM_Config_Certify";
+            this.Name = "FRM_SettingCertify";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "配置认证";

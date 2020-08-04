@@ -60,7 +60,7 @@ namespace SRLink.Handler
         }
         public bool IsConnectInternet()
         {
-            return Web.IsConnectInternet();
+            return Web.IsConnectInternet(Global.TestConnectionUrl);
         }
         public override void RegisteUI(PictureBox picture, Label label)
         {

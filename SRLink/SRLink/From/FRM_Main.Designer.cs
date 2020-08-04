@@ -50,10 +50,11 @@
             this.BTN_Start = new System.Windows.Forms.Button();
             this.TBX_Board = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.BTN_Set = new System.Windows.Forms.Button();
             this.LBL_LinkInfo = new System.Windows.Forms.Label();
             this.LBL_MailInfo = new System.Windows.Forms.Label();
             this.LBL_CertifyInfo = new System.Windows.Forms.Label();
-            this.BTN_Set = new System.Windows.Forms.Button();
             this.BTN_MailConfig = new System.Windows.Forms.Button();
             this.BTN_LinkConfig = new System.Windows.Forms.Button();
             this.BTN_CerifyConfig = new System.Windows.Forms.Button();
@@ -72,6 +73,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.TMR_Handle = new System.Windows.Forms.Timer(this.components);
             this.TMR_UpdateTime = new System.Windows.Forms.Timer(this.components);
+            this.TMR_ToolBarRetain = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -82,6 +84,7 @@
             this.PNL_Step1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PBX_Certify)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -297,10 +300,10 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Controls.Add(this.LBL_LinkInfo);
             this.tabPage2.Controls.Add(this.LBL_MailInfo);
             this.tabPage2.Controls.Add(this.LBL_CertifyInfo);
-            this.tabPage2.Controls.Add(this.BTN_Set);
             this.tabPage2.Controls.Add(this.BTN_MailConfig);
             this.tabPage2.Controls.Add(this.BTN_LinkConfig);
             this.tabPage2.Controls.Add(this.BTN_CerifyConfig);
@@ -320,6 +323,25 @@
             this.tabPage2.Text = "设置";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.BTN_Set);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(3, 208);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(416, 41);
+            this.panel1.TabIndex = 12;
+            // 
+            // BTN_Set
+            // 
+            this.BTN_Set.Location = new System.Drawing.Point(317, 9);
+            this.BTN_Set.Name = "BTN_Set";
+            this.BTN_Set.Size = new System.Drawing.Size(57, 23);
+            this.BTN_Set.TabIndex = 10;
+            this.BTN_Set.Text = "设置";
+            this.BTN_Set.UseVisualStyleBackColor = true;
+            this.BTN_Set.Click += new System.EventHandler(this.BTN_Set_Click);
+            // 
             // LBL_LinkInfo
             // 
             this.LBL_LinkInfo.AutoSize = true;
@@ -334,7 +356,7 @@
             // 
             this.LBL_MailInfo.AutoSize = true;
             this.LBL_MailInfo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.LBL_MailInfo.Location = new System.Drawing.Point(156, 56);
+            this.LBL_MailInfo.Location = new System.Drawing.Point(156, 160);
             this.LBL_MailInfo.Name = "LBL_MailInfo";
             this.LBL_MailInfo.Size = new System.Drawing.Size(53, 12);
             this.LBL_MailInfo.TabIndex = 11;
@@ -350,19 +372,9 @@
             this.LBL_CertifyInfo.TabIndex = 11;
             this.LBL_CertifyInfo.Text = "连接账号（验证状态）";
             // 
-            // BTN_Set
-            // 
-            this.BTN_Set.Location = new System.Drawing.Point(288, 17);
-            this.BTN_Set.Name = "BTN_Set";
-            this.BTN_Set.Size = new System.Drawing.Size(57, 23);
-            this.BTN_Set.TabIndex = 10;
-            this.BTN_Set.Text = "保存";
-            this.BTN_Set.UseVisualStyleBackColor = true;
-            this.BTN_Set.Click += new System.EventHandler(this.BTN_Set_Click);
-            // 
             // BTN_MailConfig
             // 
-            this.BTN_MailConfig.Location = new System.Drawing.Point(320, 51);
+            this.BTN_MailConfig.Location = new System.Drawing.Point(320, 155);
             this.BTN_MailConfig.Name = "BTN_MailConfig";
             this.BTN_MailConfig.Size = new System.Drawing.Size(25, 23);
             this.BTN_MailConfig.TabIndex = 10;
@@ -394,7 +406,7 @@
             // 
             this.LBL_MailEnable.AutoSize = true;
             this.LBL_MailEnable.ForeColor = System.Drawing.Color.Red;
-            this.LBL_MailEnable.Location = new System.Drawing.Point(357, 56);
+            this.LBL_MailEnable.Location = new System.Drawing.Point(357, 160);
             this.LBL_MailEnable.Name = "LBL_MailEnable";
             this.LBL_MailEnable.Size = new System.Drawing.Size(41, 12);
             this.LBL_MailEnable.TabIndex = 9;
@@ -423,7 +435,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 56);
+            this.label4.Location = new System.Drawing.Point(26, 160);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(101, 12);
             this.label4.TabIndex = 6;
@@ -527,6 +539,11 @@
             this.TMR_UpdateTime.Interval = 500;
             this.TMR_UpdateTime.Tick += new System.EventHandler(this.TMR_UpdateTime_Tick);
             // 
+            // TMR_ToolBarRetain
+            // 
+            this.TMR_ToolBarRetain.Interval = 3000;
+            this.TMR_ToolBarRetain.Tick += new System.EventHandler(this.TMR_ToolBarRetain_Tick);
+            // 
             // FRM_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -537,6 +554,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FRM_Main";
             this.Text = "树大网络AutoLink";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FRM_Main_FormClosing);
             this.Load += new System.EventHandler(this.FRM_Main_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -554,6 +572,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PBX_Certify)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
@@ -606,6 +625,8 @@
         private System.Windows.Forms.PictureBox PBX_Mail;
         private System.Windows.Forms.PictureBox PBX_Link;
         private System.Windows.Forms.Timer TMR_UpdateTime;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Timer TMR_ToolBarRetain;
     }
 }
 

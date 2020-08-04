@@ -211,15 +211,25 @@ namespace Kit.Utils
         /// 判断是否有网
         /// </summary>
         /// <returns>true为有网，false为无网</returns>
-        public static bool IsConnectInternet()
+        public static bool IsConnectInternet(string url)
         {
-            Ping p = new Ping();
-            PingReply pr2 = p.Send("www.baidu.com");
-            if (pr2.Status == IPStatus.Success)
+            bool isconn = true;
+            Ping ping = new Ping();
+            try
             {
-                return true;
+                PingReply pr;
+                pr = ping.Send(url);
+                if (pr.Status != IPStatus.Success)
+                {
+                    isconn = false;
+                }
             }
-            return false;
+            catch
+            {
+                // 如果没有联网，直接ping网页的Url会出现异常：不知道这样的主机
+                isconn = false;
+            }
+            return isconn;
         }
         #endregion
     }
