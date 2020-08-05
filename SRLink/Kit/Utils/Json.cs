@@ -21,8 +21,9 @@ namespace Kit.Utils
                     result = reader.ReadToEnd();
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("LoadResource", e);
             }
             return result;
         }
@@ -40,8 +41,9 @@ namespace Kit.Utils
                 T obj = JsonConvert.DeserializeObject<T>(strJson);
                 return obj;
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("FromJson<T>", e);
                 return JsonConvert.DeserializeObject<T>("");
             }
         }
@@ -60,8 +62,9 @@ namespace Kit.Utils
                     Formatting.Indented,
                     new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("ToJson", e);
             }
             return result;
         }
@@ -87,8 +90,9 @@ namespace Kit.Utils
                 }
                 result = 0;
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("ToJsonFile", e);
                 result = -1;
             }
             return result;

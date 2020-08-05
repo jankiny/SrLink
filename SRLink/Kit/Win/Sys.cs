@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Kit.Utils;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -19,8 +20,9 @@ namespace Kit.Win
                 string exePath = Process.GetCurrentProcess().MainModule.FileName;
                 RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("SetAutoRun", e);
             }
         }
 
@@ -39,8 +41,9 @@ namespace Kit.Win
                     return true;
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("IsAutoRun", e);
             }
             return false;
         }
@@ -50,7 +53,7 @@ namespace Kit.Win
         /// </summary>
         /// <param name="path">程序位置</param>
         /// <returns></returns>
-        public static bool Run(string path)
+        public static bool RunExeFile(string path)
         {
             try
             {
@@ -61,8 +64,9 @@ namespace Kit.Win
                     return false;
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.SaveLog("RunExeFile", e);
                 return false;
             }
         }
@@ -73,7 +77,8 @@ namespace Kit.Win
         /// <returns></returns>
         public static string GetPath(string fileName)
         {
-            // 问题：开机启动时，Environment.CurrentDirectory不能获取到应用程序的目录
+            // 问题：开机启动时，Environment.CurrentDirectory不能获取到应用程序的目录。
+            // 先直接在窗体应用里使用 Application
             string startupPath = Environment.CurrentDirectory;
             if (string.IsNullOrEmpty(fileName))
             {
@@ -86,7 +91,7 @@ namespace Kit.Win
         {
             return Path.Combine(filePath, fileName);
         }
-
+        #region 注册表
         public static void RegWriteValue(string path, string name, string value)
         {
             RegistryKey regKey = null;
@@ -102,8 +107,9 @@ namespace Kit.Win
                     regKey?.SetValue(name, value);
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("RegWriteValue", e);
             }
             finally
             {
@@ -126,8 +132,9 @@ namespace Kit.Win
                     return value;
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("RegReadValue", e);
             }
             finally
             {
@@ -135,5 +142,6 @@ namespace Kit.Win
             }
             return def;
         }
+        #endregion
     }
 }

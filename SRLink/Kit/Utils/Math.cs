@@ -13,10 +13,17 @@ namespace Kit.Utils
         public static string GenerateRandomString(int length)
         {
             string checkCode = String.Empty;
-            Random rd = new Random();
-            for (int i = 0; i < length; i++)
+            try
             {
-                checkCode += constant[rd.Next(36)].ToString().ToUpper();
+                Random rd = new Random();
+                for (int i = 0; i < length; i++)
+                {
+                    checkCode += constant[rd.Next(36)].ToString().ToUpper();
+                }
+            }
+            catch(Exception e)
+            {
+                Log.SaveLog("GenerateRandomString", e);
             }
             return checkCode;
         }

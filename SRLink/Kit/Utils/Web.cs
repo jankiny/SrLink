@@ -39,8 +39,9 @@ namespace Kit.Utils
                 smtp.Send(message); 
                 return true;
             }
-            catch
+            catch(Exception e)
             {
+                Log.SaveLog("SendMail", e);
                 return false;
             }
         }
@@ -83,7 +84,7 @@ namespace Kit.Utils
             }
             catch (Exception e)
             {
-                return e.Message;
+                Log.SaveLog("PostWebRequestByJson", e);
             }
             return responseContent;
         }
@@ -125,9 +126,9 @@ namespace Kit.Utils
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return ex.Message;
+                Log.SaveLog("PostWebRequest", e);
             }
             return responseContent;
         }
@@ -151,26 +152,34 @@ namespace Kit.Utils
         /// <returns></returns>
         private static bool LocalConnectionStatus()
         {
-            System.Int32 dwFlag = new Int32();
-            if (!InternetGetConnectedState(ref dwFlag, 0))
+            try
             {
-                //Console.WriteLine("LocalConnectionStatus--未连网!");
+                System.Int32 dwFlag = new Int32();
+                if (!InternetGetConnectedState(ref dwFlag, 0))
+                {
+                    //Console.WriteLine("LocalConnectionStatus--未连网!");
+                    return false;
+                }
+                else
+                {
+                    if ((dwFlag & INTERNET_CONNECTION_MODEM) != 0)
+                    {
+                        //Console.WriteLine("LocalConnectionStatus--采用调制解调器上网。");
+                        return true;
+                    }
+                    else if ((dwFlag & INTERNET_CONNECTION_LAN) != 0)
+                    {
+                        //Console.WriteLine("LocalConnectionStatus--采用网卡上网。");
+                        return true;
+                    }
+                }
                 return false;
             }
-            else
+            catch(Exception e)
             {
-                if ((dwFlag & INTERNET_CONNECTION_MODEM) != 0)
-                {
-                    //Console.WriteLine("LocalConnectionStatus--采用调制解调器上网。");
-                    return true;
-                }
-                else if ((dwFlag & INTERNET_CONNECTION_LAN) != 0)
-                {
-                    //Console.WriteLine("LocalConnectionStatus--采用网卡上网。");
-                    return true;
-                }
+                Log.SaveLog("InternetGetConnectedState", e);
+                return false;
             }
-            return false;
         }
 
         /// <summary>
@@ -198,10 +207,11 @@ namespace Kit.Utils
                     Console.WriteLine("Ping " + urls[i] + "    " + pr.Status.ToString());
                 }
             }
-            catch
+            catch(Exception e)
             {
                 isconn = false;
                 errorCount = urls.Length;
+                Log.SaveLog("IsConnectInternet", e);
             }
             //if (errorCount > 0 && errorCount < 3)
             //  isconn = true;
@@ -224,10 +234,11 @@ namespace Kit.Utils
                     isconn = false;
                 }
             }
-            catch
+            catch(Exception e)
             {
-                // 如果没有联网，直接ping网页的Url会出现异常：不知道这样的主机
                 isconn = false;
+                // 如果没有联网，直接ping网页的Url会报异常：不知道这样的主机
+                Log.SaveLog("IsConnectInternet", e);
             }
             return isconn;
         }

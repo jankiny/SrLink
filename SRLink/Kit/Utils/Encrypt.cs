@@ -18,9 +18,9 @@ namespace Kit.Utils
                 byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
                 return Convert.ToBase64String(plainTextBytes);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Log.SaveLog("Base64Encode", ex);
+                Log.SaveLog("Base64Encode", e);
                 return string.Empty;
             }
         }

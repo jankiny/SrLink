@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kit.Utils;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -44,28 +45,32 @@ namespace Kit.Win
             IntPtr mwh = IntPtr.Zero;
             bool formFound = false;
             int attempts = 0;
-            while (!formFound && attempts < maxTries)
+            try
             {
-                if (mwh == IntPtr.Zero)
+                while (!formFound && attempts < maxTries)
                 {
-                    Thread.Sleep(delay);
-                    ++attempts;
-                    mwh = FindWindow(null, caption);
+                    if (mwh == IntPtr.Zero)
+                    {
+                        Thread.Sleep(delay);
+                        ++attempts;
+                        mwh = FindWindow(null, caption);
+                    }
+                    else
+                    {
+                        formFound = true;
+                    }
                 }
-                else
-                {
-                    formFound = true;
-                }
-            }
 
-            if (mwh == IntPtr.Zero)
-                //throw new Exception("Could not find main window");
-                return mwh;
-            else
-                return mwh;
+                if (mwh == IntPtr.Zero)
+                    throw new Exception("Could not find main window");
+            }
+            catch(Exception e)
+            {
+                Log.SaveLog("FindMainWindowHandle", e);
+            }
+            return mwh;
         }
 
-        // :需要调用方法GetWindowRect(IntPtr hWnd, ref RECT lpRect)
         /// <summary>
         /// 获取窗口大小及位置
         /// </summary>
@@ -152,16 +157,23 @@ namespace Kit.Win
         /// <returns></returns>
         public static bool PerformClick(string title, string button_text)
         {
-            IntPtr mainWindows = FindMainWindowHandle(title, 100, 25);
+            try
+            {
+                IntPtr mainWindows = FindMainWindowHandle(title, 100, 25);
 
-            //Console.WriteLine("Findding handle to button1");
-            IntPtr butt = FindWindowEx(mainWindows, IntPtr.Zero, null, button_text);
-            if (butt == IntPtr.Zero)
-                //throw new Exception("Unable to find button1");
+                //Console.WriteLine("Findding handle to button1");
+                IntPtr butt = FindWindowEx(mainWindows, IntPtr.Zero, null, button_text);
+                if (butt == IntPtr.Zero)
+                    throw new Exception("Unable to find button");
+                SendMessage(butt, BM_CLICK, 0, 0);
+                SendMessage(butt, BM_CLICK, 0, 0);
+                return true;
+            }
+            catch(Exception e)
+            {
+                Log.SaveLog("PerformClick", e);
                 return false;
-            SendMessage(butt, BM_CLICK, 0, 0);
-            SendMessage(butt, BM_CLICK, 0, 0);
-            return true;
+            }
         }
 
         /// <summary>
@@ -170,23 +182,32 @@ namespace Kit.Win
         /// <param name="title">窗体名</param>
         /// <param name="x">相对于左上角，点击的x坐标</param>
         /// <param name="y">相对于左上角，点击的y坐标</param>
-        public static void PerformClick(string title, int x, int y)
+        public static bool PerformClick(string title, int x, int y)
         {
-            IntPtr mainWindows = FindMainWindowHandle(title, 100, 25);
-            RECT rect = new RECT();
-            GetWindowRect(mainWindows, ref rect);
-            x += rect.Left;
-            y += rect.Top;
-            GetCursorPos(out POINT p);
             try
             {
-                SetCursorPos(x, y);
-                mouse_event((int)(MouseEventFlags.LeftDown | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
-                mouse_event((int)(MouseEventFlags.LeftUp | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                IntPtr mainWindows = FindMainWindowHandle(title, 100, 25);
+                RECT rect = new RECT();
+                GetWindowRect(mainWindows, ref rect);
+                x += rect.Left;
+                y += rect.Top;
+                GetCursorPos(out POINT p);
+                try
+                {
+                    SetCursorPos(x, y);
+                    mouse_event((int)(MouseEventFlags.LeftDown | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                    mouse_event((int)(MouseEventFlags.LeftUp | MouseEventFlags.Absolute), 0, 0, 0, IntPtr.Zero);
+                }
+                finally
+                {
+                    SetCursorPos(p.X, p.Y);
+                }
+                return true;
             }
-            finally
+            catch(Exception e)
             {
-                SetCursorPos(p.X, p.Y);
+                Log.SaveLog("PerformClick", e);
+                return false;
             }
         }
     }
