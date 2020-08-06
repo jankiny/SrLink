@@ -68,7 +68,7 @@ namespace SRLink.From
             if (this.Linked)
             {
                 WriteToBoard("检测到网络已连接");
-                ChangeStatus(2, EStatus.OK);
+                //ChangeStatus(2, EStatus.OK);
             }
         }
 
@@ -455,6 +455,11 @@ namespace SRLink.From
         private void CHK_AutoRun_CheckedChanged(object sender, EventArgs e)
         {
             Config.AutoRun = this.CHK_AutoRun.Checked;
+        }
+
+        private void LBL_DescriptionLink_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/jankiny/SRLink");
         }
     }
 }
