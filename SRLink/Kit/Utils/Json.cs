@@ -7,19 +7,6 @@ namespace Kit.Utils
     public class Json
     {
         /// <summary>
-        /// 获取启动了应用程序的可执行文件的路径
-        /// </summary>
-        /// <returns></returns>
-        public static string GetPath(string fileName)
-        {
-            string startupPath = Environment.CurrentDirectory;
-            if (string.IsNullOrEmpty(fileName))
-            {
-                return startupPath;
-            }
-            return Path.Combine(startupPath, fileName);
-        }
-        /// <summary>
         /// 取得存储资源
         /// </summary>
         /// <returns></returns>
@@ -34,8 +21,9 @@ namespace Kit.Utils
                     result = reader.ReadToEnd();
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Log.SaveLog("LoadResource", e);
             }
             return result;
         }
@@ -53,8 +41,9 @@ namespace Kit.Utils
                 T obj = JsonConvert.DeserializeObject<T>(strJson);
                 return obj;
             }
-            catch
+            catch (Exception e)
             {
+                Log.SaveLog("FromJson<T>", e);
                 return JsonConvert.DeserializeObject<T>("");
             }
         }
@@ -73,8 +62,9 @@ namespace Kit.Utils
                     Formatting.Indented,
                     new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             }
-            catch
+            catch (Exception e)
             {
+                Log.SaveLog("ToJson", e);
             }
             return result;
         }
@@ -100,8 +90,9 @@ namespace Kit.Utils
                 }
                 result = 0;
             }
-            catch
+            catch (Exception e)
             {
+                Log.SaveLog("ToJsonFile", e);
                 result = -1;
             }
             return result;

@@ -30,12 +30,12 @@ namespace SRLink.Handler
         public virtual void RegisteUI(PictureBox picture)
         {
             // 备注：实际上注册的PictureBox没有被用到
-            this.Picture = picture;
+            Picture = picture;
         }
         public virtual void RegisteUI(PictureBox picture, Label label)
         {
-            this.Picture = picture;
-            this.Line = label;
+            Picture = picture;
+            Line = label;
         }
     }
 }

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Kit.Utils
 {
@@ -31,16 +28,17 @@ namespace Kit.Utils
                     //创建用户凭证
                     Credentials = new NetworkCredential(user, pwd),
                     //使用网络传送
-                    DeliveryMethod = SmtpDeliveryMethod.Network 
+                    DeliveryMethod = SmtpDeliveryMethod.Network
                 };
                 //创建邮件
                 MailMessage message = new MailMessage(user, address, title, context);
                 //发送邮件
-                smtp.Send(message); 
+                smtp.Send(message);
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Log.SaveLog("SendMail", e);
                 return false;
             }
         }
@@ -83,7 +81,7 @@ namespace Kit.Utils
             }
             catch (Exception e)
             {
-                return e.Message;
+                Log.SaveLog("PostWebRequestByJson", e);
             }
             return responseContent;
         }
@@ -106,7 +104,7 @@ namespace Kit.Utils
                 webReq.Timeout = 3000;
 
                 byte[] byteArray = dataEncode.GetBytes(paramData); //转化
-                webReq.Accept = "application/json, text/javascript, */*; q=0.01"; 
+                webReq.Accept = "application/json, text/javascript, */*; q=0.01";
                 webReq.ContentLength = contentLength;
 
                 using (Stream reqStream = webReq.GetRequestStream())
@@ -125,9 +123,9 @@ namespace Kit.Utils
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return ex.Message;
+                Log.SaveLog("PostWebRequest", e);
             }
             return responseContent;
         }
@@ -144,33 +142,41 @@ namespace Kit.Utils
         /// <returns></returns>
         [DllImport("wininet.dll")]
         private static extern bool InternetGetConnectedState(ref int dwFlag, int dwReserved);
-        
+
         /// <summary>
         /// 判断本地的连接状态
         /// </summary>
         /// <returns></returns>
         private static bool LocalConnectionStatus()
         {
-            System.Int32 dwFlag = new Int32();
-            if (!InternetGetConnectedState(ref dwFlag, 0))
+            try
             {
-                //Console.WriteLine("LocalConnectionStatus--未连网!");
+                System.Int32 dwFlag = new Int32();
+                if (!InternetGetConnectedState(ref dwFlag, 0))
+                {
+                    //Console.WriteLine("LocalConnectionStatus--未连网!");
+                    return false;
+                }
+                else
+                {
+                    if ((dwFlag & INTERNET_CONNECTION_MODEM) != 0)
+                    {
+                        //Console.WriteLine("LocalConnectionStatus--采用调制解调器上网。");
+                        return true;
+                    }
+                    else if ((dwFlag & INTERNET_CONNECTION_LAN) != 0)
+                    {
+                        //Console.WriteLine("LocalConnectionStatus--采用网卡上网。");
+                        return true;
+                    }
+                }
                 return false;
             }
-            else
+            catch (Exception e)
             {
-                if ((dwFlag & INTERNET_CONNECTION_MODEM) != 0)
-                {
-                    //Console.WriteLine("LocalConnectionStatus--采用调制解调器上网。");
-                    return true;
-                }
-                else if ((dwFlag & INTERNET_CONNECTION_LAN) != 0)
-                {
-                    //Console.WriteLine("LocalConnectionStatus--采用网卡上网。");
-                    return true;
-                }
+                Log.SaveLog("InternetGetConnectedState", e);
+                return false;
             }
-            return false;
         }
 
         /// <summary>
@@ -198,10 +204,11 @@ namespace Kit.Utils
                     Console.WriteLine("Ping " + urls[i] + "    " + pr.Status.ToString());
                 }
             }
-            catch
+            catch (Exception e)
             {
                 isconn = false;
                 errorCount = urls.Length;
+                Log.SaveLog("IsConnectInternet", e);
             }
             //if (errorCount > 0 && errorCount < 3)
             //  isconn = true;
@@ -224,10 +231,11 @@ namespace Kit.Utils
                     isconn = false;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // 如果没有联网，直接ping网页的Url会出现异常：不知道这样的主机
                 isconn = false;
+                // 如果没有联网，直接ping网页的Url会报异常：不知道这样的主机
+                Log.SaveLog("IsConnectInternet", e);
             }
             return isconn;
         }

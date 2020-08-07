@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+// 引用了Forms; Application需要
+using System.Windows.Forms;
 
 namespace Kit.Utils
 {
@@ -9,7 +11,8 @@ namespace Kit.Utils
         {
             try
             {
-                string path = Path.Combine(Environment.CurrentDirectory, "Logs");
+                //string path = Path.Combine(Environment.CurrentDirectory, "Logs");
+                string path = Path.Combine(Application.StartupPath, "Logs");
                 string filePath = Path.Combine(path, DateTime.Now.ToString("yyyyMM") + ".txt");
                 if (!Directory.Exists(path))
                 {
@@ -37,8 +40,8 @@ namespace Kit.Utils
         {
             try
             {
-                //string path = Path.Combine(Application.StartupPath, "Logs");
-                string path = Path.Combine(Environment.CurrentDirectory, "Logs");
+                //string path = Path.Combine(Environment.CurrentDirectory, "Logs");
+                string path = Path.Combine(Application.StartupPath, "Logs");
                 string filePath = Path.Combine(path, DateTime.Now.ToString("@yyyyMMdd-Exception") + ".txt");
                 if (!Directory.Exists(path))
                 {
