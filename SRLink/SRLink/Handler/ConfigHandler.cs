@@ -1,14 +1,14 @@
-﻿using System;
-using SRLink.Model;
-using Kit.Utils;
+﻿using Kit.Utils;
 using Kit.Win;
+using SRLink.Model;
+using System;
 using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
     public class ConfigHandler
     {
-        private static string configPath = Global.ConfigFileName;
+        private static readonly string configPath = Global.ConfigFileName;
 
         /// <summary>
         /// 载入配置文件

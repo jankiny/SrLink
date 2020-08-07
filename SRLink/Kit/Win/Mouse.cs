@@ -1,9 +1,5 @@
 ﻿using Kit.Utils;
 using System;
-using System.Diagnostics;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -19,7 +15,7 @@ namespace Kit.Win
         /// <param name="lpWindowName">窗口标题</param>
         /// <returns></returns>
         [DllImport("user32.dll", EntryPoint = "FindWindow", CharSet = CharSet.Auto)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         /// <summary>
         /// 找到子窗口
@@ -30,7 +26,7 @@ namespace Kit.Win
         /// <param name="lpszWindow">窗口标题</param>
         /// <returns></returns>
         [DllImport("user32.dll", EntryPoint = "FindWindowEx", CharSet = CharSet.Auto)]
-        extern static IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+        private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
 
         /// <summary>
@@ -64,7 +60,7 @@ namespace Kit.Win
                 if (mwh == IntPtr.Zero)
                     throw new Exception("Could not find main window");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.SaveLog("FindMainWindowHandle", e);
             }
@@ -79,7 +75,7 @@ namespace Kit.Win
         /// <returns></returns>
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        private static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
@@ -169,7 +165,7 @@ namespace Kit.Win
                 SendMessage(butt, BM_CLICK, 0, 0);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.SaveLog("PerformClick", e);
                 return false;
@@ -204,7 +200,7 @@ namespace Kit.Win
                 }
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.SaveLog("PerformClick", e);
                 return false;

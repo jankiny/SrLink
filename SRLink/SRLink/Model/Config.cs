@@ -1,9 +1,5 @@
 ﻿using Kit.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SRLink.Model
 {
@@ -11,8 +7,8 @@ namespace SRLink.Model
     public class Config
     {
         public bool HasConfig
-        { 
-            get; set; 
+        {
+            get; set;
         }
 
         public DateTime StartTime
@@ -61,25 +57,25 @@ namespace SRLink.Model
         public SettingCertify()
         {
             base.Enable = 0;
-            this.Status = 0;
+            Status = 0;
             //this.StudentID = "未配置";
             //this.Password = "未配置";
-            this.StudentID = "";
-            this.Password = "";
+            StudentID = "";
+            Password = "";
         }
 
         // 用于读取保存的config
         public SettingCertify(EEnable able, EStatus status, string id, string pwd)
         {
-            this.Enable = able;
-            this.Status = status;
-            this.StudentID = id;
-            this.Password = pwd;
+            Enable = able;
+            Status = status;
+            StudentID = id;
+            Password = pwd;
         }
 
         public string ShowStatus()
         {
-            switch (this.Status)
+            switch (Status)
             {
                 case EStatus.Error:
                     return "验证失败";
@@ -94,9 +90,9 @@ namespace SRLink.Model
 
         public override string GetConfigInfo()
         {
-            if (!string.IsNullOrEmpty(this.StudentID))
+            if (!string.IsNullOrEmpty(StudentID))
             {
-                return string.Format("{0}({1})", this.StudentID, this.ShowStatus());
+                return string.Format("{0}({1})", StudentID, ShowStatus());
             }
             else
             {
@@ -106,7 +102,7 @@ namespace SRLink.Model
 
         public override bool GetConfigReady()
         {
-            return (this.Enable == EEnable.True && this.Status == EStatus.OK);
+            return (Enable == EEnable.True && Status == EStatus.OK);
         }
     }
 
@@ -125,10 +121,10 @@ namespace SRLink.Model
             set
             {
                 // 两种方式：使用windows窗体抓取；鼠标模拟点击；
-                if (value == 1 || value == 2) this._Way = value;
+                if (value == 1 || value == 2) _Way = value;
                 else
                 {
-                    this._Way = 1;
+                    _Way = 1;
                     Log.SaveLog("SettingLink.Way赋值不合法");
                 }
             }
@@ -138,31 +134,31 @@ namespace SRLink.Model
 
         public SettingLink()
         {
-            this.Enable = 0;
+            Enable = 0;
             //this.Path = @"C:\Program Files (x86)\cmclient\bin\CMClient.exe";
-            this.Path = "";
-            this._Way = 2;
-            this.X = 400;
-            this.Y = 150;
+            Path = "";
+            _Way = 2;
+            X = 400;
+            Y = 150;
         }
         public SettingLink(EEnable able, string path, int way, int x, int y)
         {
-            this.Enable = able;
-            this.Path = path;
-            this.Way = way;
-            this.X = x;
-            this.Y = y;
+            Enable = able;
+            Path = path;
+            Way = way;
+            X = x;
+            Y = y;
         }
         // 返回配置信息
         public override string GetConfigInfo()
         {
-            if (this._Way == 1)
+            if (_Way == 1)
             {
                 return "抓取Windows窗体";
             }
             else
             {
-                return string.Format("模拟鼠标点击（{0},{1}）", this.X, this.Y);
+                return string.Format("模拟鼠标点击（{0},{1}）", X, Y);
             }
         }
 
@@ -179,25 +175,25 @@ namespace SRLink.Model
         public string Address;
         public SettingMail()
         {
-            this.Enable = 0;
-            this.Status = 0;
+            Enable = 0;
+            Status = 0;
             //this.Address = "未配置邮箱";
-            this.Address = "";
+            Address = "";
         }
 
         public SettingMail(EEnable able, EStatus status, string address)
         {
-            this.Enable = able;
-            this.Status = status;
-            this.Address = address;
+            Enable = able;
+            Status = status;
+            Address = address;
         }
 
         // 返回配置信息
         public override string GetConfigInfo()
         {
-            if (!string.IsNullOrEmpty(this.Address))
+            if (!string.IsNullOrEmpty(Address))
             {
-                return this.Address;
+                return Address;
             }
             else
             {
@@ -208,7 +204,7 @@ namespace SRLink.Model
         // 返回配置状态
         public override bool GetConfigReady()
         {
-            if (this.Enable == EEnable.True && this.Status == EStatus.OK)
+            if (Enable == EEnable.True && Status == EStatus.OK)
             {
                 return true;
             }

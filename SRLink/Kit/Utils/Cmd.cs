@@ -37,7 +37,7 @@ namespace Kit.Utils
 
                 return output;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.SaveLog("ExecuteCommand", e);
                 return "执行CMD失败。请到log中查看错误信息。";

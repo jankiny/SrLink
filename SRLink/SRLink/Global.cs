@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace SRLink
+﻿namespace SRLink
 {
-    class Global
+    internal class Global
     {
         #region 常量
         /// <summary>

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Kit.Utils
 {
@@ -31,15 +28,15 @@ namespace Kit.Utils
                     //创建用户凭证
                     Credentials = new NetworkCredential(user, pwd),
                     //使用网络传送
-                    DeliveryMethod = SmtpDeliveryMethod.Network 
+                    DeliveryMethod = SmtpDeliveryMethod.Network
                 };
                 //创建邮件
                 MailMessage message = new MailMessage(user, address, title, context);
                 //发送邮件
-                smtp.Send(message); 
+                smtp.Send(message);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.SaveLog("SendMail", e);
                 return false;
@@ -107,7 +104,7 @@ namespace Kit.Utils
                 webReq.Timeout = 3000;
 
                 byte[] byteArray = dataEncode.GetBytes(paramData); //转化
-                webReq.Accept = "application/json, text/javascript, */*; q=0.01"; 
+                webReq.Accept = "application/json, text/javascript, */*; q=0.01";
                 webReq.ContentLength = contentLength;
 
                 using (Stream reqStream = webReq.GetRequestStream())
@@ -145,7 +142,7 @@ namespace Kit.Utils
         /// <returns></returns>
         [DllImport("wininet.dll")]
         private static extern bool InternetGetConnectedState(ref int dwFlag, int dwReserved);
-        
+
         /// <summary>
         /// 判断本地的连接状态
         /// </summary>
@@ -175,7 +172,7 @@ namespace Kit.Utils
                 }
                 return false;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.SaveLog("InternetGetConnectedState", e);
                 return false;
@@ -207,7 +204,7 @@ namespace Kit.Utils
                     Console.WriteLine("Ping " + urls[i] + "    " + pr.Status.ToString());
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 isconn = false;
                 errorCount = urls.Length;
@@ -234,7 +231,7 @@ namespace Kit.Utils
                     isconn = false;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 isconn = false;
                 // 如果没有联网，直接ping网页的Url会报异常：不知道这样的主机

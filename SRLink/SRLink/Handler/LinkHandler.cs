@@ -1,14 +1,14 @@
-﻿using System.Threading;
+﻿using Kit.Utils;
 using Kit.Win;
-using Kit.Utils;
 using SRLink.Model;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
     public class LinkHandler : HandlerBase
     {
-        readonly SettingLink Setting;
+        private readonly SettingLink Setting;
         public LinkHandler(SettingLink setting_Link, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
             ID = 2;

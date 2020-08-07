@@ -1,13 +1,13 @@
-﻿using System.Text;
-using System.Windows.Forms;
-using Kit.Utils;
+﻿using Kit.Utils;
 using SRLink.Model;
+using System.Text;
+using System.Windows.Forms;
 
 namespace SRLink.Handler
 {
     public class CertifyHandler : HandlerBase
     {
-        readonly SettingCertify Setting;
+        private readonly SettingCertify Setting;
 
         public CertifyHandler(SettingCertify setting_Certify, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
@@ -46,7 +46,6 @@ namespace SRLink.Handler
             {
                 msg = "请检查网线是否接好";
                 return false;
-                //this.tss_lbl_info.Text = this.tss_lbl_time + ": " + "认证页面接口改变！！！";
             }
         }
         public override void RegisteUI(PictureBox picture)

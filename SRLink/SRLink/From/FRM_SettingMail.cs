@@ -9,8 +9,8 @@ namespace SRLink.From
     public partial class FRM_SettingMail : BaseForm
     {
         private readonly SettingMail SettingMail = null;
-        string code;
-        int Count = 0;
+        private string code;
+        private int Count = 0;
         public FRM_SettingMail()
         {
             InitializeComponent();
@@ -19,63 +19,63 @@ namespace SRLink.From
         {
             InitializeComponent();
             Config = config;
-            this.SettingMail = Config.SettingMail;
-            this.CBX_Enable.Checked = (this.SettingMail.Enable == EEnable.True);
-            if (this.SettingMail.Status == EStatus.Normal)
+            SettingMail = Config.SettingMail;
+            CBX_Enable.Checked = (SettingMail.Enable == EEnable.True);
+            if (SettingMail.Status == EStatus.Normal)
             {
-                this.LBL_Status.Text = "待验证";
-                this.LBL_Status.ForeColor = Color.DimGray;
+                LBL_Status.Text = "待验证";
+                LBL_Status.ForeColor = Color.DimGray;
             }
             else
             {
-                this.LBL_Status.Text = "验证成功";
-                this.LBL_Status.ForeColor = Color.LimeGreen;
+                LBL_Status.Text = "验证成功";
+                LBL_Status.ForeColor = Color.LimeGreen;
             }
-            this.TBX_Address.Text = this.SettingMail.Address;
+            TBX_Address.Text = SettingMail.Address;
         }
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            if (this.TBX_Code.Text == code)
+            if (TBX_Code.Text == code)
             {
-                this.SettingMail.Status = EStatus.OK;
-                this.LBL_Status.Text = "验证成功";
-                this.LBL_Status.ForeColor = Color.LimeGreen;
+                SettingMail.Status = EStatus.OK;
+                LBL_Status.Text = "验证成功";
+                LBL_Status.ForeColor = Color.LimeGreen;
             }
         }
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            this.SettingMail.Enable = (this.CBX_Enable.Checked ? EEnable.True : EEnable.False);
-            this.SettingMail.Address = this.TBX_Address.Text.Trim();
-            Config.SettingMail = this.SettingMail;
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            SettingMail.Enable = (CBX_Enable.Checked ? EEnable.True : EEnable.False);
+            SettingMail.Address = TBX_Address.Text.Trim();
+            Config.SettingMail = SettingMail;
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void BTN_Sent_Click(object sender, EventArgs e)
         {
-            this.LBL_Status.Text = "待验证";
-            this.LBL_Status.ForeColor = Color.DimGray;
-            this.BTN_Sent.Enabled = false;
-            this.BTN_Sent.Text = "15s";
-            this.Count = 15;
-            code = MailHandler.TestMail(this.TBX_Address.Text);
-            this.TMR_ReSent.Enabled = true;       
+            LBL_Status.Text = "待验证";
+            LBL_Status.ForeColor = Color.DimGray;
+            BTN_Sent.Enabled = false;
+            BTN_Sent.Text = "15s";
+            Count = 15;
+            code = MailHandler.TestMail(TBX_Address.Text);
+            TMR_ReSent.Enabled = true;
         }
 
         private void TMR_ReSent_Tick(object sender, EventArgs e)
         {
-            if (this.Count == 1)
+            if (Count == 1)
             {
-                this.BTN_Sent.Enabled = true;
-                this.TMR_ReSent.Enabled = false;
-                this.BTN_Sent.Text = "发送";
+                BTN_Sent.Enabled = true;
+                TMR_ReSent.Enabled = false;
+                BTN_Sent.Text = "发送";
             }
             else
             {
-                this.Count--;
-                this.BTN_Sent.Text = this.Count.ToString() + "s";
+                Count--;
+                BTN_Sent.Text = Count.ToString() + "s";
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SRLink.Model
+﻿namespace SRLink.Model
 {
     public abstract class SettingBase
     {
@@ -23,7 +21,7 @@ namespace SRLink.Model
         // 返回配置状态
         public virtual bool GetConfigReady()
         {
-            return this.Enable == EEnable.True;
+            return Enable == EEnable.True;
         }
     }
 }
