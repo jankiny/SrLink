@@ -1,5 +1,6 @@
 ﻿using Kit.Utils;
 using Kit.Win;
+using SRLink.DotRas;
 using SRLink.Model;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,46 +19,46 @@ namespace SRLink.Handler
             Delay = delay;
             Mode = mode;
         }
-        public bool OpenSuiEXing()
-        {
-            if (Sys.RunExeFile(Setting.Path))
-            {
-                // 关闭非管理员启动的提示
-                Mouses.PerformClick("提示", "确定");
-                return true;
-            }
-            return false;
-        }
-        public bool LinkSuiEXing(out string msg)
-        {
-            if (!Ready())
-            {
-                msg = "配置出错";
-                return false;
-            }
-            if (!OpenSuiEXing())
-            {
-                msg = "程序打开失败";
-                return false;
-            }
-            Thread.Sleep(3000);
-            TryClick(Setting.X, Setting.Y);
-            Thread.Sleep(7000);
-            if (!IsConnectInternet())
-            {
-                msg = "无法连接到网络";
-                return false;
-            }
-            else
-            {
-                msg = "连接成功";
-                return true;
-            }
-        }
-        public void TryClick(int x, int y)
-        {
-            Mouses.PerformClick("随e行", x, y);
-        }
+        //public bool OpenSuiEXing()
+        //{
+        //    if (Sys.RunExeFile(Setting.Path))
+        //    {
+        //        // 关闭非管理员启动的提示
+        //        Mouses.PerformClick("提示", "确定");
+        //        return true;
+        //    }
+        //    return false;
+        //}
+        //public bool LinkSuiEXing(out string msg)
+        //{
+        //    if (!Ready())
+        //    {
+        //        msg = "配置出错";
+        //        return false;
+        //    }
+        //    if (!OpenSuiEXing())
+        //    {
+        //        msg = "程序打开失败";
+        //        return false;
+        //    }
+        //    Thread.Sleep(3000);
+        //    TryClick(Setting.X, Setting.Y);
+        //    Thread.Sleep(7000);
+        //    if (!IsConnectInternet())
+        //    {
+        //        msg = "无法连接到网络";
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        msg = "连接成功";
+        //        return true;
+        //    }
+        //}
+        //public void TryClick(int x, int y)
+        //{
+        //    Mouses.PerformClick("随e行", x, y);
+        //}
         public bool IsConnectInternet()
         {
             return Web.IsConnectInternet(Global.TestConnectionUrl);
@@ -68,7 +69,17 @@ namespace SRLink.Handler
         }
         public override bool Run(out string msg)
         {
-            return LinkSuiEXing(out msg);
+            //return LinkSuiEXing(out msg);
+            VPN vpn = new VPN(
+                Global.ServerIP,
+                Global.AdapterName,
+                Global.UserName,
+                Global.PassWord,
+                Global.VpnProtocol,
+                Global.PreSharedKey);
+            vpn.Connect();
+            msg = "";
+            return IsConnectInternet();
         }
         public override bool Ready()
         {

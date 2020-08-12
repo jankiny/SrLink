@@ -57,12 +57,12 @@ namespace SRLink.From
 
         private void BTN_Test_Click(object sender, EventArgs e)
         {
-            LinkHandler test_handler = new LinkHandler(SettingLink);
-            if (test_handler.OpenSuiEXing())
-            {
-                test_handler.TryClick(int.Parse(TBX_X.Text.Trim()), int.Parse(TBX_Y.Text.Trim()));
-                test_handler.IsConnectInternet();
-            }
+            //LinkHandler test_handler = new LinkHandler(SettingLink);
+            //if (test_handler.OpenSuiEXing())
+            //{
+            //    test_handler.TryClick(int.Parse(TBX_X.Text.Trim()), int.Parse(TBX_Y.Text.Trim()));
+            //    test_handler.IsConnectInternet();
+            //}
         }
     }
 }

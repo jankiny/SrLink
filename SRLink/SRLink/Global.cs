@@ -2,6 +2,29 @@
 {
     internal class Global
     {
+        #region 全局变量
+        public static string ServerIP
+        {
+            get; set;
+        }
+        public static string UserName
+        {
+            get; set;
+        }
+        public static string PassWord
+        {
+            get; set;
+        }
+        public static string VpnProtocol
+        {
+            get; set;
+        }
+        public static string PreSharedKey
+        {
+            get; set;
+        }
+        #endregion
+
         #region 常量
         /// <summary>
         /// info
@@ -55,6 +78,11 @@
         /// 注册表设置开机启动路径
         /// </summary>
         public const string autoRunRegPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
+
+        /// <summary>
+        /// VPN连接器名称
+        /// </summary>
+        public const string AdapterName = "SRLink_L2TP";
         #endregion
     }
 }
