@@ -36,9 +36,8 @@ namespace Kit.Utils
                 smtp.Send(message);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("SendMail", e);
                 return false;
             }
         }
@@ -79,9 +78,8 @@ namespace Kit.Utils
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("PostWebRequestByJson", e);
             }
             return responseContent;
         }
@@ -123,9 +121,8 @@ namespace Kit.Utils
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("PostWebRequest", e);
             }
             return responseContent;
         }
@@ -172,9 +169,8 @@ namespace Kit.Utils
                 }
                 return false;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("InternetGetConnectedState", e);
                 return false;
             }
         }
@@ -204,11 +200,10 @@ namespace Kit.Utils
                     Console.WriteLine("Ping " + urls[i] + "    " + pr.Status.ToString());
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 isconn = false;
                 errorCount = urls.Length;
-                Log.SaveLog("IsConnectInternet", e);
             }
             //if (errorCount > 0 && errorCount < 3)
             //  isconn = true;
@@ -231,11 +226,10 @@ namespace Kit.Utils
                     isconn = false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 isconn = false;
                 // 如果没有联网，直接ping网页的Url会报异常：不知道这样的主机
-                Log.SaveLog("IsConnectInternet", e);
             }
             return isconn;
         }

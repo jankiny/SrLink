@@ -3,26 +3,6 @@
     internal class Global
     {
         #region 全局变量
-        public static string ServerIP
-        {
-            get; set;
-        }
-        public static string UserName
-        {
-            get; set;
-        }
-        public static string PassWord
-        {
-            get; set;
-        }
-        public static string VpnProtocol
-        {
-            get; set;
-        }
-        public static string PreSharedKey
-        {
-            get; set;
-        }
         #endregion
 
         #region 常量
@@ -80,9 +60,12 @@
         public const string autoRunRegPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
         /// <summary>
-        /// VPN连接器名称
+        /// VPN连接器
         /// </summary>
-        public const string AdapterName = "SRLink_L2TP";
+        public const string AdapterName = "SLINK_L2TP";
+
+        public const string IPServerDefault = "192.168.200.1";
+        public const string VpnProtocol = "L2TP";
         #endregion
     }
 }

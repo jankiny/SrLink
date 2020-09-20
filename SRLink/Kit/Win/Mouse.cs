@@ -60,10 +60,11 @@ namespace Kit.Win
                 if (mwh == IntPtr.Zero)
                     throw new Exception("Could not find main window");
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("FindMainWindowHandle", e);
+                // ignored
             }
+
             return mwh;
         }
 
@@ -165,9 +166,8 @@ namespace Kit.Win
                 SendMessage(butt, BM_CLICK, 0, 0);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("PerformClick", e);
                 return false;
             }
         }
@@ -200,9 +200,9 @@ namespace Kit.Win
                 }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("PerformClick", e);
+                // ignored
                 return false;
             }
         }

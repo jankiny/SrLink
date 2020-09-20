@@ -20,9 +20,9 @@ namespace Kit.Win
                 string exePath = Process.GetCurrentProcess().MainModule.FileName;
                 RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("SetAutoRun", e);
+                // ignored
             }
         }
 
@@ -41,10 +41,11 @@ namespace Kit.Win
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("IsAutoRun", e);
+                // ignored
             }
+
             return false;
         }
 
@@ -64,9 +65,9 @@ namespace Kit.Win
                     return false;
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("RunExeFile", e);
+                // ignored
                 return false;
             }
         }
@@ -107,9 +108,9 @@ namespace Kit.Win
                     regKey?.SetValue(name, value);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("RegWriteValue", e);
+                // ignored
             }
             finally
             {
@@ -132,9 +133,9 @@ namespace Kit.Win
                     return value;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("RegReadValue", e);
+                // ignored
             }
             finally
             {

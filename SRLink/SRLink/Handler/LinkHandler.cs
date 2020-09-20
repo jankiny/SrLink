@@ -1,6 +1,5 @@
 ﻿using Kit.Utils;
 using Kit.Win;
-using SRLink.DotRas;
 using SRLink.Model;
 using System.Threading;
 using System.Windows.Forms;
@@ -10,6 +9,7 @@ namespace SRLink.Handler
     public class LinkHandler : HandlerBase
     {
         private readonly SettingLink Setting;
+        private readonly VPN vpn;
         public LinkHandler(SettingLink setting_Link, int count = 60, int delay = 3000, EHandler mode = EHandler.Test)
         {
             ID = 2;
@@ -18,6 +18,12 @@ namespace SRLink.Handler
             Count = count;
             Delay = delay;
             Mode = mode;
+            vpn = new VPN(
+                Setting.IpServer,
+                Global.AdapterName,
+                Setting.UserName,
+                Setting.Password,
+                Global.VpnProtocol);
         }
         //public bool OpenSuiEXing()
         //{
@@ -70,20 +76,13 @@ namespace SRLink.Handler
         public override bool Run(out string msg)
         {
             //return LinkSuiEXing(out msg);
-            VPN vpn = new VPN(
-                Global.ServerIP,
-                Global.AdapterName,
-                Global.UserName,
-                Global.PassWord,
-                Global.VpnProtocol,
-                Global.PreSharedKey);
             vpn.Connect();
             msg = "";
             return IsConnectInternet();
         }
         public override bool Ready()
         {
-            if (Mode == EHandler.Work && Setting.GetConfigReady())
+            if (Mode == EHandler.Work)
             {
                 return true;
             }
@@ -95,6 +94,11 @@ namespace SRLink.Handler
             {
                 return false;
             }
+        }
+
+        ~LinkHandler()
+        {
+            vpn.Disconnect();
         }
     }
 }

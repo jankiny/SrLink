@@ -1,9 +1,9 @@
-﻿using DotRas;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using DotRas;
 
-namespace SRLink.DotRas
+namespace SRLink.Handler
 {
     public class VPN
     {
@@ -62,6 +62,15 @@ namespace SRLink.DotRas
             get; set;
         }
         #endregion
+        public VPN(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol)
+        {
+            Dialer = new RasDialer();
+            ServerIP = serverIP;
+            AdapterName = adapterName;
+            UserName = userName;
+            PassWord = passWord;
+            VpnProtocol = vpnProtocol;
+        }
 
         public VPN(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol, string preSharedKey)
         {
@@ -108,12 +117,12 @@ namespace SRLink.DotRas
                 Entry.Options.PromoteAlternates = false;
                 Entry.Options.DoNotNegotiateMultilink = false;
 
-                if (VpnProtocol.Equals("L2TP"))
-                {
-                    Entry.Options.UsePreSharedKey = true;
-                    Entry.UpdateCredentials(RasPreSharedKey.Client, PreSharedKey);
-                    Entry.Update();
-                }
+                //if (VpnProtocol.Equals("L2TP"))
+                //{
+                //    Entry.Options.UsePreSharedKey = true;
+                //    Entry.UpdateCredentials(RasPreSharedKey.Client, PreSharedKey);
+                //    Entry.Update();
+                //}
 
                 Dialer.EntryName = AdapterName;
                 Dialer.PhoneBookPath = RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers);

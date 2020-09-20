@@ -44,7 +44,7 @@ namespace SRLink.Handler
         }
         public override bool Ready()
         {
-            if (Mode == EHandler.Work && Setting.GetConfigReady())
+            if (Mode == EHandler.Work && Setting.Enable)
             {
                 return true;
             }
