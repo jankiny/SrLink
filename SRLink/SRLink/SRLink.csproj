@@ -106,10 +106,8 @@
     </Compile>
     <Compile Include="Global.cs" />
     <Compile Include="Model\Config.cs" />
-    <Compile Include="Model\EHandler.cs" />
     <Compile Include="Service\ISrLinkService.cs" />
     <Compile Include="Service\IVpnService.cs" />
-    <Compile Include="Model\LinkProcess.cs" />
     <Compile Include="Service\Impl\VpnService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

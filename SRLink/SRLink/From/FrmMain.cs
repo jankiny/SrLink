@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using Kit.Utils;
-using Kit.Win;
 using SRLink.Model;
-using SRLink.Service;
 using SRLink.Service.Impl;
 
 namespace SRLink.From
 {
     public partial class FrmMain : BaseForm
     {
-        private readonly LinkProcess LinkProcess;
         public static FrmLinkInfo FrmLinkInfo;
         public SrLinkService SrLinkService;
         private bool Linked;
@@ -30,8 +24,6 @@ namespace SRLink.From
             FrmLinkInfo = new FrmLinkInfo();
             SrLinkService = new SrLinkService(Config);
 
-            LinkProcess = new LinkProcess();
-
             Application.ApplicationExit += (sender, args) =>
             {
                 //Config.HasConfig = true;
@@ -45,18 +37,37 @@ namespace SRLink.From
 
         private async void FRM_Main_Load(object sender, EventArgs e)
         {
+            WindowState = FormWindowState.Minimized;
             ShowScreen(new SubFrmNormal());
             if (Config.ShowLinkInfo)
             {
                 FrmLinkInfo.Show();
             }
+
             if (!Linked)
             {
                 TryAutoLink();
             }
+
             Linked = await Task.Run(() => SrLinkService.IsConnectInternet());
         }
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                ShowInTaskbar = false;
+            }
+        }
 
+        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                this.Activate();
+                this.ShowInTaskbar = true;
+            }
+        }
         #endregion
 
         #region Timer事件
@@ -68,61 +79,9 @@ namespace SRLink.From
                 TryAutoLink();
             }
         }
-        private void TMR_Handle_Tick(object sender, EventArgs e)
-        {
-            //foreach (Label label in Running)
-            //{
-            //    label.ForeColor = (LBL_Line1.ForeColor == Color.DimGray ? Color.LimeGreen : Color.DimGray);
-            //}
-
-            //if (!LinkProcess.Busy && Ready.Count != 0)
-            //{
-            //    WriteToBoard("开始连接...");
-            //    LinkProcess.Busy = true;
-            //    LinkProcess.Thread = new Thread(Func);
-            //    LinkProcess.Thread.Start();
-            //}
-        }
 
         #endregion
 
-        #region Button事件
-        
-        private void BTN_Start_Click(object sender, EventArgs e)
-        {
-            //if (LinkProcess.Thread == null ||
-            //    LinkProcess.Thread.ThreadState == ThreadState.Stopped ||
-            //    LinkProcess.Thread.ThreadState == ThreadState.Aborted)
-            //{
-            //    WriteToBoard("(User Command)开始连接...");
-            //    LinkProcess.Busy = true;
-            //    RefreshQueue();
-            //    LinkProcess.Thread = new Thread(Func);
-            //    LinkProcess.Thread.Start();
-            //}
-        }
-
-        private void BTN_Stop_Click(object sender, EventArgs e)
-        {
-            //this.TodayLink = true;
-            //if (LinkProcess.Thread != null)
-            //{
-            //    if (LinkProcess.Thread.ThreadState == ThreadState.WaitSleepJoin ||
-            //        LinkProcess.Thread.ThreadState == ThreadState.Running)
-            //    {
-            //        LinkProcess.Busy = false;
-            //        LinkProcess.Thread.Abort();
-            //    }
-
-            //    WriteToBoard("(User Command)进程已被终止!");
-            //}
-            //else
-            //{
-            //    WriteToBoard("(User Command)没用在运行的进程!");
-            //}
-        }
-
-        #endregion
 
         #region 连接事务辅助函数
 
@@ -152,13 +111,13 @@ namespace SRLink.From
                     {
                         var count = 30;
                         FrmLinkInfo.WriteToBoard("开始连接网络...");
-                        do {
+                        do
+                        {
                             Linked = SrLinkService.LinkVpn(out var msg);
                             FrmLinkInfo.WriteToBoard(msg);
                             Thread.Sleep(1000);
                             count--;
-                        }
-                        while (count > 0 && !Linked) ;
+                        } while (count > 0 && !Linked);
                     }
 
                     if (Config.SettingMail.Enable)
@@ -177,46 +136,6 @@ namespace SRLink.From
                 });
                 Running = false;
             }
-        }
-
-
-        // 托管的方法
-        private void Func()
-        {
-            //if (Ready.Count == 0)
-            //{
-            //    WriteToBoard("当前配置不可用");
-            //}
-
-            //while (Ready.Count != 0)
-            //{
-            //    HandlerBase handler = Ready.Dequeue();
-            //    Running.Add(handler.Line);
-            //    WriteToBoard("尝试" + handler.HandleName);
-            //    int count = 1;
-            //    while (!handler.Run(out string msg))
-            //    {
-            //        if (count == handler.Count)
-            //        {
-            //            WriteToBoard(string.Format("第{0}次{1}失败[{2}] 停止认证。",
-            //                count, handler.HandleName, msg));
-            //            return;
-            //        }
-
-            //        WriteToBoard(string.Format("第{0}次{1}失败[{2}] {3}s后重试。",
-            //            count, handler.HandleName, msg, handler.Delay / 1000));
-            //        count++;
-            //        Thread.Sleep(handler.Delay);
-            //    }
-
-            //    Running.Clear();
-            //    ChangeStatus(handler.ID, EStatus.Ok);
-            //    Config.LastLinkTime = DateTime.Now; // 暂时没用
-            //    WriteToBoard(handler.HandleName + "成功！");
-            //}
-
-            TMR_SrLink.Enabled = false;
-            LinkProcess.Busy = false;
         }
         #endregion
 
@@ -259,6 +178,7 @@ namespace SRLink.From
             }
 
         }
+
         private void ShowScreen(Control ctl)
         {
             while (splitContainer1.Panel2.Controls.Count > 0)
@@ -268,11 +188,14 @@ namespace SRLink.From
             {
                 frm.TopLevel = false;
                 frm.FormBorderStyle = FormBorderStyle.None;
+                frm.BackColor = Color.White;
                 frm.Visible = true;
             }
+
             //ctl.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(ctl);
         }
+        #endregion
+
     }
 }
-#endregion
