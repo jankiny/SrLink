@@ -105,19 +105,19 @@
       <DependentUpon>UInput.cs</DependentUpon>
     </Compile>
     <Compile Include="Global.cs" />
-    <Compile Include="Handler\CertifyHandler.cs" />
-    <Compile Include="Handler\HandlerBase.cs" />
-    <Compile Include="Handler\LinkHandler.cs" />
-    <Compile Include="Handler\MailHandler.cs" />
     <Compile Include="Model\Config.cs" />
-    <Compile Include="Model\EEnable.cs" />
     <Compile Include="Model\EHandler.cs" />
+    <Compile Include="Service\ISrLinkService.cs" />
+    <Compile Include="Service\IVpnService.cs" />
     <Compile Include="Model\LinkProcess.cs" />
+    <Compile Include="Service\Impl\VpnService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Handler\VPN.cs" />
-    <Compile Include="Service\ILogger.cs" />
-    <Compile Include="Service\Inpl\LoggerService.cs" />
+    <Compile Include="Service\Impl\ConfigService.cs" />
+    <Compile Include="Service\IConfigService.cs" />
+    <Compile Include="Service\ILoggerService.cs" />
+    <Compile Include="Service\Impl\LoggerService.cs" />
+    <Compile Include="Service\Impl\SrLinkService.cs" />
     <EmbeddedResource Include="From\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>

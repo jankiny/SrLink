@@ -1,5 +1,8 @@
 ﻿using Kit.Utils;
 using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Kit.Win;
 
 namespace SRLink.Model
 {
@@ -13,10 +16,12 @@ namespace SRLink.Model
     [Serializable]
     public class Config
     {
-        public bool HasConfig
-        {
-            get; set;
-        }
+        #region 自动添加
+        
+        //public bool HasConfig
+        //{
+        //    get; set;
+        //}
 
         public DateTime StartTime
         {
@@ -27,11 +32,14 @@ namespace SRLink.Model
         {
             get; set;
         }
+
+        #endregion
         public bool RunAtStartup
         {
             get; set;
         }
 
+        public bool ShowLinkInfo { get; set; }
         public bool AutoLink { get; set; }
 
         public SettingCertify SettingCertify
@@ -48,7 +56,32 @@ namespace SRLink.Model
             get; set;
         }
 
+        public Config GetAllAsync()
+        {
+            var path = Sys.Combine(Application.StartupPath, Global.ConfigFileName); 
+            string result = Json.LoadResource(path);
+            var config = Json.FromJson<Config>(result);
+            if (config == null)
+            {
+                config = new Config
+                {
+                    //HasConfig = false,
+                    StartTime = DateTime.Parse("08:00"),
+                    LastLinkTime = DateTime.Now.AddDays(-1),
+                    SettingCertify = new SettingCertify(),
+                    SettingLink = new SettingLink(),
+                    SettingMail = new SettingMail(),
+                    RunAtStartup = false
+                };
+            }
+            return config;
+        }
 
+        public int UpdateAsync(Config config)
+        {
+            var path = Sys.Combine(Application.StartupPath, Global.ConfigFileName);
+            return Json.ToJsonFile(config, path);
+        }
         public bool EnableLink()
         {
             int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;

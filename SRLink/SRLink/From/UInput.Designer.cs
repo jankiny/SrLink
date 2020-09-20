@@ -47,6 +47,7 @@
             this.TBX_Content.Name = "TBX_Content";
             this.TBX_Content.Size = new System.Drawing.Size(159, 21);
             this.TBX_Content.TabIndex = 1;
+            this.TBX_Content.TextChanged += new System.EventHandler(this.TBX_Content_TextChanged);
             // 
             // UInput
             // 

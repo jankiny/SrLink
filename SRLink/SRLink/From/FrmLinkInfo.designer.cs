@@ -223,6 +223,9 @@
             this.Controls.Add(this.PNL_Step1);
             this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.TBX_Board);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmLinkInfo";
             this.Text = "Link Info";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLinkInfo_FormClosing);

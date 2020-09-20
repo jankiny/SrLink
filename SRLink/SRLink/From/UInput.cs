@@ -35,5 +35,14 @@ namespace SRLink.From
         {
             InitializeComponent();
         }
+        //定义委托
+        public delegate void ContentTextChanged(object sender, EventArgs e);
+        //定义事件
+        public event ContentTextChanged UcContentTextChanged;
+
+        private void TBX_Content_TextChanged(object sender, EventArgs e)
+        {
+            UcContentTextChanged?.Invoke(sender, new EventArgs());//把按钮自身作为参数传递
+        }
     }
 }

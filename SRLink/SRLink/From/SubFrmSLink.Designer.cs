@@ -49,6 +49,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.BTN_OpenInfoForm = new System.Windows.Forms.Button();
             this.TMR_ReSent = new System.Windows.Forms.Timer(this.components);
+            this.CHK_ShowLinkInfo = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -112,6 +113,7 @@
             this.CHK_EnableCertify.TabIndex = 23;
             this.CHK_EnableCertify.Text = "启用";
             this.CHK_EnableCertify.UseVisualStyleBackColor = true;
+            this.CHK_EnableCertify.CheckedChanged += new System.EventHandler(this.CHK_EnableCertify_CheckedChanged);
             // 
             // BTN_SetDefault
             // 
@@ -132,6 +134,7 @@
             this.CHK_EnableLink.TabIndex = 26;
             this.CHK_EnableLink.Text = "启用";
             this.CHK_EnableLink.UseVisualStyleBackColor = true;
+            this.CHK_EnableLink.CheckedChanged += new System.EventHandler(this.CHK_EnableLink_CheckedChanged);
             // 
             // CHK_EnableMail
             // 
@@ -142,6 +145,7 @@
             this.CHK_EnableMail.TabIndex = 40;
             this.CHK_EnableMail.Text = "启用";
             this.CHK_EnableMail.UseVisualStyleBackColor = true;
+            this.CHK_EnableMail.CheckedChanged += new System.EventHandler(this.CHK_EnableMail_CheckedChanged);
             // 
             // BTN_TestMail
             // 
@@ -173,6 +177,7 @@
             this.UInput_MailAddress.Size = new System.Drawing.Size(176, 47);
             this.UInput_MailAddress.TabIndex = 39;
             this.UInput_MailAddress.Title = "邮箱";
+            this.UInput_MailAddress.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_MailAddress_UcContentTextChanged);
             // 
             // UInput_LinkPassword
             // 
@@ -183,6 +188,7 @@
             this.UInput_LinkPassword.Size = new System.Drawing.Size(176, 47);
             this.UInput_LinkPassword.TabIndex = 38;
             this.UInput_LinkPassword.Title = "密码";
+            this.UInput_LinkPassword.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_LinkPassword_UcContentTextChanged);
             // 
             // UInput_LinkUserName
             // 
@@ -192,7 +198,8 @@
             this.UInput_LinkUserName.Password = false;
             this.UInput_LinkUserName.Size = new System.Drawing.Size(176, 47);
             this.UInput_LinkUserName.TabIndex = 37;
-            this.UInput_LinkUserName.Title = "账号";
+            this.UInput_LinkUserName.Title = "账号(参考：hzgsd+手机尾号)";
+            this.UInput_LinkUserName.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_LinkUserName_UcContentTextChanged);
             // 
             // UInput_LinkServer
             // 
@@ -203,6 +210,7 @@
             this.UInput_LinkServer.Size = new System.Drawing.Size(176, 47);
             this.UInput_LinkServer.TabIndex = 36;
             this.UInput_LinkServer.Title = "服务器";
+            this.UInput_LinkServer.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_LinkServer_UcContentTextChanged);
             // 
             // UInput_CertifyPassword
             // 
@@ -212,7 +220,8 @@
             this.UInput_CertifyPassword.Password = true;
             this.UInput_CertifyPassword.Size = new System.Drawing.Size(176, 47);
             this.UInput_CertifyPassword.TabIndex = 35;
-            this.UInput_CertifyPassword.Title = "密码（通常为身份证后6位）";
+            this.UInput_CertifyPassword.Title = "密码（参考：身份证后6位）";
+            this.UInput_CertifyPassword.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_CertifyPassword_UcContentTextChanged);
             // 
             // UInput_CertifyId
             // 
@@ -223,6 +232,7 @@
             this.UInput_CertifyId.Size = new System.Drawing.Size(176, 47);
             this.UInput_CertifyId.TabIndex = 34;
             this.UInput_CertifyId.Title = "学号";
+            this.UInput_CertifyId.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_CertifyId_UcContentTextChanged);
             // 
             // label5
             // 
@@ -230,23 +240,35 @@
             this.label5.Font = new System.Drawing.Font("黑体", 12F);
             this.label5.Location = new System.Drawing.Point(14, 13);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 16);
+            this.label5.Size = new System.Drawing.Size(104, 16);
             this.label5.TabIndex = 13;
-            this.label5.Text = "连接窗口";
+            this.label5.Text = "显示连接窗口";
             // 
             // BTN_OpenInfoForm
             // 
-            this.BTN_OpenInfoForm.Location = new System.Drawing.Point(19, 36);
+            this.BTN_OpenInfoForm.Location = new System.Drawing.Point(101, 36);
             this.BTN_OpenInfoForm.Name = "BTN_OpenInfoForm";
             this.BTN_OpenInfoForm.Size = new System.Drawing.Size(75, 23);
             this.BTN_OpenInfoForm.TabIndex = 42;
-            this.BTN_OpenInfoForm.Text = "打开";
+            this.BTN_OpenInfoForm.Text = "显示";
             this.BTN_OpenInfoForm.UseVisualStyleBackColor = true;
             this.BTN_OpenInfoForm.Click += new System.EventHandler(this.BTN_OpenInfoForm_Click);
             // 
             // TMR_ReSent
             // 
             this.TMR_ReSent.Interval = 1000;
+            this.TMR_ReSent.Tick += new System.EventHandler(this.TMR_ReSent_Tick);
+            // 
+            // CHK_ShowLinkInfo
+            // 
+            this.CHK_ShowLinkInfo.AutoSize = true;
+            this.CHK_ShowLinkInfo.Location = new System.Drawing.Point(21, 40);
+            this.CHK_ShowLinkInfo.Name = "CHK_ShowLinkInfo";
+            this.CHK_ShowLinkInfo.Size = new System.Drawing.Size(48, 16);
+            this.CHK_ShowLinkInfo.TabIndex = 23;
+            this.CHK_ShowLinkInfo.Text = "启用";
+            this.CHK_ShowLinkInfo.UseVisualStyleBackColor = true;
+            this.CHK_ShowLinkInfo.CheckedChanged += new System.EventHandler(this.CHK_ShowLinkInfo_CheckedChanged);
             // 
             // SubFrmSLink
             // 
@@ -264,6 +286,7 @@
             this.Controls.Add(this.UInput_CertifyId);
             this.Controls.Add(this.BTN_SetDefault);
             this.Controls.Add(this.CHK_EnableLink);
+            this.Controls.Add(this.CHK_ShowLinkInfo);
             this.Controls.Add(this.CHK_AutoLink);
             this.Controls.Add(this.CHK_EnableCertify);
             this.Controls.Add(this.label5);
@@ -302,5 +325,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button BTN_OpenInfoForm;
         private System.Windows.Forms.Timer TMR_ReSent;
+        private System.Windows.Forms.CheckBox CHK_ShowLinkInfo;
     }
 }

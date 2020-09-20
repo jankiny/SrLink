@@ -3,97 +3,74 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using Kit.Utils;
 using Kit.Win;
-using SRLink.Handler;
 using SRLink.Model;
 using SRLink.Service;
-using SRLink.Service.Inpl;
+using SRLink.Service.Impl;
 
 namespace SRLink.From
 {
     public partial class FrmMain : BaseForm
     {
-        private readonly Queue<HandlerBase> Ready = null;
-        private readonly List<Label> Runing = null;
         private readonly LinkProcess LinkProcess;
-        private bool Linked = false;
-
+        public static FrmLinkInfo FrmLinkInfo;
+        public SrLinkService SrLinkService;
+        private bool Linked;
+        private bool Running;
 
         public FrmMain()
         {
             InitializeComponent();
-            Ready = new Queue<HandlerBase>();
-            Runing = new List<Label>();
+            Config = ConfigService.LoadConfig();
+            Linked = true;
+            Running = false;
+            FrmLinkInfo = new FrmLinkInfo();
+            SrLinkService = new SrLinkService(Config);
+
             LinkProcess = new LinkProcess();
 
-            Application.ApplicationExit += async (sender, args) =>
+            Application.ApplicationExit += (sender, args) =>
             {
-
-                Config.HasConfig = true;
-                await SaveConfigAsync();
+                //Config.HasConfig = true;
+                SrLinkService.DisconnectVpn();
+                ConfigService.SaveConfig(Config);
+                //await Task.Run(() => );
             };
         }
 
         #region From及其他事件
 
-        private void FRM_Main_Load(object sender, EventArgs e)
+        private async void FRM_Main_Load(object sender, EventArgs e)
         {
             ShowScreen(new SubFrmNormal());
-        }
-
-        private void FRM_Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //Logger.SaveLog(TBX_Board.Text);
+            if (Config.ShowLinkInfo)
+            {
+                FrmLinkInfo.Show();
+            }
+            if (!Linked)
+            {
+                TryAutoLink();
+            }
+            Linked = await Task.Run(() => SrLinkService.IsConnectInternet());
         }
 
         #endregion
 
         #region Timer事件
 
-        private void TMR_UpdateTime_Tick(object sender, EventArgs e)
+        private void TMR_SrLink_Tick(object sender, EventArgs e)
         {
-            if (!LinkProcess.Busy && TSP_SLB_Statu.Text != "欢迎使用")
+            if (!Linked)
             {
-                TMR_ToolBarRetain.Enabled = true;
-            }
-
-            if (!Linked &&
-                Config.EnableLink() &&
-                Ready.Count == 0)
-            {
-                RefreshQueue();
-                Linked = true;
-                TMR_Handle.Enabled = true;
-            }
-
-            // ToolBar状态显示
-            if (LinkProcess.Thread != null)
-            {
-                if (LinkProcess.Thread.ThreadState == ThreadState.Aborted)
-                {
-                    TSP_SLB_Statu.Text = "连接中断";
-                }
-                else if (LinkProcess.Thread.ThreadState == ThreadState.Running ||
-                         LinkProcess.Thread.ThreadState == ThreadState.WaitSleepJoin)
-                {
-                    TSP_SLB_Statu.Text = "连接中";
-                }
-                else if (LinkProcess.Thread.ThreadState == ThreadState.Stopped)
-                {
-                    TSP_SLB_Statu.Text = "欢迎使用";
-                }
-                else
-                {
-                    TSP_SLB_Statu.Text = "欢迎使用";
-                }
+                TryAutoLink();
             }
         }
-
         private void TMR_Handle_Tick(object sender, EventArgs e)
         {
-            //foreach (Label label in Runing)
+            //foreach (Label label in Running)
             //{
             //    label.ForeColor = (LBL_Line1.ForeColor == Color.DimGray ? Color.LimeGreen : Color.DimGray);
             //}
@@ -107,65 +84,10 @@ namespace SRLink.From
             //}
         }
 
-        private void TMR_ToolBarRetain_Tick(object sender, EventArgs e)
-        {
-            TSP_SLB_Statu.Text = "欢迎使用";
-            TSP_SLB_Statu.ForeColor = Color.Black;
-            TMR_ToolBarRetain.Enabled = false;
-        }
-
         #endregion
 
         #region Button事件
-
-        // Config页面保存按钮
-        private void BTN_Set_Click(object sender, EventArgs e)
-        {
-            //Sys.SetAutoRun(Global.autoRunRegPath, Global.autoRunName, Config.RunAtStartup);
-            //// 开机启动的程序用Environment.CurrentDirectory获取到的时system32文件夹
-            //// WriteToBoard("写入到：" + Environment.CurrentDirectory); 
-            //Config.RunAtStartup = DTP_StartTime.Value;
-            //ConfigHandler.SaveConfig(ref Config);
-            //TSP_SLB_Statu.Text = "保存成功";
-            //TSP_SLB_Statu.ForeColor = Color.LimeGreen;
-        }
-
-        // CerifyConfig弹窗
-        private void BTN_CerifyConfig_Click(object sender, EventArgs e)
-        {
-            //FRM_SettingCertify f = new FRM_SettingCertify(Config);
-            //if (f.ShowDialog() == DialogResult.OK)
-            //{
-            //    SettingCertify setting_Certify = Config.SettingCertify;
-            //    ConfigUpdate(setting_Certify);
-            //    ChangeStatus(1, (setting_Certify.GetConfigReady() ? EStatus.Normal : EStatus.Error));
-            //}
-        }
-
-        // LinkConfig弹窗
-        private void BTN_LinkConfig_Click(object sender, EventArgs e)
-        {
-            //FRM_SettingLink f = new FRM_SettingLink(Config);
-            //if (f.ShowDialog() == DialogResult.OK)
-            //{
-            //    SettingLink setting_Link = Config.SettingLink;
-            //    ConfigUpdate(setting_Link);
-            //    ChangeStatus(2, (setting_Link.GetConfigReady() ? EStatus.Normal : EStatus.Error));
-            //}
-        }
-
-        // MailConfig弹窗
-        private void BTN_MailConfig_Click(object sender, EventArgs e)
-        {
-            //FRM_SettingMail f = new FRM_SettingMail(Config);
-            //if (f.ShowDialog() == DialogResult.OK)
-            //{
-            //    SettingMail setting_Mail = Config.SettingMail;
-            //    ConfigUpdate(setting_Mail);
-            //    ChangeStatus(3, (setting_Mail.GetConfigReady() ? EStatus.Normal : EStatus.Error));
-            //}
-        }
-
+        
         private void BTN_Start_Click(object sender, EventArgs e)
         {
             //if (LinkProcess.Thread == null ||
@@ -183,7 +105,6 @@ namespace SRLink.From
         private void BTN_Stop_Click(object sender, EventArgs e)
         {
             //this.TodayLink = true;
-            Ready.Clear();
             //if (LinkProcess.Thread != null)
             //{
             //    if (LinkProcess.Thread.ThreadState == ThreadState.WaitSleepJoin ||
@@ -203,36 +124,61 @@ namespace SRLink.From
 
         #endregion
 
-        #region Handler辅助函数
+        #region 连接事务辅助函数
 
-        private void RefreshQueue()
+        private async void TryAutoLink()
         {
-            if (Ready.Count != 0)
+            if (!Running)
             {
-                Ready.Clear();
+                Running = true;
+                await Task.Run(() =>
+                {
+                    if (!Config.AutoLink || !Config.EnableLink()) return;
+                    if (Config.SettingCertify.Enable)
+                    {
+                        var count = 30;
+                        bool reg = false;
+                        FrmLinkInfo.WriteToBoard("开始认证校园网...");
+                        do
+                        {
+                            reg = SrLinkService.RegisterSchoolNet(out var msg);
+                            FrmLinkInfo.WriteToBoard(msg);
+                            Thread.Sleep(1000);
+                            count--;
+                        } while (count > 0 && !reg);
+                    }
+
+                    if (Config.SettingLink.Enable)
+                    {
+                        var count = 30;
+                        FrmLinkInfo.WriteToBoard("开始连接网络...");
+                        do {
+                            Linked = SrLinkService.LinkVpn(out var msg);
+                            FrmLinkInfo.WriteToBoard(msg);
+                            Thread.Sleep(1000);
+                            count--;
+                        }
+                        while (count > 0 && !Linked) ;
+                    }
+
+                    if (Config.SettingMail.Enable)
+                    {
+                        var count = 30;
+                        bool send = false;
+                        FrmLinkInfo.WriteToBoard("正在发送邮件...");
+                        do
+                        {
+                            send = SrLinkService.SendIp(out var msg);
+                            FrmLinkInfo.WriteToBoard(msg);
+                            Thread.Sleep(1000);
+                            count--;
+                        } while (count > 0 && !send);
+                    }
+                });
+                Running = false;
             }
-
-            //CertifyHandler certifyHandler = new CertifyHandler(Config.SettingCertify, 60, 3000, EHandler.Work);
-            //certifyHandler.RegisteUI(PBX_Certify);
-            //if (certifyHandler.Ready())
-            //{
-            //    Ready.Enqueue(certifyHandler);
-            //}
-
-            //LinkHandler linkHandler = new LinkHandler(Config.SettingLink, 60, 3000, EHandler.Work);
-            //linkHandler.RegisteUI(PBX_Link, LBL_Line1);
-            //if (linkHandler.Ready())
-            //{
-            //    Ready.Enqueue(linkHandler);
-            //}
-
-            //MailHandler mailHandler = new MailHandler(Config.SettingMail, 60, 3000, EHandler.Work);
-            //mailHandler.RegisteUI(PBX_Mail, LBL_Line2);
-            //if (mailHandler.Ready())
-            //{
-            //    Ready.Enqueue(mailHandler);
-            //}
         }
+
 
         // 托管的方法
         private void Func()
@@ -245,7 +191,7 @@ namespace SRLink.From
             //while (Ready.Count != 0)
             //{
             //    HandlerBase handler = Ready.Dequeue();
-            //    Runing.Add(handler.Line);
+            //    Running.Add(handler.Line);
             //    WriteToBoard("尝试" + handler.HandleName);
             //    int count = 1;
             //    while (!handler.Run(out string msg))
@@ -263,28 +209,18 @@ namespace SRLink.From
             //        Thread.Sleep(handler.Delay);
             //    }
 
-            //    Runing.Clear();
+            //    Running.Clear();
             //    ChangeStatus(handler.ID, EStatus.Ok);
             //    Config.LastLinkTime = DateTime.Now; // 暂时没用
             //    WriteToBoard(handler.HandleName + "成功！");
             //}
 
-            TMR_Handle.Enabled = false;
+            TMR_SrLink.Enabled = false;
             LinkProcess.Busy = false;
         }
+        #endregion
 
-
-        VPN vpn = new VPN("192.168.200.1", "SLINK_L2TP", "hzgsd57336599", "336599", "L2TP");
-
-        private void BTN_Link_Click(object sender, EventArgs e)
-        {
-            vpn.Connect();
-        }
-
-        private void BTN_Disconnect_Click(object sender, EventArgs e)
-        {
-            vpn.Disconnect();
-        }
+        #region ListView事件
 
         private void LVW_Menu_MouseClick(object sender, MouseEventArgs e)
         {
@@ -315,7 +251,7 @@ namespace SRLink.From
                     ShowScreen(new SubFrmNormal());
                     break;
                 case "连接器":
-                    ShowScreen(new SubFrmSLink());
+                    ShowScreen(new SubFrmSLink(FrmLinkInfo));
                     break;
                 case "关于":
                     ShowScreen(new SubFrmAbout());
@@ -328,14 +264,13 @@ namespace SRLink.From
             while (splitContainer1.Panel2.Controls.Count > 0)
                 splitContainer1.Panel2.Controls[0].Dispose();
             // Support forms too:
-            if (ctl is Form)
+            if (ctl is Form frm)
             {
-                var frm = ctl as Form;
                 frm.TopLevel = false;
                 frm.FormBorderStyle = FormBorderStyle.None;
                 frm.Visible = true;
             }
-            ctl.Dock = DockStyle.Fill;
+            //ctl.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(ctl);
         }
     }

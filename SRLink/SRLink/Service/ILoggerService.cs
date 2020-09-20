@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SRLink.Service
 {
-    public interface ILogger
+    public interface ILoggerService
     {
         void SaveLog(string strContent);
         void SaveLog(string strTitle, Exception exc);

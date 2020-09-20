@@ -2,9 +2,9 @@
 using System.IO;
 using System.Windows.Forms; // 引用了Forms; Application需要
 
-namespace SRLink.Service.Inpl
+namespace SRLink.Service.Impl
 {
-    public class LoggerService : ILogger
+    public class LoggerService : ILoggerService
     {
         private readonly string LogDirectory;
         public LoggerService()

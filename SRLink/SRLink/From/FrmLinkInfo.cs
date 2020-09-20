@@ -9,18 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SRLink.Service;
-using SRLink.Service.Inpl;
 
 namespace SRLink.From
 {
-    public partial class FrmLinkInfo : Form
+    public partial class FrmLinkInfo : BaseForm
     {
-        private Config Config;
         // 定义委托类型
         private delegate void SetTextCallback(string str);
         public FrmLinkInfo()
         {
-            Config = new Config();
             InitializeComponent();
         }
 
@@ -28,28 +25,17 @@ namespace SRLink.From
         {
             WriteToBoard(string.Format("{0}[{1}]" + Environment.NewLine, Global.SoftwareName, Global.Version));
 
-            if (!Config.HasConfig)
-            {
-                WriteToBoard("第一次使用，请先到设置页输入认证账号等...");
-                ChangeStatus(false);
-                // 用Linked使软件不进入连接状态
-                //Linked = true;
-            }
-            else
-            {
 
-                //ConfigUpdate(Config.SettingCertify);
-                ChangeStatus(1, Config.SettingCertify.Enable);
+            //ConfigUpdate(Config.SettingCertify);
+            ChangeStatus(1, Config.SettingCertify.Enable);
 
-                //ConfigUpdate(Config.SettingLink);
-                ChangeStatus(2, Config.SettingLink.Enable);
+            //ConfigUpdate(Config.SettingLink);
+            ChangeStatus(2, Config.SettingLink.Enable);
 
-                //ConfigUpdate(Config.SettingMail);
-                ChangeStatus(3, Config.SettingMail.Enable);
+            //ConfigUpdate(Config.SettingMail);
+            ChangeStatus(3, Config.SettingMail.Enable);
 
-
-                WriteToBoard("配置文件载入成功");
-            }
+            WriteToBoard("配置文件载入成功");
 
             //Linked = Web.IsConnectInternet(Global.TestConnectionUrl);
             //if (Linked)
@@ -224,7 +210,8 @@ namespace SRLink.From
         private void FrmLinkInfo_FormClosing(object sender, FormClosingEventArgs e)
         {
             Hide();
-            ShowInTaskbar = false;
+            e.Cancel = true;
+            //ShowInTaskbar = false;
         }
     }
 }

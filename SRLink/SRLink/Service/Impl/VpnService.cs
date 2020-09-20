@@ -1,11 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using DotRas;
 
-namespace SRLink.Handler
+namespace SRLink.Service.Impl
 {
-    public class VPN
+    class VpnService : IVpnService
     {
         //RasAutoDialManager- 此组件与 Windows RAS 自动Dial 管理器进行交互。
         //RasConnectionWatcher - 此组件监视计算机上处于活动状态的连接，这是此项目的独特功能。您不会在其他地方找到此组件！
@@ -62,7 +63,7 @@ namespace SRLink.Handler
             get; set;
         }
         #endregion
-        public VPN(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol)
+        public VpnService(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol)
         {
             Dialer = new RasDialer();
             ServerIP = serverIP;
@@ -72,7 +73,7 @@ namespace SRLink.Handler
             VpnProtocol = vpnProtocol;
         }
 
-        public VPN(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol, string preSharedKey)
+        public VpnService(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol, string preSharedKey)
         {
             Dialer = new RasDialer();
             ServerIP = serverIP;
@@ -97,16 +98,16 @@ namespace SRLink.Handler
                 if (VpnProtocol.Contains("PPTP"))
                 {
                     Entry = RasEntry.CreateVpnEntry(
-                        AdapterName, 
-                        ServerIP, 
+                        AdapterName,
+                        ServerIP,
                         RasVpnStrategy.PptpOnly,
                         RasDevice.GetDevices().First(o => o.DeviceType == RasDeviceType.Vpn));
                 }
                 else
                 {
                     Entry = RasEntry.CreateVpnEntry(
-                        AdapterName, 
-                        ServerIP, 
+                        AdapterName,
+                        ServerIP,
                         RasVpnStrategy.L2tpOnly,
                         RasDevice.GetDevices().First(o => o.DeviceType == RasDeviceType.Vpn));
                 }
@@ -142,7 +143,7 @@ namespace SRLink.Handler
                 if (Handle != null)
                 {
                     ReadOnlyCollection<RasConnection> connections = RasConnection.GetActiveConnections();
-                    foreach(RasConnection connection in connections)
+                    foreach (RasConnection connection in connections)
                     {
                         if (connection != null)
                         {
