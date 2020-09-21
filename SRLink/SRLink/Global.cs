@@ -7,7 +7,7 @@
         /// info
         /// </summary>
         public const string SoftwareName = "SRLink";
-        public const string Version = "v2.2.0_200922_beta";
+        public const string Version = "v2.1.0_200804_alpha";
 
         /// <summary>
         /// 校园认证地址
