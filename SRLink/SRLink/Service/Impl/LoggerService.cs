@@ -1,33 +1,37 @@
 ﻿using System;
 using System.IO;
-// 引用了Forms; Application需要
-using System.Windows.Forms;
+using System.Windows.Forms; // 引用了Forms; Application需要
 
-namespace Kit.Utils
+namespace SRLink.Service.Impl
 {
-    public class Log
+    public class LoggerService : ILoggerService
     {
-        public static void SaveLog(string strContent)
+        private readonly string LogDirectory;
+        public LoggerService()
+        {
+            LogDirectory = Path.Combine(Application.StartupPath, "Logs");
+        }
+        public void SaveLog(string strContent)
         {
             try
             {
+                var path = Path.Combine(LogDirectory, DateTime.Now.ToString("yyyyMM") + ".txt");
                 //string path = Path.Combine(Environment.CurrentDirectory, "Logs");
-                string path = Path.Combine(Application.StartupPath, "Logs");
-                string filePath = Path.Combine(path, DateTime.Now.ToString("yyyyMM") + ".txt");
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(LogDirectory))
                 {
-                    Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(LogDirectory);
                 }
-                if (!File.Exists(filePath))
+                if (!File.Exists(path))
                 {
-                    FileStream FsCreate = new FileStream(filePath, FileMode.Create);
+                    FileStream FsCreate = new FileStream(path, FileMode.Create);
                     FsCreate.Close();
                     FsCreate.Dispose();
                 }
-                FileStream fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write);
+                FileStream fileStream = new FileStream(path, FileMode.Append, FileAccess.Write);
                 using (StreamWriter sWrite = new StreamWriter(fileStream))
                 {
-                    sWrite.WriteLine(string.Format("{0}{1}{2}", "----------------------", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), "----------------------"));
+                    sWrite.WriteLine(
+                        $"{"----------------------"}{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}{"----------------------"}");
                     sWrite.Write(strContent);
                     sWrite.WriteLine(Environment.NewLine);
                     sWrite.Flush();
@@ -36,24 +40,23 @@ namespace Kit.Utils
             }
             catch { }
         }
-        public static void SaveLog(string strTitle, Exception exc)
+        public void SaveLog(string strTitle, Exception exc)
         {
             try
             {
                 //string path = Path.Combine(Environment.CurrentDirectory, "Logs");
-                string path = Path.Combine(Application.StartupPath, "Logs");
-                string filePath = Path.Combine(path, DateTime.Now.ToString("@yyyyMMdd-Exception") + ".txt");
-                if (!Directory.Exists(path))
+                string path = Path.Combine(LogDirectory, DateTime.Now.ToString("@yyyyMMdd-Exception") + ".txt");
+                if (!Directory.Exists(LogDirectory))
                 {
-                    Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(LogDirectory);
                 }
-                if (!File.Exists(filePath))
+                if (!File.Exists(path))
                 {
-                    FileStream FsCreate = new FileStream(filePath, FileMode.Create);
+                    FileStream FsCreate = new FileStream(path, FileMode.Create);
                     FsCreate.Close();
                     FsCreate.Dispose();
                 }
-                FileStream fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write);
+                FileStream fileStream = new FileStream(path, FileMode.Append, FileAccess.Write);
                 using (StreamWriter sWrite = new StreamWriter(fileStream))
                 {
                     string strContent = exc.ToString();

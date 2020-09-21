@@ -1,13 +1,21 @@
-﻿namespace SRLink
+﻿using System.Windows.Forms;
+
+namespace SRLink
 {
     internal class Global
     {
+        #region 全局变量
+        public static string StartupPath { get => Application.StartupPath; }
+        public static bool Linked { get; set; } = true;
+        public static bool Running { get; set; } = false;
+        #endregion
+
         #region 常量
         /// <summary>
         /// info
         /// </summary>
         public const string SoftwareName = "SRLink";
-        public const string Version = "v2.1.0_200804_alpha";
+        public const string Version = "v2.2.1_200922_beta";
 
         /// <summary>
         /// 校园认证地址
@@ -55,6 +63,14 @@
         /// 注册表设置开机启动路径
         /// </summary>
         public const string autoRunRegPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
+
+        /// <summary>
+        /// VPN连接器
+        /// </summary>
+        public const string AdapterName = "SLINK_L2TP";
+
+        public const string IpServerDefault = "192.168.200.1";
+        public const string VpnProtocol = "L2TP";
         #endregion
     }
 }

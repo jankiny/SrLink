@@ -23,9 +23,8 @@ namespace Kit.Utils
                     checkCode += constant[rd.Next(36)].ToString().ToUpper();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("GenerateRandomString", e);
             }
             return checkCode;
         }

@@ -16,7 +16,7 @@ namespace SRLink
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new From.FRM_Main());
+            Application.Run(new From.FrmMain());
         }
     }
 }

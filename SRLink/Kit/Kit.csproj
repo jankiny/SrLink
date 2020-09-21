@@ -48,12 +48,13 @@
     <Compile Include="Utils\Cmd.cs" />
     <Compile Include="Utils\Encrypt.cs" />
     <Compile Include="Utils\Json.cs" />
-    <Compile Include="Utils\Log.cs" />
     <Compile Include="Win\Mouse.cs" />
     <Compile Include="Utils\Math.cs" />
     <Compile Include="Utils\Web.cs" />
     <Compile Include="Win\Sys.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

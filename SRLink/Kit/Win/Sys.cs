@@ -11,18 +11,24 @@ namespace Kit.Win
         /// <summary>
         /// 开机自动启动
         /// </summary>
+        /// <param name="autoRunName"></param>
         /// <param name="run"></param>
+        /// <param name="autoRunRegPath"></param>
         /// <returns></returns>
         public static void SetAutoRun(string autoRunRegPath, string autoRunName, bool run)
         {
             try
             {
-                string exePath = Process.GetCurrentProcess().MainModule.FileName;
-                RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
+                var processModule = Process.GetCurrentProcess().MainModule;
+                if (processModule != null)
+                {
+                    string exePath = processModule.FileName;
+                    RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("SetAutoRun", e);
+                // ignored
             }
         }
 
@@ -35,16 +41,21 @@ namespace Kit.Win
             try
             {
                 string value = RegReadValue(autoRunRegPath, autoRunName, "");
-                string exePath = Process.GetCurrentProcess().MainModule.FileName;
-                if (value?.Equals(exePath) == true)
+                var processModule = Process.GetCurrentProcess().MainModule;
+                if (processModule != null)
                 {
-                    return true;
+                    string exePath = processModule.FileName;
+                    if (value?.Equals(exePath) == true)
+                    {
+                        return true;
+                    }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("IsAutoRun", e);
+                // ignored
             }
+
             return false;
         }
 
@@ -64,9 +75,9 @@ namespace Kit.Win
                     return false;
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("RunExeFile", e);
+                // ignored
                 return false;
             }
         }
@@ -107,9 +118,9 @@ namespace Kit.Win
                     regKey?.SetValue(name, value);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("RegWriteValue", e);
+                // ignored
             }
             finally
             {
@@ -132,9 +143,9 @@ namespace Kit.Win
                     return value;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.SaveLog("RegReadValue", e);
+                // ignored
             }
             finally
             {

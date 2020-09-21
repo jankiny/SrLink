@@ -1,4 +1,6 @@
-﻿namespace SRLink.From
+﻿using System.Windows.Forms;
+
+namespace SRLink.From
 {
     partial class BaseForm
     {
