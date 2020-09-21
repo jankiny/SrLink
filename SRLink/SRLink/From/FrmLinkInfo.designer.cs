@@ -205,7 +205,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmLinkInfo";
-            this.Text = "Link Info";
+            this.Text = "连接信息";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLinkInfo_FormClosing);
             this.Load += new System.EventHandler(this.FRM_LinkInfo_Load);
             this.PNL_Step3.ResumeLayout(false);

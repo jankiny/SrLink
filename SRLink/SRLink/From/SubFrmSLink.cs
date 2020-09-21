@@ -77,7 +77,16 @@ namespace SRLink.From
         }
         private void BTN_ControlLink_Click(object sender, EventArgs e)
         {
-
+            // TODO: 连接控制（下面的代码应放到Timer中）
+            switch (Global.Running)
+            {
+                case true:
+                    BTN_ControlLink.Text = "中断";
+                    break;
+                case false:
+                    BTN_ControlLink.Text = "立即链接";
+                    break;
+            }
         }
 
         private void CHK_AutoLink_CheckedChanged(object sender, EventArgs e)

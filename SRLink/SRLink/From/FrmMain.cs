@@ -12,15 +12,11 @@ namespace SRLink.From
     {
         public static FrmLinkInfo FrmLinkInfo;
         public SrLinkService SrLinkService;
-        private bool Linked;
-        private bool Running;
 
         public FrmMain()
         {
             InitializeComponent();
             Config = ConfigService.LoadConfig();
-            Linked = true;
-            Running = false;
             FrmLinkInfo = new FrmLinkInfo();
             SrLinkService = new SrLinkService(Config);
 
@@ -40,12 +36,13 @@ namespace SRLink.From
             WindowState = FormWindowState.Minimized;
             ShowScreen(new SubFrmNormal());
 
-            if (!Linked)
+            // TODO: Linked判断以到TryAutoLink()中
+            if (!Global.Linked)
             {
                 TryAutoLink();
             }
 
-            Linked = await Task.Run(() => SrLinkService.IsConnectInternet());
+            Global.Linked = await Task.Run(() => SrLinkService.IsConnectInternet());
         }
         private void FrmMain_SizeChanged(object sender, EventArgs e)
         {
@@ -54,7 +51,16 @@ namespace SRLink.From
                 ShowInTaskbar = false;
             }
         }
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            WindowState = FormWindowState.Minimized;
+        }
 
+        #endregion
+
+        #region 状态栏
+        
         private void NotifyIcon_DoubleClick(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -64,13 +70,29 @@ namespace SRLink.From
                 this.ShowInTaskbar = true;
             }
         }
+
+        private void 显示ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                this.Activate();
+                this.ShowInTaskbar = true;
+            }
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         #endregion
 
         #region Timer事件
 
         private void TMR_SrLink_Tick(object sender, EventArgs e)
         {
-            if (!Linked)
+            if (!Global.Linked)
             {
                 TryAutoLink();
             }
@@ -83,9 +105,9 @@ namespace SRLink.From
 
         private async void TryAutoLink()
         {
-            if (!Running)
+            if (!Global.Running)
             {
-                Running = true;
+                Global.Running = true;
                 await Task.Run(() =>
                 {
                     if (!Config.AutoLink || !Config.EnableLink()) return;
@@ -109,11 +131,11 @@ namespace SRLink.From
                         FrmLinkInfo.WriteToBoard("开始连接网络...");
                         do
                         {
-                            Linked = SrLinkService.LinkVpn(out var msg);
+                            Global.Linked = SrLinkService.LinkVpn(out var msg);
                             FrmLinkInfo.WriteToBoard(msg);
                             Thread.Sleep(1000);
                             count--;
-                        } while (count > 0 && !Linked);
+                        } while (count > 0 && !Global.Linked);
                     }
 
                     if (Config.SettingMail.Enable)
@@ -130,7 +152,7 @@ namespace SRLink.From
                         } while (count > 0 && !send);
                     }
                 });
-                Running = false;
+                Global.Running = false;
             }
         }
         #endregion
@@ -192,6 +214,5 @@ namespace SRLink.From
             splitContainer1.Panel2.Controls.Add(ctl);
         }
         #endregion
-
     }
 }
