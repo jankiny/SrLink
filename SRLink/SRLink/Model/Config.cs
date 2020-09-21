@@ -58,7 +58,7 @@ namespace SRLink.Model
 
         public Config GetAllAsync()
         {
-            var path = Sys.Combine(Application.StartupPath, Global.ConfigFileName); 
+            var path = Sys.Combine(Global.StartupPath, Global.ConfigFileName); 
             string result = Json.LoadResource(path);
             var config = Json.FromJson<Config>(result);
             if (config == null)
@@ -79,7 +79,7 @@ namespace SRLink.Model
 
         public int UpdateAsync(Config config)
         {
-            var path = Sys.Combine(Application.StartupPath, Global.ConfigFileName);
+            var path = Sys.Combine(Global.StartupPath, Global.ConfigFileName);
             return Json.ToJsonFile(config, path);
         }
         public bool EnableLink()

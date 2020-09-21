@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using DotRas;
+using Kit.Win;
 
 namespace SRLink.Service.Impl
 {
@@ -88,7 +89,8 @@ namespace SRLink.Service.Impl
         {
             using (RasPhoneBook PhoneBook = new RasPhoneBook())
             {
-                PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
+                //PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
+                PhoneBook.Open(Sys.Combine(Global.StartupPath, ".\\MyAppPhoneBook.pbk"));
                 RasEntry Entry;
 
                 if (PhoneBook.Entries.Contains(AdapterName))
@@ -126,7 +128,8 @@ namespace SRLink.Service.Impl
                 //}
 
                 Dialer.EntryName = AdapterName;
-                Dialer.PhoneBookPath = RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers);
+                //Dialer.PhoneBookPath = RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers);
+                Dialer.PhoneBookPath = Sys.Combine(Global.StartupPath, ".\\MyAppPhoneBook.pbk");
                 Dialer.Credentials = new NetworkCredential(UserName, PassWord);
             }
             Handle = Dialer.DialAsync();
@@ -155,7 +158,8 @@ namespace SRLink.Service.Impl
 
             using (RasPhoneBook PhoneBook = new RasPhoneBook())
             {
-                PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
+                //PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
+                PhoneBook.Open(Sys.Combine(Global.StartupPath, ".\\MyAppPhoneBook.pbk"));
 
                 if (PhoneBook.Entries.Contains(AdapterName))
                 {

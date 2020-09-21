@@ -25,30 +25,29 @@ namespace SRLink.From
         private void SubFrmSLink_Load(object sender, EventArgs e)
         {
             //if (!Config.HasConfig) return;
+            // 显示连接窗口
             CHK_ShowLinkInfo.Checked = Config.ShowLinkInfo;
-
+            // 自动连接
             CHK_AutoLink.Checked = Config.AutoLink;
             DTP_StartTime.Value = Config.StartTime;
-
+            // 校园网认证
             CHK_EnableCertify.Checked = Config.SettingCertify.Enable;
             UInput_CertifyId.Content = Config.SettingCertify.StudentId;
             UInput_CertifyPassword.Content = Config.SettingCertify.Password;
-
+            // 网络连接
             CHK_EnableLink.Checked = Config.SettingLink.Enable;
             UInput_LinkServer.Content = Config.SettingLink.IpServer;
             UInput_LinkUserName.Content = Config.SettingLink.UserName;
             UInput_LinkPassword.Content = Config.SettingLink.Password;
-
+            // 发送IP地址
             CHK_EnableMail.Checked = Config.SettingMail.Enable;
             UInput_MailAddress.Content = Config.SettingMail.Address;
         }
 
-        private void CHK_AutoLink_CheckedChanged(object sender, EventArgs e)
+        private void CHK_ShowLinkInfo_CheckedChanged(object sender, EventArgs e)
         {
-            DTP_StartTime.Enabled = CHK_AutoLink.Checked;
-            Config.AutoLink = CHK_AutoLink.Checked;
+            Config.ShowLinkInfo = CHK_ShowLinkInfo.Checked;
         }
-
         private void TMR_ReSent_Tick(object sender, EventArgs e)
         {
             if (Count == 1)
@@ -63,9 +62,16 @@ namespace SRLink.From
                 BTN_TestMail.Text = Count.ToString() + "s";
             }
         }
-        private void CHK_ShowLinkInfo_CheckedChanged(object sender, EventArgs e)
+
+        private void DTP_StartTime_ValueChanged(object sender, EventArgs e)
         {
-            Config.ShowLinkInfo = CHK_ShowLinkInfo.Checked;
+            Config.StartTime = DTP_StartTime.Value;
+        }
+
+        private void CHK_AutoLink_CheckedChanged(object sender, EventArgs e)
+        {
+            DTP_StartTime.Enabled = CHK_AutoLink.Checked;
+            Config.AutoLink = CHK_AutoLink.Checked;
         }
 
         private void BTN_OpenInfoForm_Click(object sender, EventArgs e)
@@ -100,7 +106,7 @@ namespace SRLink.From
 
         private void BTN_SetDefault_Click(object sender, EventArgs e)
         {
-            UInput_LinkServer.Content = Global.IPServerDefault;
+            UInput_LinkServer.Content = Global.IpServerDefault;
         }
 
         private void UInput_LinkUserName_UcContentTextChanged(object sender, EventArgs e)
@@ -132,6 +138,5 @@ namespace SRLink.From
             //.TestMail(UInput_MailAddress.Content);
             TMR_ReSent.Enabled = true;
         }
-
     }
 }

@@ -73,6 +73,7 @@
             this.DTP_StartTime.Size = new System.Drawing.Size(66, 21);
             this.DTP_StartTime.TabIndex = 12;
             this.DTP_StartTime.Value = new System.DateTime(2020, 6, 29, 8, 0, 0, 0);
+            this.DTP_StartTime.ValueChanged += new System.EventHandler(this.DTP_StartTime_ValueChanged);
             // 
             // label2
             // 

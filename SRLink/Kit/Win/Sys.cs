@@ -11,14 +11,20 @@ namespace Kit.Win
         /// <summary>
         /// 开机自动启动
         /// </summary>
+        /// <param name="autoRunName"></param>
         /// <param name="run"></param>
+        /// <param name="autoRunRegPath"></param>
         /// <returns></returns>
         public static void SetAutoRun(string autoRunRegPath, string autoRunName, bool run)
         {
             try
             {
-                string exePath = Process.GetCurrentProcess().MainModule.FileName;
-                RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
+                var processModule = Process.GetCurrentProcess().MainModule;
+                if (processModule != null)
+                {
+                    string exePath = processModule.FileName;
+                    RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
+                }
             }
             catch (Exception)
             {
@@ -35,10 +41,14 @@ namespace Kit.Win
             try
             {
                 string value = RegReadValue(autoRunRegPath, autoRunName, "");
-                string exePath = Process.GetCurrentProcess().MainModule.FileName;
-                if (value?.Equals(exePath) == true)
+                var processModule = Process.GetCurrentProcess().MainModule;
+                if (processModule != null)
                 {
-                    return true;
+                    string exePath = processModule.FileName;
+                    if (value?.Equals(exePath) == true)
+                    {
+                        return true;
+                    }
                 }
             }
             catch (Exception)
