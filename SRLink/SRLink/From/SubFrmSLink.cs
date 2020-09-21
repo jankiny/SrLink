@@ -42,41 +42,48 @@ namespace SRLink.From
             // 发送IP地址
             CHK_EnableMail.Checked = Config.SettingMail.Enable;
             UInput_MailAddress.Content = Config.SettingMail.Address;
+
+            if (Config.ShowLinkInfo)
+            {
+                FrmLinkInfo.Show();
+                //BTN_InfoFormDisplay.Text = "关闭";
+            }
         }
 
         private void CHK_ShowLinkInfo_CheckedChanged(object sender, EventArgs e)
         {
             Config.ShowLinkInfo = CHK_ShowLinkInfo.Checked;
         }
-        private void TMR_ReSent_Tick(object sender, EventArgs e)
+
+        private void BTN_InfoFormDisplay_Click(object sender, EventArgs e)
         {
-            if (Count == 1)
-            {
-                BTN_TestMail.Enabled = true;
-                TMR_ReSent.Enabled = false;
-                BTN_TestMail.Text = "发送";
-            }
-            else
-            {
-                Count--;
-                BTN_TestMail.Text = Count.ToString() + "s";
-            }
+            FrmLinkInfo.Show();
+            //switch (BTN_InfoFormDisplay.Text)
+            //{
+            //    case "显示":
+            //        FrmLinkInfo.Show();
+            //        BTN_InfoFormDisplay.Text = "关闭";
+            //        break;
+            //    case "关闭":
+            //        FrmLinkInfo.Hide();
+            //        BTN_InfoFormDisplay.Text = "显示";
+            //        break;
+            //}
         }
 
         private void DTP_StartTime_ValueChanged(object sender, EventArgs e)
         {
             Config.StartTime = DTP_StartTime.Value;
         }
+        private void BTN_ControlLink_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void CHK_AutoLink_CheckedChanged(object sender, EventArgs e)
         {
             DTP_StartTime.Enabled = CHK_AutoLink.Checked;
             Config.AutoLink = CHK_AutoLink.Checked;
-        }
-
-        private void BTN_OpenInfoForm_Click(object sender, EventArgs e)
-        {
-            FrmLinkInfo.Show();
         }
 
         private void CHK_EnableCertify_CheckedChanged(object sender, EventArgs e)
@@ -131,12 +138,26 @@ namespace SRLink.From
 
         private void BTN_TestMail_Click(object sender, EventArgs e)
         {
-            //TODO: 注入SrLinkService
+            //TODO: (功能还不可用)注入SrLinkService
             BTN_TestMail.Enabled = false;
             BTN_TestMail.Text = "15s";
             Count = 15;
             //.TestMail(UInput_MailAddress.Content);
             TMR_ReSent.Enabled = true;
+        }
+        private void TMR_ReSent_Tick(object sender, EventArgs e)
+        {
+            if (Count == 1)
+            {
+                BTN_TestMail.Enabled = true;
+                TMR_ReSent.Enabled = false;
+                BTN_TestMail.Text = "发送";
+            }
+            else
+            {
+                Count--;
+                BTN_TestMail.Text = Count.ToString() + "s";
+            }
         }
     }
 }

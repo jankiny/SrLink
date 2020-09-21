@@ -209,8 +209,8 @@ namespace SRLink.From
 
         private void FrmLinkInfo_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Hide();
             e.Cancel = true;
+            Hide();
             //ShowInTaskbar = false;
         }
     }

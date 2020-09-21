@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.BTN_Stop = new System.Windows.Forms.Button();
             this.PNL_Step3 = new System.Windows.Forms.Panel();
             this.PBX_Mail = new System.Windows.Forms.PictureBox();
             this.LBL_Line2 = new System.Windows.Forms.Label();
@@ -40,7 +39,6 @@
             this.PNL_Step1 = new System.Windows.Forms.Panel();
             this.PBX_Certify = new System.Windows.Forms.PictureBox();
             this.LBL_Step1 = new System.Windows.Forms.Label();
-            this.BTN_Start = new System.Windows.Forms.Button();
             this.TBX_Board = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.PNL_Step3.SuspendLayout();
@@ -51,31 +49,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.PBX_Certify)).BeginInit();
             this.SuspendLayout();
             // 
-            // BTN_Stop
-            // 
-            this.BTN_Stop.Location = new System.Drawing.Point(397, 41);
-            this.BTN_Stop.Name = "BTN_Stop";
-            this.BTN_Stop.Size = new System.Drawing.Size(75, 23);
-            this.BTN_Stop.TabIndex = 11;
-            this.BTN_Stop.Text = "终止";
-            this.BTN_Stop.UseVisualStyleBackColor = true;
-            // 
             // PNL_Step3
             // 
             this.PNL_Step3.Controls.Add(this.PBX_Mail);
             this.PNL_Step3.Controls.Add(this.LBL_Line2);
             this.PNL_Step3.Controls.Add(this.LBL_Step3);
             this.PNL_Step3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PNL_Step3.Location = new System.Drawing.Point(216, 0);
+            this.PNL_Step3.Location = new System.Drawing.Point(266, 0);
             this.PNL_Step3.Name = "PNL_Step3";
-            this.PNL_Step3.Size = new System.Drawing.Size(150, 70);
+            this.PNL_Step3.Size = new System.Drawing.Size(200, 70);
             this.PNL_Step3.TabIndex = 10;
             // 
             // PBX_Mail
             // 
             this.PBX_Mail.BackgroundImage = global::SRLink.Properties.Resources.mail_normal;
             this.PBX_Mail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PBX_Mail.Location = new System.Drawing.Point(110, 4);
+            this.PBX_Mail.Location = new System.Drawing.Point(151, 4);
             this.PBX_Mail.Name = "PBX_Mail";
             this.PBX_Mail.Size = new System.Drawing.Size(35, 35);
             this.PBX_Mail.TabIndex = 1;
@@ -88,15 +77,15 @@
             this.LBL_Line2.ForeColor = System.Drawing.Color.DimGray;
             this.LBL_Line2.Location = new System.Drawing.Point(5, 23);
             this.LBL_Line2.Name = "LBL_Line2";
-            this.LBL_Line2.Size = new System.Drawing.Size(96, 12);
+            this.LBL_Line2.Size = new System.Drawing.Size(138, 12);
             this.LBL_Line2.TabIndex = 1;
-            this.LBL_Line2.Text = "------------>";
+            this.LBL_Line2.Text = "------------------>";
             // 
             // LBL_Step3
             // 
             this.LBL_Step3.AutoSize = true;
             this.LBL_Step3.ForeColor = System.Drawing.Color.DimGray;
-            this.LBL_Step3.Location = new System.Drawing.Point(105, 55);
+            this.LBL_Step3.Location = new System.Drawing.Point(149, 55);
             this.LBL_Step3.Name = "LBL_Step3";
             this.LBL_Step3.Size = new System.Drawing.Size(41, 12);
             this.LBL_Step3.TabIndex = 0;
@@ -110,14 +99,14 @@
             this.PNL_Step2.Dock = System.Windows.Forms.DockStyle.Left;
             this.PNL_Step2.Location = new System.Drawing.Point(66, 0);
             this.PNL_Step2.Name = "PNL_Step2";
-            this.PNL_Step2.Size = new System.Drawing.Size(150, 70);
+            this.PNL_Step2.Size = new System.Drawing.Size(200, 70);
             this.PNL_Step2.TabIndex = 9;
             // 
             // PBX_Link
             // 
             this.PBX_Link.BackgroundImage = global::SRLink.Properties.Resources.network_normal;
             this.PBX_Link.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PBX_Link.Location = new System.Drawing.Point(110, 4);
+            this.PBX_Link.Location = new System.Drawing.Point(150, 4);
             this.PBX_Link.Name = "PBX_Link";
             this.PBX_Link.Size = new System.Drawing.Size(35, 35);
             this.PBX_Link.TabIndex = 1;
@@ -130,16 +119,16 @@
             this.LBL_Line1.ForeColor = System.Drawing.Color.DimGray;
             this.LBL_Line1.Location = new System.Drawing.Point(5, 23);
             this.LBL_Line1.Name = "LBL_Line1";
-            this.LBL_Line1.Size = new System.Drawing.Size(96, 12);
+            this.LBL_Line1.Size = new System.Drawing.Size(138, 12);
             this.LBL_Line1.TabIndex = 1;
-            this.LBL_Line1.Text = "------------>";
+            this.LBL_Line1.Text = "------------------>";
             // 
             // LBL_Step2
             // 
             this.LBL_Step2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LBL_Step2.AutoSize = true;
             this.LBL_Step2.ForeColor = System.Drawing.Color.DimGray;
-            this.LBL_Step2.Location = new System.Drawing.Point(113, 55);
+            this.LBL_Step2.Location = new System.Drawing.Point(153, 55);
             this.LBL_Step2.Name = "LBL_Step2";
             this.LBL_Step2.Size = new System.Drawing.Size(29, 12);
             this.LBL_Step2.TabIndex = 0;
@@ -176,15 +165,6 @@
             this.LBL_Step1.TabIndex = 0;
             this.LBL_Step1.Text = "认证";
             // 
-            // BTN_Start
-            // 
-            this.BTN_Start.Location = new System.Drawing.Point(397, 12);
-            this.BTN_Start.Name = "BTN_Start";
-            this.BTN_Start.Size = new System.Drawing.Size(75, 23);
-            this.BTN_Start.TabIndex = 7;
-            this.BTN_Start.Text = "立即连接";
-            this.BTN_Start.UseVisualStyleBackColor = true;
-            // 
             // TBX_Board
             // 
             this.TBX_Board.AcceptsReturn = true;
@@ -197,7 +177,7 @@
             this.TBX_Board.Name = "TBX_Board";
             this.TBX_Board.ReadOnly = true;
             this.TBX_Board.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TBX_Board.Size = new System.Drawing.Size(484, 241);
+            this.TBX_Board.Size = new System.Drawing.Size(466, 241);
             this.TBX_Board.TabIndex = 6;
             this.TBX_Board.TabStop = false;
             // 
@@ -215,13 +195,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 311);
+            this.ClientSize = new System.Drawing.Size(466, 311);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BTN_Stop);
             this.Controls.Add(this.PNL_Step3);
             this.Controls.Add(this.PNL_Step2);
             this.Controls.Add(this.PNL_Step1);
-            this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.TBX_Board);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -245,8 +223,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button BTN_Stop;
         private System.Windows.Forms.Panel PNL_Step3;
         private System.Windows.Forms.PictureBox PBX_Mail;
         private System.Windows.Forms.Label LBL_Line2;
@@ -258,7 +234,6 @@
         private System.Windows.Forms.Panel PNL_Step1;
         private System.Windows.Forms.PictureBox PBX_Certify;
         private System.Windows.Forms.Label LBL_Step1;
-        private System.Windows.Forms.Button BTN_Start;
         private System.Windows.Forms.TextBox TBX_Board;
         private System.Windows.Forms.Label label1;
     }

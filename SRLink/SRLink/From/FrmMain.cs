@@ -39,10 +39,6 @@ namespace SRLink.From
         {
             WindowState = FormWindowState.Minimized;
             ShowScreen(new SubFrmNormal());
-            if (Config.ShowLinkInfo)
-            {
-                FrmLinkInfo.Show();
-            }
 
             if (!Linked)
             {
