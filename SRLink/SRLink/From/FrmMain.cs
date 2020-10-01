@@ -20,13 +20,13 @@ namespace SRLink.From
             FrmLinkInfo = new FrmLinkInfo();
             SrLinkService = new SrLinkService(Config);
 
-            Application.ApplicationExit += (sender, args) =>
-            {
-                //Config.HasConfig = true;
-                SrLinkService.DisconnectVpn();
-                ConfigService.SaveConfig(Config);
-                //await Task.Run(() => );
-            };
+            //Application.ApplicationExit += (sender, args) =>
+            //{
+            //    //Config.HasConfig = true;
+            //    SrLinkService.DisconnectVpn();
+            //    ConfigService.SaveConfig(Config);
+            //    //await Task.Run(() => );
+            //};
         }
 
         #region From及其他事件
@@ -53,8 +53,16 @@ namespace SRLink.From
         }
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            WindowState = FormWindowState.Minimized;
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                SrLinkService.DisconnectVpn();
+                ConfigService.SaveConfig(Config);
+            }
         }
 
         #endregion
@@ -84,6 +92,7 @@ namespace SRLink.From
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            //Environment.Exit(0);
         }
 
         #endregion
