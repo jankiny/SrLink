@@ -20,13 +20,13 @@ namespace SRLink.From
             FrmLinkInfo = new FrmLinkInfo();
             SrLinkService = new SrLinkService(Config);
 
-            //Application.ApplicationExit += (sender, args) =>
-            //{
-            //    //Config.HasConfig = true;
-            //    SrLinkService.DisconnectVpn();
-            //    ConfigService.SaveConfig(Config);
-            //    //await Task.Run(() => );
-            //};
+            Application.ApplicationExit += (sender, args) =>
+            {
+                //Config.HasConfig = true;
+                SrLinkService.DisconnectVpn();
+                ConfigService.SaveConfig(Config);
+                //await Task.Run(() => );
+            };
         }
 
         #region From及其他事件
@@ -57,11 +57,6 @@ namespace SRLink.From
             {
                 e.Cancel = true;
                 WindowState = FormWindowState.Minimized;
-            }
-            else
-            {
-                SrLinkService.DisconnectVpn();
-                ConfigService.SaveConfig(Config);
             }
         }
 
