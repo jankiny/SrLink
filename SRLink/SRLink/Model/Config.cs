@@ -58,19 +58,6 @@ namespace SRLink.Model
             var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName); 
             string result = TextHelper.LoadResource(path);
             var config = TextHelper.FromJson<Config>(result);
-            if (config == null)
-            {
-                config = new Config
-                {
-                    //HasConfig = false,
-                    StartTime = DateTime.Parse("08:00"),
-                    LastLinkTime = DateTime.Now.AddDays(-1),
-                    SettingCertify = new SettingCertify(),
-                    SettingLink = new SettingLink(),
-                    SettingMail = new SettingMail(),
-                    RunAtStartup = false
-                };
-            }
             return config;
         }
 

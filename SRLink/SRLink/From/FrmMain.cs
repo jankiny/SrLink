@@ -16,6 +16,20 @@ namespace SRLink.From
         {
             InitializeComponent();
             Config = ConfigService.LoadConfig();
+            if (Config == null)
+            {
+                ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。");
+                Config = new Config
+                {
+                    //HasConfig = false,
+                    StartTime = DateTime.Parse("08:00"),
+                    LastLinkTime = DateTime.Now.AddDays(-1),
+                    SettingCertify = new SettingCertify(),
+                    SettingLink = new SettingLink(),
+                    SettingMail = new SettingMail(),
+                    RunAtStartup = false
+                };
+            }
             SrLinkService = new SrLinkService(Config, ConfigService);
 
             Application.ApplicationExit += (sender, args) =>
