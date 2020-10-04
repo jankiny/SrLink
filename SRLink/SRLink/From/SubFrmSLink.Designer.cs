@@ -47,7 +47,7 @@
             this.UInput_CertifyPassword = new SRLink.From.UInput();
             this.UInput_CertifyId = new SRLink.From.UInput();
             this.TMR_ReSent = new System.Windows.Forms.Timer(this.components);
-            this.BTN_ControlLink = new System.Windows.Forms.Button();
+            this.LBL_Tip_AutoLink = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -238,22 +238,22 @@
             this.TMR_ReSent.Interval = 1000;
             this.TMR_ReSent.Tick += new System.EventHandler(this.TMR_ReSent_Tick);
             // 
-            // BTN_ControlLink
+            // LBL_Tip_AutoLink
             // 
-            this.BTN_ControlLink.Location = new System.Drawing.Point(199, 37);
-            this.BTN_ControlLink.Name = "BTN_ControlLink";
-            this.BTN_ControlLink.Size = new System.Drawing.Size(75, 23);
-            this.BTN_ControlLink.TabIndex = 43;
-            this.BTN_ControlLink.Text = "立即连接";
-            this.BTN_ControlLink.UseVisualStyleBackColor = true;
-            this.BTN_ControlLink.Click += new System.EventHandler(this.BTN_ControlLink_Click);
+            this.LBL_Tip_AutoLink.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LBL_Tip_AutoLink.Location = new System.Drawing.Point(197, 37);
+            this.LBL_Tip_AutoLink.Name = "LBL_Tip_AutoLink";
+            this.LBL_Tip_AutoLink.Size = new System.Drawing.Size(193, 36);
+            this.LBL_Tip_AutoLink.TabIndex = 42;
+            this.LBL_Tip_AutoLink.Text = "Tip：当超过设定的时间后，会自动按配置进行连接。直到检测到网络已连接。";
+            this.LBL_Tip_AutoLink.Visible = false;
             // 
             // SubFrmSLink
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(439, 695);
-            this.Controls.Add(this.BTN_ControlLink);
+            this.Controls.Add(this.LBL_Tip_AutoLink);
             this.Controls.Add(this.BTN_TestMail);
             this.Controls.Add(this.CHK_EnableMail);
             this.Controls.Add(this.UInput_MailAddress);
@@ -299,6 +299,6 @@
         private System.Windows.Forms.Button BTN_TestMail;
         private System.Windows.Forms.CheckBox CHK_AutoLink;
         private System.Windows.Forms.Timer TMR_ReSent;
-        private System.Windows.Forms.Button BTN_ControlLink;
+        private System.Windows.Forms.Label LBL_Tip_AutoLink;
     }
 }

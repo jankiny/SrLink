@@ -154,7 +154,6 @@ namespace SRLink.From
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-            Environment.Exit(0);
             //Environment.Exit(0);
         }
 

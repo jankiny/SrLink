@@ -67,6 +67,7 @@ namespace SRLink.From
         {
             DTP_StartTime.Enabled = CHK_AutoLink.Checked;
             Config.AutoLink = CHK_AutoLink.Checked;
+            LBL_Tip_AutoLink.Visible = CHK_AutoLink.Checked;
         }
 
         private void CHK_EnableCertify_CheckedChanged(object sender, EventArgs e)
