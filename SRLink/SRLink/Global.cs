@@ -6,8 +6,8 @@ namespace SRLink
     {
         #region 全局变量
         public static string StartupPath { get => Application.StartupPath; }
-        public static bool Linked { get; set; } = true;
-        public static bool Running { get; set; } = false;
+        //public static bool Linked { get; set; } = true;
+        //public static bool Running { get; set; } = false;
         #endregion
 
         #region 常量
@@ -15,7 +15,7 @@ namespace SRLink
         /// info
         /// </summary>
         public const string SoftwareName = "SRLink";
-        public const string Version = "v2.2.2_20201001_beta";
+        public const string Version = "v2.2.3_beta";
 
         /// <summary>
         /// 校园认证地址

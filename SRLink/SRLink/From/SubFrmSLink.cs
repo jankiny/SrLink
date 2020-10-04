@@ -14,19 +14,25 @@ namespace SRLink.From
     public partial class SubFrmSLink : BaseForm
     {
         private int Count = 0;
-        public static FrmLinkInfo FrmLinkInfo;
         public SrLinkService SrLinkService;
 
-        public SubFrmSLink(FrmLinkInfo frmLinkInfo)
+        public SubFrmSLink()
         {
-            FrmLinkInfo = frmLinkInfo;
             InitializeComponent();
         }
         private void SubFrmSLink_Load(object sender, EventArgs e)
         {
             //if (!Config.HasConfig) return;
-            // 显示连接窗口
-            CHK_ShowLinkInfo.Checked = Config.ShowLinkInfo;
+            //// 刷新UI
+            //switch (SrLinkService.Running)
+            //{
+            //    case true:
+            //        BTN_ControlLink.Text = "中断";
+            //        break;
+            //    case false:
+            //        BTN_ControlLink.Text = "立即链接";
+            //        break;
+            //}
             // 自动连接
             CHK_AutoLink.Checked = Config.AutoLink;
             DTP_StartTime.Value = Config.StartTime;
@@ -43,32 +49,6 @@ namespace SRLink.From
             CHK_EnableMail.Checked = Config.SettingMail.Enable;
             UInput_MailAddress.Content = Config.SettingMail.Address;
 
-            if (Config.ShowLinkInfo)
-            {
-                FrmLinkInfo.Show();
-                //BTN_InfoFormDisplay.Text = "关闭";
-            }
-        }
-
-        private void CHK_ShowLinkInfo_CheckedChanged(object sender, EventArgs e)
-        {
-            Config.ShowLinkInfo = CHK_ShowLinkInfo.Checked;
-        }
-
-        private void BTN_InfoFormDisplay_Click(object sender, EventArgs e)
-        {
-            FrmLinkInfo.Show();
-            //switch (BTN_InfoFormDisplay.Text)
-            //{
-            //    case "显示":
-            //        FrmLinkInfo.Show();
-            //        BTN_InfoFormDisplay.Text = "关闭";
-            //        break;
-            //    case "关闭":
-            //        FrmLinkInfo.Hide();
-            //        BTN_InfoFormDisplay.Text = "显示";
-            //        break;
-            //}
         }
 
         private void DTP_StartTime_ValueChanged(object sender, EventArgs e)
@@ -77,15 +57,9 @@ namespace SRLink.From
         }
         private void BTN_ControlLink_Click(object sender, EventArgs e)
         {
-            // TODO: 连接控制（下面的代码应放到Timer中）
-            switch (Global.Running)
+            if (SrLinkService.Running)
             {
-                case true:
-                    BTN_ControlLink.Text = "中断";
-                    break;
-                case false:
-                    BTN_ControlLink.Text = "立即链接";
-                    break;
+
             }
         }
 

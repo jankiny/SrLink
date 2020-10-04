@@ -46,10 +46,7 @@
             this.UInput_LinkServer = new SRLink.From.UInput();
             this.UInput_CertifyPassword = new SRLink.From.UInput();
             this.UInput_CertifyId = new SRLink.From.UInput();
-            this.label5 = new System.Windows.Forms.Label();
-            this.BTN_InfoFormDisplay = new System.Windows.Forms.Button();
             this.TMR_ReSent = new System.Windows.Forms.Timer(this.components);
-            this.CHK_ShowLinkInfo = new System.Windows.Forms.CheckBox();
             this.BTN_ControlLink = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -57,7 +54,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("黑体", 12F);
-            this.label1.Location = new System.Drawing.Point(14, 74);
+            this.label1.Location = new System.Drawing.Point(14, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 16);
             this.label1.TabIndex = 13;
@@ -68,7 +65,7 @@
             this.DTP_StartTime.CustomFormat = "HH:mm";
             this.DTP_StartTime.Enabled = false;
             this.DTP_StartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTP_StartTime.Location = new System.Drawing.Point(99, 93);
+            this.DTP_StartTime.Location = new System.Drawing.Point(99, 37);
             this.DTP_StartTime.Name = "DTP_StartTime";
             this.DTP_StartTime.ShowUpDown = true;
             this.DTP_StartTime.Size = new System.Drawing.Size(66, 21);
@@ -80,7 +77,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("黑体", 12F);
-            this.label2.Location = new System.Drawing.Point(14, 131);
+            this.label2.Location = new System.Drawing.Point(14, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 16);
             this.label2.TabIndex = 14;
@@ -90,7 +87,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("黑体", 12F);
-            this.label3.Location = new System.Drawing.Point(14, 285);
+            this.label3.Location = new System.Drawing.Point(14, 229);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(72, 16);
             this.label3.TabIndex = 15;
@@ -100,7 +97,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("黑体", 12F);
-            this.label4.Location = new System.Drawing.Point(14, 487);
+            this.label4.Location = new System.Drawing.Point(14, 431);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(88, 16);
             this.label4.TabIndex = 16;
@@ -109,7 +106,7 @@
             // CHK_EnableCertify
             // 
             this.CHK_EnableCertify.AutoSize = true;
-            this.CHK_EnableCertify.Location = new System.Drawing.Point(21, 153);
+            this.CHK_EnableCertify.Location = new System.Drawing.Point(21, 97);
             this.CHK_EnableCertify.Name = "CHK_EnableCertify";
             this.CHK_EnableCertify.Size = new System.Drawing.Size(48, 16);
             this.CHK_EnableCertify.TabIndex = 23;
@@ -119,7 +116,7 @@
             // 
             // BTN_SetDefault
             // 
-            this.BTN_SetDefault.Location = new System.Drawing.Point(199, 350);
+            this.BTN_SetDefault.Location = new System.Drawing.Point(199, 294);
             this.BTN_SetDefault.Name = "BTN_SetDefault";
             this.BTN_SetDefault.Size = new System.Drawing.Size(47, 23);
             this.BTN_SetDefault.TabIndex = 33;
@@ -130,7 +127,7 @@
             // CHK_EnableLink
             // 
             this.CHK_EnableLink.AutoSize = true;
-            this.CHK_EnableLink.Location = new System.Drawing.Point(21, 307);
+            this.CHK_EnableLink.Location = new System.Drawing.Point(21, 251);
             this.CHK_EnableLink.Name = "CHK_EnableLink";
             this.CHK_EnableLink.Size = new System.Drawing.Size(48, 16);
             this.CHK_EnableLink.TabIndex = 26;
@@ -141,7 +138,7 @@
             // CHK_EnableMail
             // 
             this.CHK_EnableMail.AutoSize = true;
-            this.CHK_EnableMail.Location = new System.Drawing.Point(21, 510);
+            this.CHK_EnableMail.Location = new System.Drawing.Point(21, 454);
             this.CHK_EnableMail.Name = "CHK_EnableMail";
             this.CHK_EnableMail.Size = new System.Drawing.Size(48, 16);
             this.CHK_EnableMail.TabIndex = 40;
@@ -151,7 +148,7 @@
             // 
             // BTN_TestMail
             // 
-            this.BTN_TestMail.Location = new System.Drawing.Point(199, 552);
+            this.BTN_TestMail.Location = new System.Drawing.Point(199, 496);
             this.BTN_TestMail.Name = "BTN_TestMail";
             this.BTN_TestMail.Size = new System.Drawing.Size(75, 23);
             this.BTN_TestMail.TabIndex = 41;
@@ -162,7 +159,7 @@
             // CHK_AutoLink
             // 
             this.CHK_AutoLink.AutoSize = true;
-            this.CHK_AutoLink.Location = new System.Drawing.Point(21, 97);
+            this.CHK_AutoLink.Location = new System.Drawing.Point(21, 41);
             this.CHK_AutoLink.Name = "CHK_AutoLink";
             this.CHK_AutoLink.Size = new System.Drawing.Size(48, 16);
             this.CHK_AutoLink.TabIndex = 23;
@@ -173,7 +170,7 @@
             // UInput_MailAddress
             // 
             this.UInput_MailAddress.Content = "";
-            this.UInput_MailAddress.Location = new System.Drawing.Point(17, 530);
+            this.UInput_MailAddress.Location = new System.Drawing.Point(17, 474);
             this.UInput_MailAddress.Name = "UInput_MailAddress";
             this.UInput_MailAddress.Password = false;
             this.UInput_MailAddress.Size = new System.Drawing.Size(176, 47);
@@ -184,7 +181,7 @@
             // UInput_LinkPassword
             // 
             this.UInput_LinkPassword.Content = "";
-            this.UInput_LinkPassword.Location = new System.Drawing.Point(17, 424);
+            this.UInput_LinkPassword.Location = new System.Drawing.Point(17, 368);
             this.UInput_LinkPassword.Name = "UInput_LinkPassword";
             this.UInput_LinkPassword.Password = true;
             this.UInput_LinkPassword.Size = new System.Drawing.Size(176, 47);
@@ -195,7 +192,7 @@
             // UInput_LinkUserName
             // 
             this.UInput_LinkUserName.Content = "";
-            this.UInput_LinkUserName.Location = new System.Drawing.Point(17, 375);
+            this.UInput_LinkUserName.Location = new System.Drawing.Point(17, 319);
             this.UInput_LinkUserName.Name = "UInput_LinkUserName";
             this.UInput_LinkUserName.Password = false;
             this.UInput_LinkUserName.Size = new System.Drawing.Size(176, 47);
@@ -206,7 +203,7 @@
             // UInput_LinkServer
             // 
             this.UInput_LinkServer.Content = "";
-            this.UInput_LinkServer.Location = new System.Drawing.Point(17, 326);
+            this.UInput_LinkServer.Location = new System.Drawing.Point(17, 270);
             this.UInput_LinkServer.Name = "UInput_LinkServer";
             this.UInput_LinkServer.Password = false;
             this.UInput_LinkServer.Size = new System.Drawing.Size(176, 47);
@@ -217,7 +214,7 @@
             // UInput_CertifyPassword
             // 
             this.UInput_CertifyPassword.Content = "";
-            this.UInput_CertifyPassword.Location = new System.Drawing.Point(17, 222);
+            this.UInput_CertifyPassword.Location = new System.Drawing.Point(17, 166);
             this.UInput_CertifyPassword.Name = "UInput_CertifyPassword";
             this.UInput_CertifyPassword.Password = true;
             this.UInput_CertifyPassword.Size = new System.Drawing.Size(176, 47);
@@ -228,7 +225,7 @@
             // UInput_CertifyId
             // 
             this.UInput_CertifyId.Content = "";
-            this.UInput_CertifyId.Location = new System.Drawing.Point(17, 172);
+            this.UInput_CertifyId.Location = new System.Drawing.Point(17, 116);
             this.UInput_CertifyId.Name = "UInput_CertifyId";
             this.UInput_CertifyId.Password = false;
             this.UInput_CertifyId.Size = new System.Drawing.Size(176, 47);
@@ -236,45 +233,14 @@
             this.UInput_CertifyId.Title = "学号";
             this.UInput_CertifyId.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_CertifyId_UcContentTextChanged);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("黑体", 12F);
-            this.label5.Location = new System.Drawing.Point(14, 13);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 16);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "显示连接窗口";
-            // 
-            // BTN_InfoFormDisplay
-            // 
-            this.BTN_InfoFormDisplay.Location = new System.Drawing.Point(101, 36);
-            this.BTN_InfoFormDisplay.Name = "BTN_InfoFormDisplay";
-            this.BTN_InfoFormDisplay.Size = new System.Drawing.Size(75, 23);
-            this.BTN_InfoFormDisplay.TabIndex = 42;
-            this.BTN_InfoFormDisplay.Text = "显示";
-            this.BTN_InfoFormDisplay.UseVisualStyleBackColor = true;
-            this.BTN_InfoFormDisplay.Click += new System.EventHandler(this.BTN_InfoFormDisplay_Click);
-            // 
             // TMR_ReSent
             // 
             this.TMR_ReSent.Interval = 1000;
             this.TMR_ReSent.Tick += new System.EventHandler(this.TMR_ReSent_Tick);
             // 
-            // CHK_ShowLinkInfo
-            // 
-            this.CHK_ShowLinkInfo.AutoSize = true;
-            this.CHK_ShowLinkInfo.Location = new System.Drawing.Point(21, 40);
-            this.CHK_ShowLinkInfo.Name = "CHK_ShowLinkInfo";
-            this.CHK_ShowLinkInfo.Size = new System.Drawing.Size(48, 16);
-            this.CHK_ShowLinkInfo.TabIndex = 23;
-            this.CHK_ShowLinkInfo.Text = "启用";
-            this.CHK_ShowLinkInfo.UseVisualStyleBackColor = true;
-            this.CHK_ShowLinkInfo.CheckedChanged += new System.EventHandler(this.CHK_ShowLinkInfo_CheckedChanged);
-            // 
             // BTN_ControlLink
             // 
-            this.BTN_ControlLink.Location = new System.Drawing.Point(199, 93);
+            this.BTN_ControlLink.Location = new System.Drawing.Point(199, 37);
             this.BTN_ControlLink.Name = "BTN_ControlLink";
             this.BTN_ControlLink.Size = new System.Drawing.Size(75, 23);
             this.BTN_ControlLink.TabIndex = 43;
@@ -288,7 +254,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(439, 695);
             this.Controls.Add(this.BTN_ControlLink);
-            this.Controls.Add(this.BTN_InfoFormDisplay);
             this.Controls.Add(this.BTN_TestMail);
             this.Controls.Add(this.CHK_EnableMail);
             this.Controls.Add(this.UInput_MailAddress);
@@ -299,10 +264,8 @@
             this.Controls.Add(this.UInput_CertifyId);
             this.Controls.Add(this.BTN_SetDefault);
             this.Controls.Add(this.CHK_EnableLink);
-            this.Controls.Add(this.CHK_ShowLinkInfo);
             this.Controls.Add(this.CHK_AutoLink);
             this.Controls.Add(this.CHK_EnableCertify);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DTP_StartTime);
             this.Controls.Add(this.label2);
@@ -335,10 +298,7 @@
         private System.Windows.Forms.CheckBox CHK_EnableMail;
         private System.Windows.Forms.Button BTN_TestMail;
         private System.Windows.Forms.CheckBox CHK_AutoLink;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button BTN_InfoFormDisplay;
         private System.Windows.Forms.Timer TMR_ReSent;
-        private System.Windows.Forms.CheckBox CHK_ShowLinkInfo;
         private System.Windows.Forms.Button BTN_ControlLink;
     }
 }

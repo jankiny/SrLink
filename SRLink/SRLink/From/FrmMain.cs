@@ -10,15 +10,13 @@ namespace SRLink.From
 {
     public partial class FrmMain : BaseForm
     {
-        public static FrmLinkInfo FrmLinkInfo;
         public SrLinkService SrLinkService;
 
         public FrmMain()
         {
             InitializeComponent();
             Config = ConfigService.LoadConfig();
-            FrmLinkInfo = new FrmLinkInfo();
-            SrLinkService = new SrLinkService(Config);
+            SrLinkService = new SrLinkService(Config, ConfigService);
 
             Application.ApplicationExit += (sender, args) =>
             {
@@ -29,20 +27,54 @@ namespace SRLink.From
             };
         }
 
-        #region From及其他事件
+        #region 连接事件
 
-        private async void FRM_Main_Load(object sender, EventArgs e)
+
+        public async void TryLink(bool force = false)
+        {
+            if (SrLinkService.Linked) return;
+            if (SrLinkService.Running) return;
+            await Task.Run(async () =>
+            {
+                SrLinkService.Running = true;
+                if (ConfigService.EnableTryLink() || force)
+                {
+                    if (SrLinkService.SettingEnable("Certify"))
+                    {
+                        var res = await SrLinkService.RegisterSchoolNet();
+                        if(!res) ShowTip(ToolTipIcon.Error, "连接失败", "网络认证失败");
+                    }
+
+                    if (SrLinkService.SettingEnable("Link"))
+                    {
+                        var res = await SrLinkService.LinkVpn();
+                        var resTitle = res ? "连接成功" : "连接失败";
+                        var resText = res ? $"{Global.AdapterName}已连接" : "连接失败";
+
+                        ShowTip(ToolTipIcon.Info, resTitle, resText);
+                    }
+
+                    if (SrLinkService.SettingEnable("Mail"))
+                    {
+                        var res = await SrLinkService.SendIp();
+                        if (!res) ShowTip(ToolTipIcon.Error, "Ip发送失败", "响应超时");
+                    }
+                }
+                SrLinkService.Running = false;
+            });
+        }
+
+        #endregion
+
+        #region From事件
+
+        private void FRM_Main_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
             ShowScreen(new SubFrmNormal());
 
             // TODO: Linked判断以到TryAutoLink()中
-            if (!Global.Linked)
-            {
-                TryAutoLink();
-            }
-
-            Global.Linked = await Task.Run(() => SrLinkService.IsConnectInternet());
+            TryLink();
         }
         private void FrmMain_SizeChanged(object sender, EventArgs e)
         {
@@ -73,7 +105,28 @@ namespace SRLink.From
                 this.ShowInTaskbar = true;
             }
         }
-
+        private void 断开连接ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SrLinkService.Linked)
+            {
+                SrLinkService.DisconnectVpn();
+            }
+            else
+            {
+                ShowTip(ToolTipIcon.Warning, "无效操作", "网络还未连接");
+            }
+        }
+        private void 立即连接ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SrLinkService.Linked)
+            {
+                ShowTip(ToolTipIcon.Warning, "无效操作", "网络已连接");
+            }
+            else
+            {
+                TryLink(true);
+            }
+        }
         private void 显示ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -87,78 +140,25 @@ namespace SRLink.From
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            Environment.Exit(0);
             //Environment.Exit(0);
         }
 
+        private void ShowTip(ToolTipIcon icon, string title, string text)
+        {
+            NotifyIcon.ShowBalloonTip(3000, title, text, icon);
+        }
         #endregion
 
         #region Timer事件
 
         private void TMR_SrLink_Tick(object sender, EventArgs e)
         {
-            if (!Global.Linked)
-            {
-                TryAutoLink();
-            }
+            断开连接ToolStripMenuItem.Visible = SrLinkService.Linked;
+            立即连接ToolStripMenuItem.Visible = !SrLinkService.Linked;
+            TryLink();
         }
 
-        #endregion
-
-
-        #region 连接事务辅助函数
-
-        private async void TryAutoLink()
-        {
-            if (!Global.Running)
-            {
-                Global.Running = true;
-                await Task.Run(() =>
-                {
-                    if (!Config.AutoLink || !Config.EnableLink()) return;
-                    if (Config.SettingCertify.Enable)
-                    {
-                        var count = 30;
-                        bool reg = false;
-                        FrmLinkInfo.WriteToBoard("开始认证校园网...");
-                        do
-                        {
-                            reg = SrLinkService.RegisterSchoolNet(out var msg);
-                            FrmLinkInfo.WriteToBoard(msg);
-                            Thread.Sleep(1000);
-                            count--;
-                        } while (count > 0 && !reg);
-                    }
-
-                    if (Config.SettingLink.Enable)
-                    {
-                        var count = 30;
-                        FrmLinkInfo.WriteToBoard("开始连接网络...");
-                        do
-                        {
-                            Global.Linked = SrLinkService.LinkVpn(out var msg);
-                            FrmLinkInfo.WriteToBoard(msg);
-                            Thread.Sleep(1000);
-                            count--;
-                        } while (count > 0 && !Global.Linked);
-                    }
-
-                    if (Config.SettingMail.Enable)
-                    {
-                        var count = 30;
-                        bool send = false;
-                        FrmLinkInfo.WriteToBoard("正在发送邮件...");
-                        do
-                        {
-                            send = SrLinkService.SendIp(out var msg);
-                            FrmLinkInfo.WriteToBoard(msg);
-                            Thread.Sleep(1000);
-                            count--;
-                        } while (count > 0 && !send);
-                    }
-                });
-                Global.Running = false;
-            }
-        }
         #endregion
 
         #region ListView事件
@@ -192,7 +192,7 @@ namespace SRLink.From
                     ShowScreen(new SubFrmNormal());
                     break;
                 case "连接器":
-                    ShowScreen(new SubFrmSLink(FrmLinkInfo));
+                    ShowScreen(new SubFrmSLink());
                     break;
                 case "关于":
                     ShowScreen(new SubFrmAbout());
@@ -218,5 +218,6 @@ namespace SRLink.From
             splitContainer1.Panel2.Controls.Add(ctl);
         }
         #endregion
+
     }
 }

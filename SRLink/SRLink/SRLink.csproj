@@ -42,6 +42,9 @@
     <Reference Include="DotRas, Version=1.3.5166.33435, Culture=neutral, PublicKeyToken=b378f04384b7892a, processorArchitecture=MSIL">
       <HintPath>..\packages\DotRas.for.Win8.1.3.0\lib\net40\DotRas.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -71,12 +74,6 @@
     </Compile>
     <Compile Include="From\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="From\FrmLinkInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="From\FrmLinkInfo.designer.cs">
-      <DependentUpon>FrmLinkInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="From\SubFrmAbout.cs">
       <SubType>Form</SubType>
@@ -109,6 +106,9 @@
       <DependentUpon>UInput.cs</DependentUpon>
     </Compile>
     <Compile Include="Global.cs" />
+    <Compile Include="Helper\TextHelper.cs" />
+    <Compile Include="Helper\StringHelper.cs" />
+    <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Service\ISrLinkService.cs" />
     <Compile Include="Service\IVpnService.cs" />
@@ -125,9 +125,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="From\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="From\FrmLinkInfo.resx">
-      <DependentUpon>FrmLinkInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From\SubFrmAbout.resx">
       <DependentUpon>SubFrmAbout.cs</DependentUpon>
@@ -180,12 +177,6 @@
     <Content Include="Resources\network_error.png" />
     <Content Include="Resources\network_normal.png" />
     <Content Include="Resources\network_ok.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Kit\Kit.csproj">
-      <Project>{a6b8cc31-cd5f-4bb3-aecd-f4aad51cd501}</Project>
-      <Name>Kit</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

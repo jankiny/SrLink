@@ -1,8 +1,5 @@
-﻿using Kit.Utils;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Kit.Win;
+﻿using System;
+using SRLink.Helper;
 
 namespace SRLink.Model
 {
@@ -58,9 +55,9 @@ namespace SRLink.Model
 
         public Config GetAllAsync()
         {
-            var path = Sys.Combine(Global.StartupPath, Global.ConfigFileName); 
-            string result = Json.LoadResource(path);
-            var config = Json.FromJson<Config>(result);
+            var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName); 
+            string result = TextHelper.LoadResource(path);
+            var config = TextHelper.FromJson<Config>(result);
             if (config == null)
             {
                 config = new Config
@@ -79,13 +76,8 @@ namespace SRLink.Model
 
         public int UpdateAsync(Config config)
         {
-            var path = Sys.Combine(Global.StartupPath, Global.ConfigFileName);
-            return Json.ToJsonFile(config, path);
-        }
-        public bool EnableLink()
-        {
-            int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
-            return now >= StartTime.Hour * 60 + StartTime.Minute && now < Global.NightNotLink;
+            var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName);
+            return TextHelper.ToJsonFile(config, path);
         }
     }
 

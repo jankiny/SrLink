@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Threading;
-using Kit.Utils;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using SRLink.Helper;
 using SRLink.Model;
 
 namespace SRLink.Service.Impl
@@ -8,58 +11,96 @@ namespace SRLink.Service.Impl
     public class SrLinkService :  ISrLinkService
     {
         private readonly Config Config;
+        private readonly IConfigService ConfigService;
         private VpnService VpnService;
-        public SrLinkService(Config config)
+        public bool Linked;
+        public bool Running;
+        public SrLinkService(Config config, IConfigService configService)
         {
             Config = config;
+            ConfigService = configService;
+            Initialize();
         }
-        public bool RegisterSchoolNet(out string msg)
+
+        public async void Initialize()
         {
-            if (Config.SettingCertify.Enable == false ||
-                string.IsNullOrEmpty(Config.SettingCertify.StudentId) ||
+            try
+            {
+                //await LinkVpn(1);
+                VpnService = new VpnService(Global.AdapterName);
+                Linked = await TestInternet();
+                Running = false;
+            }
+            catch(Exception)
+            {
+
+            }
+        }
+
+        public bool SettingEnable(string configName)
+        {
+            bool res = false;
+            switch (configName)
+            {
+                case "Certify":
+                    res = Config.SettingCertify.Enable;
+                    break;
+                case "Link":
+                    res = Config.SettingLink.Enable;
+                    break;
+                case "Mail":
+                    res = Config.SettingMail.Enable;
+                    break;
+            }
+            return res;
+        }
+        public async Task<bool> RegisterSchoolNet(int times = 30)
+        {
+            if (string.IsNullOrEmpty(Config.SettingCertify.StudentId) ||
                 string.IsNullOrEmpty(Config.SettingCertify.Password))
             {
-                msg = "校园认证配置出错";
                 return false;
-            }
-            string param = string.Format(
-                Global.Certify_UrlParam,
-                Config.SettingCertify.StudentId, 
-                Encrypt.Base64Encode(Config.SettingCertify.Password));
-
-            string res = Web.PostWebRequest(Global.Certify_Url, param, 107, Encoding.UTF8);
-            if (res.Split(',')[0] == "login_ok")
-            {
-                msg = "认证成功";
-                return true;
             }
 
-            if (res == "操作超时")
+            string param = string.Format(Global.Certify_UrlParam, Config.SettingCertify.StudentId, TextHelper.Base64Encode(Config.SettingCertify.Password));
+
+            do
             {
-                // "请求无响应，可能的原因：1、已经完成认证，并连接了随e行；2、不在校园内网中。"
-                msg = "请求无响应";
-                return false;
-            }
-            else
-            {
-                msg = "请检查网线是否接好";
-                return false;
-            }
+                string res = await Task.Run(() =>
+                    WebHelper.PostWebRequest(Global.Certify_Url, param, 107, Encoding.UTF8));
+                
+                if (res.Split(',')[0] == "login_ok")
+                {
+                    return true;
+                }
+                Thread.Sleep(1000);
+                times--;
+            } while (times > 0);
+
+            return false;
         }
 
-        public bool IsConnectInternet()
+        public async Task<bool> TestInternet(int times = 30)
         {
-            return Web.IsConnectInternet(Global.TestConnectionUrl);
+            do
+            {
+                var res = await Task.Run(() => WebHelper.IsConnectInternet(Global.TestConnectionUrl));
+                if (res)
+                {
+                    return true;
+                }
+                times--;
+            } while (times > 0);
+
+            return false;
         }
 
-        public bool LinkVpn(out string msg)
+        public async Task<bool> LinkVpn(int times = 30)
         {
-            if (Config.SettingLink.Enable == false ||
-                string.IsNullOrEmpty(Config.SettingLink.IpServer) ||
+            if (string.IsNullOrEmpty(Config.SettingLink.IpServer) ||
                 string.IsNullOrEmpty(Config.SettingLink.UserName) ||
-            string.IsNullOrEmpty(Config.SettingLink.Password))
+                string.IsNullOrEmpty(Config.SettingLink.Password))
             {
-                msg = "网络连接配置出错";
                 return false;
             }
             VpnService = new VpnService(
@@ -68,47 +109,58 @@ namespace SRLink.Service.Impl
                 Config.SettingLink.UserName,
                 Config.SettingLink.Password,
                 "L2TP");
-            VpnService.Connect();
-            Thread.Sleep(5000);
-            if (IsConnectInternet())
+            do
             {
-                msg = "连接L2TP网络成功";
-                return true;
-            }
-            else
-            {
-                msg = "连接失败";
-                return false;
-            }
+                await Task.Run(() => VpnService.Connect());
+                Linked = await TestInternet();
+                if (Linked)
+                {
+                    return true;
+                }
+                Thread.Sleep(1000);
+                times--;
+            } while (times > 0);
+
+            return false;
         }
 
         public void DisconnectVpn()
         {
             VpnService?.Disconnect();
+            Linked = false;
         }
 
-        public bool SendIp(out string msg)
+        public async Task<bool> SendIp(int times = 30)
         {
-            if (Config.SettingMail.Enable == false ||
-                string.IsNullOrEmpty(Config.SettingMail.Address))
+            if (string.IsNullOrEmpty(Config.SettingMail.Address))
             {
-                msg = "邮箱配置出错";
                 return false;
             }
-            if (!Web.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
-                Config.SettingMail.Address, "IP地址", Cmd.ExecuteCommand("ipconfig")))
+            do
             {
-                msg = "等待超时";
-                return false;
-            }
-            msg = "发送成功";
-            return true;
+                bool res = await Task.Run(() =>
+                    WebHelper.SendMail(
+                        Global.Mail_User,
+                        Global.Mail_AuthorizationCode,
+                        Global.Mail_Host,
+                        Config.SettingMail.Address,
+                        "IP地址",
+                        StringHelper.ExecuteCommand("ipconfig")));
+
+                if (res)
+                {
+                    return true;
+                }
+                Thread.Sleep(1000);
+                times--;
+            } while (times > 0);
+            return false;
         }
 
         public string TestMail(string address)
         {
-            string code = MathHelper.GenerateRandomString(6);
-            Web.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
+            string code = TextHelper.GenerateRandomString(6);
+            WebHelper.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
                 address, "验证邮箱", "请将收到的验证码填入AutoLink中，验证码：\n" + code);
             return code;
         }

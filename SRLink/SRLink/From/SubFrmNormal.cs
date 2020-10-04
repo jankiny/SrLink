@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Kit.Win;
+using SRLink.Helper;
 
 namespace SRLink.From
 {
@@ -26,7 +18,7 @@ namespace SRLink.From
         private void CHK_AutoRun_CheckedChanged(object sender, EventArgs e)
         {
             Config.RunAtStartup = CHK_AutoRun.Checked;
-            Sys.SetAutoRun(Global.autoRunRegPath, Global.autoRunName, Config.RunAtStartup);
+            StringHelper.SetAutoRun(Global.autoRunRegPath, Global.autoRunName, Config.RunAtStartup);
         }
     }
 }

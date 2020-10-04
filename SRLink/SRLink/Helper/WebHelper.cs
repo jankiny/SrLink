@@ -6,9 +6,9 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Kit.Utils
+namespace SRLink.Helper
 {
-    public class Web
+    public class WebHelper
     {
         /// <summary>
         /// 发送邮件

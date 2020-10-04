@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Kit.Utils;
-using Kit.Win;
 using SRLink.Model;
-using System.Windows.Forms;
 
 namespace SRLink.Service.Impl
 {
@@ -25,12 +21,19 @@ namespace SRLink.Service.Impl
 
 
         /// <summary>
-        /// 保参数
+        /// 保存参数
         /// </summary>
         /// <returns></returns>
         public int SaveConfig(Config config)
         {
             return Config.UpdateAsync(config);
         }
+
+        public bool EnableTryLink()
+        {
+            int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            return (Config.AutoLink && now >= Config.StartTime.Hour * 60 + Config.StartTime.Minute && now < Global.NightNotLink);
+        }
+
     }
 }

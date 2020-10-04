@@ -13,5 +13,6 @@ namespace SRLink.Service
         //bool GetHasConfig();
         Config LoadConfig();
         int SaveConfig(Config config);
+        bool EnableTryLink();
     }
 }

@@ -1,13 +1,58 @@
-﻿using Kit.Utils;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.Win32;
 
-namespace Kit.Win
+namespace SRLink.Helper
 {
-    public class Sys
+    public class StringHelper
     {
+
+        /// <summary>
+        /// 运行程序
+        /// </summary>
+        /// <param name="path">程序位置</param>
+        /// <returns></returns>
+        public static bool RunExeFile(string path)
+        {
+            try
+            {
+                ProcessStartInfo startinfo = new ProcessStartInfo(path);
+                Process p = Process.Start(startinfo);
+                if (p == null)
+                    //throw new Exception("Warning:process may already exist");
+                    return false;
+                return true;
+            }
+            catch (Exception)
+            {
+                // ignored
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 获取启动了应用程序的可执行文件的路径
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPath(string fileName)
+        {
+            // 问题：开机启动时，Environment.CurrentDirectory不能获取到应用程序的目录。
+            // 先直接在窗体应用里使用 Application
+            string startupPath = Environment.CurrentDirectory;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return startupPath;
+            }
+            return Path.Combine(startupPath, fileName);
+        }
+
+        public static string Combine(string filePath, string fileName)
+        {
+            return Path.Combine(filePath, fileName);
+        }
+        #region 注册表
+
         /// <summary>
         /// 开机自动启动
         /// </summary>
@@ -58,51 +103,6 @@ namespace Kit.Win
 
             return false;
         }
-
-        /// <summary>
-        /// 运行程序
-        /// </summary>
-        /// <param name="path">程序位置</param>
-        /// <returns></returns>
-        public static bool RunExeFile(string path)
-        {
-            try
-            {
-                ProcessStartInfo startinfo = new ProcessStartInfo(path);
-                Process p = Process.Start(startinfo);
-                if (p == null)
-                    //throw new Exception("Warning:process may already exist");
-                    return false;
-                return true;
-            }
-            catch (Exception)
-            {
-                // ignored
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 获取启动了应用程序的可执行文件的路径
-        /// </summary>
-        /// <returns></returns>
-        public static string GetPath(string fileName)
-        {
-            // 问题：开机启动时，Environment.CurrentDirectory不能获取到应用程序的目录。
-            // 先直接在窗体应用里使用 Application
-            string startupPath = Environment.CurrentDirectory;
-            if (string.IsNullOrEmpty(fileName))
-            {
-                return startupPath;
-            }
-            return Path.Combine(startupPath, fileName);
-        }
-
-        public static string Combine(string filePath, string fileName)
-        {
-            return Path.Combine(filePath, fileName);
-        }
-        #region 注册表
         public static void RegWriteValue(string path, string name, string value)
         {
             RegistryKey regKey = null;
@@ -154,5 +154,41 @@ namespace Kit.Win
             return def;
         }
         #endregion
+
+        #region Cmd
+
+        public static string ExecuteCommand(string cmd)
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = "cmd.exe";
+            //是否使用操作系统shell启动
+            p.StartInfo.UseShellExecute = false;
+            //接受来自调用程序的输入信息
+            p.StartInfo.RedirectStandardInput = true;
+            //由调用程序获取输出信息
+            p.StartInfo.RedirectStandardOutput = true;
+            //重定向标准错误输出
+            p.StartInfo.RedirectStandardError = true;
+            //不显示程序窗口
+            p.StartInfo.CreateNoWindow = true;
+            //启动程序
+            p.Start();
+
+            //向cmd窗口发送输入信息
+            p.StandardInput.WriteLine(cmd + "&exit");
+
+            p.StandardInput.AutoFlush = true;
+
+            string output = p.StandardOutput.ReadToEnd();
+
+            //等待程序执行完退出进程
+            p.WaitForExit();
+            p.Close();
+
+            return output;
+        }
+
+        #endregion
+
     }
 }
