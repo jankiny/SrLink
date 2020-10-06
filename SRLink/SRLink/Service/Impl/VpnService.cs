@@ -78,26 +78,26 @@ namespace SRLink.Service.Impl
             VpnProtocol = vpnProtocol;
         }
 
-        public VpnService(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol, string preSharedKey)
-        {
-            Dialer = new RasDialer();
-            ServerIP = serverIP;
-            AdapterName = adapterName;
-            UserName = userName;
-            PassWord = passWord;
-            VpnProtocol = vpnProtocol;
-            PreSharedKey = preSharedKey;
-        }
+        //public VpnService(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol, string preSharedKey)
+        //{
+        //    Dialer = new RasDialer();
+        //    ServerIP = serverIP;
+        //    AdapterName = adapterName;
+        //    UserName = userName;
+        //    PassWord = passWord;
+        //    VpnProtocol = vpnProtocol;
+        //    PreSharedKey = preSharedKey;
+        //}
 
         public void Connect()
         {
-            using (RasPhoneBook PhoneBook = new RasPhoneBook())
+            using (var phoneBook = new RasPhoneBook())
             {
                 //PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
-                PhoneBook.Open(StringHelper.Combine(Global.StartupPath, ".\\MyAppPhoneBook.pbk"));
+                phoneBook.Open(StringHelper.Combine(Global.StartupPath, ".\\MyAppPhoneBook.pbk"));
                 RasEntry Entry;
 
-                if (PhoneBook.Entries.Contains(AdapterName))
+                if (phoneBook.Entries.Contains(AdapterName))
                 {
                     Disconnect();
                 }
@@ -118,7 +118,7 @@ namespace SRLink.Service.Impl
                         RasDevice.GetDevices().First(o => o.DeviceType == RasDeviceType.Vpn));
                 }
 
-                PhoneBook.Entries.Add(Entry);
+                phoneBook.Entries.Add(Entry);
                 Entry.Options.PreviewDomain = false;
                 Entry.Options.ShowDialingProgress = false;
                 Entry.Options.PromoteAlternates = false;

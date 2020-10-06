@@ -12,7 +12,7 @@ namespace SRLink.Service.Impl
     {
         private readonly Config Config;
         private readonly IConfigService ConfigService;
-        private VpnService VpnService;
+        private IVpnService VpnService;
         public bool Linked;
         public bool Running;
         public SrLinkService(Config config, IConfigService configService)
@@ -24,17 +24,10 @@ namespace SRLink.Service.Impl
 
         public async void Initialize()
         {
-            try
-            {
-                //await LinkVpn(1);
-                VpnService = new VpnService(Global.AdapterName);
-                Linked = await TestInternet();
-                Running = false;
-            }
-            catch(Exception)
-            {
-
-            }
+            //await LinkVpn(1);
+            VpnService = new VpnService(Global.AdapterName);
+            Linked = await TestInternet();
+            Running = false;
         }
 
         public bool SettingEnable(string configName)

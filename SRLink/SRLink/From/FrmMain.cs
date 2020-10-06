@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SRLink.Model;
@@ -30,6 +29,7 @@ namespace SRLink.From
                     RunAtStartup = false
                 };
             }
+
             SrLinkService = new SrLinkService(Config, ConfigService);
 
             Application.ApplicationExit += (sender, args) =>
@@ -43,7 +43,6 @@ namespace SRLink.From
 
         #region 连接事件
 
-
         public async void TryLink(bool force = false)
         {
             if (SrLinkService.Linked) return;
@@ -56,7 +55,7 @@ namespace SRLink.From
                     if (SrLinkService.SettingEnable("Certify"))
                     {
                         var res = await SrLinkService.RegisterSchoolNet();
-                        if(!res) ShowTip(ToolTipIcon.Error, "连接失败", "网络认证失败");
+                        if (!res) ShowTip(ToolTipIcon.Error, "连接失败", "网络认证失败");
                     }
 
                     if (SrLinkService.SettingEnable("Link"))
@@ -74,8 +73,27 @@ namespace SRLink.From
                         if (!res) ShowTip(ToolTipIcon.Error, "Ip发送失败", "响应超时");
                     }
                 }
+
                 SrLinkService.Running = false;
             });
+        }
+
+        #endregion
+
+        #region Timer事件
+
+        private void TMR_SrLink_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                断开连接ToolStripMenuItem.Visible = SrLinkService.Linked;
+                立即连接ToolStripMenuItem.Visible = !SrLinkService.Linked;
+                TryLink();
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("TMR_SrLink_Tick", err);
+            }
         }
 
         #endregion
@@ -84,92 +102,132 @@ namespace SRLink.From
 
         private void FRM_Main_Load(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
-            ShowScreen(new SubFrmNormal());
-
-            // TODO: Linked判断以到TryAutoLink()中
-            TryLink();
-        }
-        private void FrmMain_SizeChanged(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized)
+            try
             {
-                ShowInTaskbar = false;
+                WindowState = FormWindowState.Minimized;
+                ShowScreen(new SubFrmNormal());
+
+                // TODO: Linked判断以到TryAutoLink()中
+                TryLink();
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("FRM_Main_Load", err);
             }
         }
+
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (WindowState == FormWindowState.Minimized) ShowInTaskbar = false;
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("FrmMain_SizeChanged", err);
+            }
+        }
+
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing)
+            try
             {
-                e.Cancel = true;
-                WindowState = FormWindowState.Minimized;
+                if (e.CloseReason == CloseReason.UserClosing)
+                {
+                    e.Cancel = true;
+                    WindowState = FormWindowState.Minimized;
+                }
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("FrmMain_SizeChanged", err);
             }
         }
 
         #endregion
 
         #region 状态栏
-        
+
         private void NotifyIcon_DoubleClick(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
+            try
             {
-                WindowState = FormWindowState.Normal;
-                this.Activate();
-                this.ShowInTaskbar = true;
+                if (WindowState == FormWindowState.Minimized)
+                {
+                    WindowState = FormWindowState.Normal;
+                    Activate();
+                    ShowInTaskbar = true;
+                }
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("NotifyIcon_DoubleClick", err);
             }
         }
+
         private void 断开连接ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SrLinkService.Linked)
+            try
             {
-                SrLinkService.DisconnectVpn();
+                if (SrLinkService.Linked)
+                    SrLinkService.DisconnectVpn();
+                else
+                    ShowTip(ToolTipIcon.Warning, "无效操作", "网络还未连接");
             }
-            else
+            catch (Exception err)
             {
-                ShowTip(ToolTipIcon.Warning, "无效操作", "网络还未连接");
+                Logger.SaveLog("断开连接ToolStripMenuItem_Click", err);
             }
         }
+
         private void 立即连接ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SrLinkService.Linked)
+            try
             {
-                ShowTip(ToolTipIcon.Warning, "无效操作", "网络已连接");
+                if (SrLinkService.Linked)
+                    ShowTip(ToolTipIcon.Warning, "无效操作", "网络已连接");
+                else
+                    TryLink(true);
             }
-            else
+            catch (Exception err)
             {
-                TryLink(true);
+                Logger.SaveLog("立即连接ToolStripMenuItem_Click", err);
             }
         }
+
         private void 显示ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
+            try
             {
-                WindowState = FormWindowState.Normal;
-                this.Activate();
-                this.ShowInTaskbar = true;
+                if (WindowState == FormWindowState.Minimized)
+                {
+                    WindowState = FormWindowState.Normal;
+                    Activate();
+                    ShowInTaskbar = true;
+                }
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("显示ToolStripMenuItem_Click", err);
             }
         }
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-            //Environment.Exit(0);
+            try
+            {
+                Application.Exit();
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("退出ToolStripMenuItem_Click", err);
+                Environment.Exit(0);
+            }
         }
 
         private void ShowTip(ToolTipIcon icon, string title, string text)
         {
             NotifyIcon.ShowBalloonTip(3000, title, text, icon);
-        }
-        #endregion
-
-        #region Timer事件
-
-        private void TMR_SrLink_Tick(object sender, EventArgs e)
-        {
-            断开连接ToolStripMenuItem.Visible = SrLinkService.Linked;
-            立即连接ToolStripMenuItem.Visible = !SrLinkService.Linked;
-            TryLink();
         }
 
         #endregion
@@ -178,26 +236,25 @@ namespace SRLink.From
 
         private void LVW_Menu_MouseClick(object sender, MouseEventArgs e)
         {
+            try
             {
-                foreach (ListViewItem item in LVW_Menu.Items)
-                {
-                    item.BackColor = Color.WhiteSmoke; //遍历每个菜单栏的颜色
-                }
+                foreach (ListViewItem item in LVW_Menu.Items) item.BackColor = Color.WhiteSmoke; //遍历每个菜单栏的颜色
 
                 if (e.Button == MouseButtons.Left)
-                {
                     if (LVW_Menu.SelectedItems.Count > 0)
                     {
                         LVW_Menu.Items[LVW_Menu.FocusedItem.Index].BackColor = Color.LightGray; //设置选中菜单栏的颜色
-                        string choose = LVW_Menu.Items[LVW_Menu.FocusedItem.Index].Text; //选中菜单栏的文本
-                        ChangePlanel(choose.Trim()); //根据文本名称进行相应的展示
+                        var choose = LVW_Menu.Items[LVW_Menu.FocusedItem.Index].Text; //选中菜单栏的文本
+                        ChangePanel(choose.Trim()); //根据文本名称进行相应的展示
                     }
-
-                }
+            }
+            catch (Exception err)
+            {
+                Logger.SaveLog("LVW_Menu_MouseClick", err);
             }
         }
 
-        private void ChangePlanel(string name)
+        private void ChangePanel(string name)
         {
             switch (name)
             {
@@ -211,7 +268,6 @@ namespace SRLink.From
                     ShowScreen(new SubFrmAbout());
                     break;
             }
-
         }
 
         private void ShowScreen(Control ctl)
@@ -230,7 +286,7 @@ namespace SRLink.From
             //ctl.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(ctl);
         }
-        #endregion
-
     }
+
+    #endregion
 }

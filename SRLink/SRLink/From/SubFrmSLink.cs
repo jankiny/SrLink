@@ -55,13 +55,6 @@ namespace SRLink.From
         {
             Config.StartTime = DTP_StartTime.Value;
         }
-        private void BTN_ControlLink_Click(object sender, EventArgs e)
-        {
-            if (SrLinkService.Running)
-            {
-
-            }
-        }
 
         private void CHK_AutoLink_CheckedChanged(object sender, EventArgs e)
         {

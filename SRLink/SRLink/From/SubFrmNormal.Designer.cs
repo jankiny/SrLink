@@ -63,7 +63,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 16);
             this.label1.TabIndex = 24;
-            this.label1.Text = "帮助提示";
+            this.label1.Text = "更少提示";
             // 
             // CHK_Help
             // 
@@ -80,7 +80,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 308);
+            this.ClientSize = new System.Drawing.Size(442, 308);
             this.Controls.Add(this.CHK_Help);
             this.Controls.Add(this.CHK_AutoRun);
             this.Controls.Add(this.label1);
