@@ -66,6 +66,7 @@ namespace SRLink.From
         private void CHK_EnableCertify_CheckedChanged(object sender, EventArgs e)
         {
             Config.SettingCertify.Enable = CHK_EnableCertify.Checked;
+            LBL_Tip_Certify.Visible = CHK_EnableCertify.Checked;
         }
 
         private void UInput_CertifyId_UcContentTextChanged(object sender, EventArgs e)
@@ -81,6 +82,7 @@ namespace SRLink.From
         private void CHK_EnableLink_CheckedChanged(object sender, EventArgs e)
         {
             Config.SettingLink.Enable = CHK_EnableLink.Checked;
+            LBL_Tip_Link.Visible = CHK_EnableLink.Checked;
         }
 
         private void UInput_LinkServer_UcContentTextChanged(object sender, EventArgs e)

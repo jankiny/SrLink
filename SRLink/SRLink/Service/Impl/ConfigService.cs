@@ -29,11 +29,5 @@ namespace SRLink.Service.Impl
             return Config.UpdateAsync(config);
         }
 
-        public bool EnableTryLink()
-        {
-            int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
-            return (Config.AutoLink && now >= Config.StartTime.Hour * 60 + Config.StartTime.Minute && now < Global.NightNotLink);
-        }
-
     }
 }

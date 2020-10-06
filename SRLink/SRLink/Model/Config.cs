@@ -36,7 +36,8 @@ namespace SRLink.Model
             get; set;
         }
 
-        public bool ShowLinkInfo { get; set; }
+
+        public bool Debug { get; set; }
         public bool AutoLink { get; set; }
 
         public SettingCertify SettingCertify
@@ -65,6 +66,12 @@ namespace SRLink.Model
         {
             var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName);
             return TextHelper.ToJsonFile(config, path);
+        }
+
+        public bool EnableTryLink()
+        {
+            int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            return (AutoLink && now >= StartTime.Hour * 60 + StartTime.Minute && now < Global.NightNotLink);
         }
     }
 

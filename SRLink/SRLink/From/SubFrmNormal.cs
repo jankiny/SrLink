@@ -5,20 +5,37 @@ namespace SRLink.From
 {
     public partial class SubFrmNormal : BaseForm
     {
-        public SubFrmNormal()
+        public FrmDebug FrmDebug { get; set; }
+        public SubFrmNormal(FrmDebug frmDebug)
         {
             InitializeComponent();
+            FrmDebug = frmDebug;
         }
 
         private void SubFrmNormal_Load(object sender, EventArgs e)
         {
             CHK_AutoRun.Checked = Config.RunAtStartup;
+            CHK_Debug.Checked = Config.Debug;
         }
 
         private void CHK_AutoRun_CheckedChanged(object sender, EventArgs e)
         {
             Config.RunAtStartup = CHK_AutoRun.Checked;
             StringHelper.SetAutoRun(Global.autoRunRegPath, Global.autoRunName, Config.RunAtStartup);
+        }
+
+        private void CHK_Debug_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.Debug = CHK_Debug.Checked;
+            LBL_Tip_Debug.Visible = CHK_Debug.Checked;
+            if (CHK_Debug.Checked)
+            {
+                FrmDebug.Show();
+            }
+            else
+            {
+                FrmDebug.Hide();
+            }
         }
     }
 }

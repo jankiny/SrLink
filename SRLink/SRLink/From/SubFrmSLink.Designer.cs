@@ -48,8 +48,8 @@
             this.UInput_CertifyId = new SRLink.From.UInput();
             this.TMR_ReSent = new System.Windows.Forms.Timer(this.components);
             this.LBL_Tip_AutoLink = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.LBL_Tip_Certify = new System.Windows.Forms.Label();
+            this.LBL_Tip_Link = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -243,40 +243,40 @@
             // LBL_Tip_AutoLink
             // 
             this.LBL_Tip_AutoLink.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LBL_Tip_AutoLink.Location = new System.Drawing.Point(197, 18);
+            this.LBL_Tip_AutoLink.Location = new System.Drawing.Point(197, 41);
             this.LBL_Tip_AutoLink.Name = "LBL_Tip_AutoLink";
             this.LBL_Tip_AutoLink.Size = new System.Drawing.Size(193, 36);
             this.LBL_Tip_AutoLink.TabIndex = 42;
             this.LBL_Tip_AutoLink.Text = "Tip：当超过设定的时间后，会自动按配置进行连接。直到检测到网络已连接。";
             this.LBL_Tip_AutoLink.Visible = false;
             // 
-            // label5
+            // LBL_Tip_Certify
             // 
-            this.label5.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(99, 77);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(291, 36);
-            this.label5.TabIndex = 42;
-            this.label5.Text = "Tip：填入内网认证页面的账号密码。启用功能后，会在连接L2TP前先完成内网认证。";
-            this.label5.Visible = false;
+            this.LBL_Tip_Certify.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LBL_Tip_Certify.Location = new System.Drawing.Point(97, 99);
+            this.LBL_Tip_Certify.Name = "LBL_Tip_Certify";
+            this.LBL_Tip_Certify.Size = new System.Drawing.Size(291, 36);
+            this.LBL_Tip_Certify.TabIndex = 42;
+            this.LBL_Tip_Certify.Text = "Tip：填入内网认证页面的账号密码。启用功能后，会在连接L2TP前先完成内网认证。";
+            this.LBL_Tip_Certify.Visible = false;
             // 
-            // label6
+            // LBL_Tip_Link
             // 
-            this.label6.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(99, 235);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(291, 36);
-            this.label6.TabIndex = 42;
-            this.label6.Text = "Tip：填入随e行设置里的服务器地址、账号、密码。";
-            this.label6.Visible = false;
+            this.LBL_Tip_Link.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LBL_Tip_Link.Location = new System.Drawing.Point(99, 257);
+            this.LBL_Tip_Link.Name = "LBL_Tip_Link";
+            this.LBL_Tip_Link.Size = new System.Drawing.Size(291, 36);
+            this.LBL_Tip_Link.TabIndex = 42;
+            this.LBL_Tip_Link.Text = "Tip：填入随e行设置里的服务器地址、账号、密码。连接成功后，需要维护连接，请不要关闭程序。";
+            this.LBL_Tip_Link.Visible = false;
             // 
             // SubFrmSLink
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 695);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
+            this.ClientSize = new System.Drawing.Size(439, 596);
+            this.Controls.Add(this.LBL_Tip_Link);
+            this.Controls.Add(this.LBL_Tip_Certify);
             this.Controls.Add(this.LBL_Tip_AutoLink);
             this.Controls.Add(this.BTN_TestMail);
             this.Controls.Add(this.CHK_EnableMail);
@@ -324,7 +324,7 @@
         private System.Windows.Forms.CheckBox CHK_AutoLink;
         private System.Windows.Forms.Timer TMR_ReSent;
         private System.Windows.Forms.Label LBL_Tip_AutoLink;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label LBL_Tip_Certify;
+        private System.Windows.Forms.Label LBL_Tip_Link;
     }
 }

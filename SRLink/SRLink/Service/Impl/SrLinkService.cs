@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using SRLink.Helper;
 using SRLink.Model;
@@ -22,13 +23,32 @@ namespace SRLink.Service.Impl
             Initialize();
         }
 
-        public async void Initialize()
+        private async void Initialize()
         {
             //await LinkVpn(1);
             VpnService = new VpnService(Global.AdapterName);
             Linked = await TestInternet();
             Running = false;
         }
+
+        #region 属性
+        public bool GetLinked()
+        {
+            return Linked;
+        }
+
+        public bool GetRunning()
+        {
+            return Running;
+        }
+
+        public void SetRunning(bool isRunning)
+        {
+            Running = isRunning;
+        }
+
+
+        #endregion
 
         public bool SettingEnable(string configName)
         {
