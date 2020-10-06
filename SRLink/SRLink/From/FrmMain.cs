@@ -19,7 +19,7 @@ namespace SRLink.From
             Config = ConfigService.LoadConfig();
             if (Config == null)
             {
-                ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。");
+                ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。", false);
                 Config = new Config
                 {
                     //HasConfig = false,
@@ -261,10 +261,10 @@ namespace SRLink.From
             }
         }
 
-        private void ShowTip(ToolTipIcon icon, string title, string text)
+        private void ShowTip(ToolTipIcon icon, string title, string text, bool debug = true)
         {
             NotifyIcon.ShowBalloonTip(3000, title, text, icon);
-            FrmDebug.WriteToBoard($"显示提示：{text}");
+            if (debug) FrmDebug.WriteToBoard($"显示提示：{text}");
         }
 
         #endregion
