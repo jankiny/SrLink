@@ -15,7 +15,7 @@ namespace SRLink
         /// info
         /// </summary>
         public const string SoftwareName = "SRLink";
-        public const string Version = "v2.2.4_beta";
+        public const string Version = "v2.2.5_beta";
 
         /// <summary>
         /// 校园认证地址

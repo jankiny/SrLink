@@ -11,12 +11,12 @@ namespace SRLink.Service.Impl
 {
     public class SrLinkService :  ISrLinkService
     {
-        private readonly Config Config;
+        private readonly ConfigModel Config;
         private readonly IConfigService ConfigService;
         private IVpnService VpnService;
         public bool Linked;
         public bool Running;
-        public SrLinkService(Config config, IConfigService configService)
+        public SrLinkService(ConfigModel config, IConfigService configService)
         {
             Config = config;
             ConfigService = configService;

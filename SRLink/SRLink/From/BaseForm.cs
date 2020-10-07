@@ -10,7 +10,7 @@ namespace SRLink.From
     {
         public readonly ILoggerService Logger;
         public readonly IConfigService ConfigService;
-        public static Config Config;
+        public static ConfigModel Config;
         public BaseForm()
         {
             Logger = new LoggerService();

@@ -5,16 +5,16 @@ namespace SRLink.Service.Impl
 {
     class ConfigService : IConfigService
     {
-        public Config Config;
+        public ConfigModel Config;
         public ConfigService()
         {
-            Config = new Config();
+            Config = new ConfigModel();
         }
 
         /// <summary>
         /// 载入配置文件
         /// </summary>
-        public Config LoadConfig()
+        public ConfigModel LoadConfig()
         {
             return Config.GetAllAsync();
         }
@@ -24,7 +24,7 @@ namespace SRLink.Service.Impl
         /// 保存参数
         /// </summary>
         /// <returns></returns>
-        public int SaveConfig(Config config)
+        public int SaveConfig(ConfigModel config)
         {
             return Config.UpdateAsync(config);
         }

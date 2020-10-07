@@ -11,7 +11,7 @@ namespace SRLink.Model
         }
     }
     [Serializable]
-    public class Config
+    public class ConfigModel
     {
         #region 自动添加
         
@@ -54,15 +54,15 @@ namespace SRLink.Model
             get; set;
         }
 
-        public Config GetAllAsync()
+        public ConfigModel GetAllAsync()
         {
             var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName); 
             string result = TextHelper.LoadResource(path);
-            var config = TextHelper.FromJson<Config>(result);
+            var config = TextHelper.FromJson<ConfigModel>(result);
             return config;
         }
 
-        public int UpdateAsync(Config config)
+        public int UpdateAsync(ConfigModel config)
         {
             var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName);
             return TextHelper.ToJsonFile(config, path);

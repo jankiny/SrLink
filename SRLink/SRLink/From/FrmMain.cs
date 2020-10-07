@@ -20,7 +20,7 @@ namespace SRLink.From
             if (Config == null)
             {
                 ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。", false);
-                Config = new Config
+                Config = new ConfigModel
                 {
                     //HasConfig = false,
                     StartTime = DateTime.Parse("08:00"),

@@ -11,7 +11,7 @@ namespace SRLink.Service
     {
         //void SetHasConfig(bool has);
         //bool GetHasConfig();
-        Config LoadConfig();
-        int SaveConfig(Config config);
+        ConfigModel LoadConfig();
+        int SaveConfig(ConfigModel config);
     }
 }
