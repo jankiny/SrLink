@@ -22,17 +22,10 @@ namespace SRLink.From
         }
         private void SubFrmSLink_Load(object sender, EventArgs e)
         {
-            //if (!Config.HasConfig) return;
-            //// 刷新UI
-            //switch (SrLinkService.Running)
-            //{
-            //    case true:
-            //        BTN_ControlLink.Text = "中断";
-            //        break;
-            //    case false:
-            //        BTN_ControlLink.Text = "立即链接";
-            //        break;
-            //}
+            //UI
+            PNL_Certify.Visible = false;
+            PNL_Link.Visible = false;
+            PNL_Mail.Visible = false;
             // 自动连接
             CHK_AutoLink.Checked = Config.AutoLink;
             DTP_StartTime.Value = Config.StartTime;
@@ -67,6 +60,7 @@ namespace SRLink.From
         {
             Config.SettingCertify.Enable = CHK_EnableCertify.Checked;
             LBL_Tip_Certify.Visible = CHK_EnableCertify.Checked;
+            PNL_Certify.Visible = CHK_EnableCertify.Checked;
         }
 
         private void UInput_CertifyId_UcContentTextChanged(object sender, EventArgs e)
@@ -83,6 +77,7 @@ namespace SRLink.From
         {
             Config.SettingLink.Enable = CHK_EnableLink.Checked;
             LBL_Tip_Link.Visible = CHK_EnableLink.Checked;
+            PNL_Link.Visible = CHK_EnableLink.Checked;
         }
 
         private void UInput_LinkServer_UcContentTextChanged(object sender, EventArgs e)
@@ -108,6 +103,7 @@ namespace SRLink.From
         private void CHK_EnableMail_CheckedChanged(object sender, EventArgs e)
         {
             Config.SettingMail.Enable = CHK_EnableMail.Checked;
+            PNL_Mail.Visible = CHK_EnableMail.Checked;
         }
 
         private void UInput_MailAddress_UcContentTextChanged(object sender, EventArgs e)

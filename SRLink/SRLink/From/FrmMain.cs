@@ -37,14 +37,12 @@ namespace SRLink.From
             //TMR_SrLink.Enabled = Config.AutoLink;
 
 
-            //Application.ApplicationExit += (sender, args) =>
-            //{
-            //    //Config.HasConfig = true;
-            //    SrLinkService.DisconnectVpn();
-            //    FrmDebug.Dispose();
-            //    ConfigService.SaveConfig(Config);
-            //    //await Task.Run(() => );
-            //};
+            Application.ApplicationExit += (sender, args) =>
+            {
+                SrLinkService.DisconnectVpn();
+                FrmDebug.Dispose();
+                ConfigService.SaveConfig(Config);
+            };
         }
 
         #region 连接事件
@@ -177,6 +175,11 @@ namespace SRLink.From
                     e.Cancel = true;
                     WindowState = FormWindowState.Minimized;
                 }
+                else
+                {
+                    e.Cancel = true;
+                    Application.Exit();
+                }
             }
             catch (Exception err)
             {
@@ -258,9 +261,6 @@ namespace SRLink.From
         {
             try
             {
-                SrLinkService.DisconnectVpn();
-                FrmDebug.Dispose();
-                ConfigService.SaveConfig(Config);
                 Application.Exit();
             }
             catch (Exception err)
