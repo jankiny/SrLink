@@ -112,8 +112,8 @@
       <DependentUpon>UInput.cs</DependentUpon>
     </Compile>
     <Compile Include="Global.cs" />
-    <Compile Include="Helper\TextHelper.cs" />
     <Compile Include="Helper\StringHelper.cs" />
+    <Compile Include="Helper\SystemHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\VpnModel.cs" />

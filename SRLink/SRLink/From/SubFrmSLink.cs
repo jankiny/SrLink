@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SRLink.Helper;
 using SRLink.Service.Impl;
 
 namespace SRLink.From
@@ -32,12 +33,12 @@ namespace SRLink.From
             // 校园网认证
             CHK_EnableCertify.Checked = Config.SettingCertify.Enable;
             UInput_CertifyId.Content = Config.SettingCertify.StudentId;
-            UInput_CertifyPassword.Content = Config.SettingCertify.Password;
+            UInput_CertifyPassword.Content = StringHelper.Base64Decode(Config.SettingCertify.Password);
             // 网络连接
             CHK_EnableLink.Checked = Config.SettingLink.Enable;
             UInput_LinkServer.Content = Config.SettingLink.ServerIp;
             UInput_LinkUserName.Content = Config.SettingLink.UserName;
-            UInput_LinkPassword.Content = Config.SettingLink.Password;
+            UInput_LinkPassword.Content = StringHelper.Base64Decode(Config.SettingLink.Password);
             // 发送IP地址
             CHK_EnableMail.Checked = Config.SettingMail.Enable;
             UInput_MailAddress.Content = Config.SettingMail.Address;
@@ -70,7 +71,7 @@ namespace SRLink.From
 
         private void UInput_CertifyPassword_UcContentTextChanged(object sender, EventArgs e)
         {
-            Config.SettingCertify.Password = UInput_CertifyPassword.Content;
+            Config.SettingCertify.Password = StringHelper.Base64Encode(UInput_CertifyPassword.Content);
         }
 
         private void CHK_EnableLink_CheckedChanged(object sender, EventArgs e)
@@ -97,7 +98,7 @@ namespace SRLink.From
 
         private void UInput_LinkPassword_UcContentTextChanged(object sender, EventArgs e)
         {
-            Config.SettingLink.Password = UInput_LinkPassword.Content;
+            Config.SettingLink.Password = StringHelper.Base64Encode(UInput_LinkPassword.Content);
         }
 
         private void CHK_EnableMail_CheckedChanged(object sender, EventArgs e)

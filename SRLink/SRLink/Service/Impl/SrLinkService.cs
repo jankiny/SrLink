@@ -72,8 +72,8 @@ namespace SRLink.Service.Impl
             {
                 return false;
             }
-
-            string param = string.Format(Global.Certify_UrlParam, Config.SettingCertify.StudentId, TextHelper.Base64Encode(Config.SettingCertify.Password));
+            // 存在Config中的Config.SettingCertify.Password本来就是Base64编码
+            string param = string.Format(Global.Certify_UrlParam, Config.SettingCertify.StudentId, Config.SettingCertify.Password);
 
             do
             {
@@ -118,7 +118,7 @@ namespace SRLink.Service.Impl
             {
                 ServerIP = Config.SettingLink.ServerIp,
                 UserName = Config.SettingLink.UserName,
-                PassWord = Config.SettingLink.Password,
+                PassWord = StringHelper.Base64Decode(Config.SettingLink.Password),
                 VpnProtocol = "L2TP"
             });
             do
@@ -157,7 +157,7 @@ namespace SRLink.Service.Impl
                         Global.Mail_Host,
                         Config.SettingMail.Address,
                         "IP地址",
-                        StringHelper.ExecuteCommand("ipconfig")));
+                        SystemHelper.ExecuteCommand("ipconfig")));
 
                 if (res)
                 {
@@ -171,7 +171,7 @@ namespace SRLink.Service.Impl
 
         public string TestMail(string address)
         {
-            string code = TextHelper.GenerateRandomString(6);
+            string code = StringHelper.GenerateRandomString(6);
             WebHelper.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
                 address, "验证邮箱", "请将收到的验证码填入AutoLink中，验证码：\n" + code);
             return code;

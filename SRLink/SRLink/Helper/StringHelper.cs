@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using Microsoft.Win32;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace SRLink.Helper
 {
@@ -9,183 +9,169 @@ namespace SRLink.Helper
     {
 
         /// <summary>
-        /// 运行程序
+        /// 生成n位的随机字符串
         /// </summary>
-        /// <param name="path">程序位置</param>
+        /// <param name="length">字符串长度</param>
+        /// <returns>随机字符串</returns>
+        public static string GenerateRandomString(int length)
+        {
+            char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+            string checkCode = string.Empty;
+            try
+            {
+                Random rd = new Random();
+                for (int i = 0; i < length; i++)
+                {
+                    checkCode += constant[rd.Next(36)].ToString().ToUpper();
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return checkCode;
+        }
+        #region 编码
+        /// <summary>
+        /// Base64编码
+        /// </summary>
+        /// <param name="plainText"></param>
         /// <returns></returns>
-        public static bool RunExeFile(string path)
+        public static string Base64Encode(string plainText)
         {
             try
             {
-                ProcessStartInfo startinfo = new ProcessStartInfo(path);
-                Process p = Process.Start(startinfo);
-                if (p == null)
-                    //throw new Exception("Warning:process may already exist");
-                    return false;
-                return true;
+                byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+                return Convert.ToBase64String(plainTextBytes);
             }
             catch (Exception)
             {
                 // ignored
-                return false;
+                return string.Empty;
             }
         }
 
         /// <summary>
-        /// 获取启动了应用程序的可执行文件的路径
+        /// Base64解码
         /// </summary>
+        /// <param name="plainText"></param>
         /// <returns></returns>
-        public static string GetPath(string fileName)
-        {
-            // 问题：开机启动时，Environment.CurrentDirectory不能获取到应用程序的目录。
-            // 先直接在窗体应用里使用 Application
-            string startupPath = Environment.CurrentDirectory;
-            if (string.IsNullOrEmpty(fileName))
-            {
-                return startupPath;
-            }
-            return Path.Combine(startupPath, fileName);
-        }
-
-        public static string Combine(string filePath, string fileName)
-        {
-            return Path.Combine(filePath, fileName);
-        }
-        #region 注册表
-
-        /// <summary>
-        /// 开机自动启动
-        /// </summary>
-        /// <param name="autoRunName"></param>
-        /// <param name="run"></param>
-        /// <param name="autoRunRegPath"></param>
-        /// <returns></returns>
-        public static void SetAutoRun(string autoRunRegPath, string autoRunName, bool run)
+        public static string Base64Decode(string plainText)
         {
             try
             {
-                var processModule = Process.GetCurrentProcess().MainModule;
-                if (processModule != null)
+                plainText = plainText.Trim()
+                    .Replace(Environment.NewLine, "")
+                    .Replace("\n", "")
+                    .Replace("\r", "")
+                    .Replace(" ", "");
+
+                if (plainText.Length % 4 > 0)
                 {
-                    string exePath = processModule.FileName;
-                    RegWriteValue(autoRunRegPath, autoRunName, run ? exePath : "");
+                    plainText = plainText.PadRight(plainText.Length + 4 - plainText.Length % 4, '=');
                 }
+
+                byte[] data = Convert.FromBase64String(plainText);
+                return Encoding.UTF8.GetString(data);
             }
             catch (Exception)
             {
                 // ignored
+                return string.Empty;
             }
         }
 
-        /// <summary>
-        /// 是否已经设置开机自动启动
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsAutoRun(string autoRunRegPath, string autoRunName)
-        {
-            try
-            {
-                string value = RegReadValue(autoRunRegPath, autoRunName, "");
-                var processModule = Process.GetCurrentProcess().MainModule;
-                if (processModule != null)
-                {
-                    string exePath = processModule.FileName;
-                    if (value?.Equals(exePath) == true)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-
-            return false;
-        }
-        public static void RegWriteValue(string path, string name, string value)
-        {
-            RegistryKey regKey = null;
-            try
-            {
-                regKey = Registry.CurrentUser.CreateSubKey(path);
-                if (string.IsNullOrEmpty(value))
-                {
-                    regKey?.DeleteValue(name, false);
-                }
-                else
-                {
-                    regKey?.SetValue(name, value);
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-            finally
-            {
-                regKey?.Close();
-            }
-        }
-        public static string RegReadValue(string path, string name, string def)
-        {
-            RegistryKey regKey = null;
-            try
-            {
-                regKey = Registry.CurrentUser.OpenSubKey(path, false);
-                string value = regKey?.GetValue(name) as string;
-                if (string.IsNullOrEmpty(value))
-                {
-                    return def;
-                }
-                else
-                {
-                    return value;
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-            finally
-            {
-                regKey?.Close();
-            }
-            return def;
-        }
         #endregion
 
-        #region Cmd
+        #region StringHelper
 
-        public static string ExecuteCommand(string cmd)
+        /// <summary>
+        /// 取得存储资源
+        /// </summary>
+        /// <returns></returns>
+        public static string LoadResource(string res)
         {
-            Process p = new Process();
-            p.StartInfo.FileName = "cmd.exe";
-            //是否使用操作系统shell启动
-            p.StartInfo.UseShellExecute = false;
-            //接受来自调用程序的输入信息
-            p.StartInfo.RedirectStandardInput = true;
-            //由调用程序获取输出信息
-            p.StartInfo.RedirectStandardOutput = true;
-            //重定向标准错误输出
-            p.StartInfo.RedirectStandardError = true;
-            //不显示程序窗口
-            p.StartInfo.CreateNoWindow = true;
-            //启动程序
-            p.Start();
+            string result = string.Empty;
 
-            //向cmd窗口发送输入信息
-            p.StandardInput.WriteLine(cmd + "&exit");
+            try
+            {
+                using (StreamReader reader = new StreamReader(res))
+                {
+                    result = reader.ReadToEnd();
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
 
-            p.StandardInput.AutoFlush = true;
+        /// <summary>
+        /// 反序列化成对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="strJson"></param>
+        /// <returns></returns>
+        public static T FromJson<T>(string strJson)
+        {
+            try
+            {
+                T obj = JsonConvert.DeserializeObject<T>(strJson);
+                return obj;
+            }
+            catch (Exception)
+            {
+                return JsonConvert.DeserializeObject<T>("");
+            }
+        }
 
-            string output = p.StandardOutput.ReadToEnd();
+        /// <summary>
+        /// 序列化成Json
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string ToJson(Object obj)
+        {
+            string result = string.Empty;
+            try
+            {
+                result = JsonConvert.SerializeObject(obj,
+                    Formatting.Indented,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
 
-            //等待程序执行完退出进程
-            p.WaitForExit();
-            p.Close();
+        /// <summary>
+        /// 保存成json文件
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static int ToJsonFile(Object obj, string filePath)
+        {
+            int result;
+            try
+            {
+                using (StreamWriter file = File.CreateText(filePath))
+                {
+                    //JsonSerializer serializer = new JsonSerializer();
+                    JsonSerializer serializer = new JsonSerializer() { Formatting = Formatting.Indented };
+                    //JsonSerializer serializer = new JsonSerializer() { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore };
 
-            return output;
+                    serializer.Serialize(file, obj);
+                }
+                result = 0;
+            }
+            catch (Exception)
+            {
+                result = -1;
+            }
+            return result;
         }
 
         #endregion

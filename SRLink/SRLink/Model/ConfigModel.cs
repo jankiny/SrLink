@@ -56,16 +56,16 @@ namespace SRLink.Model
 
         public ConfigModel GetAllAsync()
         {
-            var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName); 
-            string result = TextHelper.LoadResource(path);
-            var config = TextHelper.FromJson<ConfigModel>(result);
+            var path = SystemHelper.Combine(Global.StartupPath, Global.ConfigFileName); 
+            string result = StringHelper.LoadResource(path);
+            var config = StringHelper.FromJson<ConfigModel>(result);
             return config;
         }
 
         public int UpdateAsync(ConfigModel config)
         {
-            var path = StringHelper.Combine(Global.StartupPath, Global.ConfigFileName);
-            return TextHelper.ToJsonFile(config, path);
+            var path = SystemHelper.Combine(Global.StartupPath, Global.ConfigFileName);
+            return StringHelper.ToJsonFile(config, path);
         }
 
         public bool EnableTryLink()
