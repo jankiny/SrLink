@@ -42,7 +42,7 @@ namespace SRLink.From
             UInput_CertifyPassword.Content = Config.SettingCertify.Password;
             // 网络连接
             CHK_EnableLink.Checked = Config.SettingLink.Enable;
-            UInput_LinkServer.Content = Config.SettingLink.IpServer;
+            UInput_LinkServer.Content = Config.SettingLink.ServerIp;
             UInput_LinkUserName.Content = Config.SettingLink.UserName;
             UInput_LinkPassword.Content = Config.SettingLink.Password;
             // 发送IP地址
@@ -87,7 +87,7 @@ namespace SRLink.From
 
         private void UInput_LinkServer_UcContentTextChanged(object sender, EventArgs e)
         {
-            Config.SettingLink.IpServer = UInput_LinkServer.Content;
+            Config.SettingLink.ServerIp = UInput_LinkServer.Content;
         }
 
         private void BTN_SetDefault_Click(object sender, EventArgs e)

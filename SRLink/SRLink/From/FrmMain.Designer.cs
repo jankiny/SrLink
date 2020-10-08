@@ -56,6 +56,7 @@
             // 
             // TMR_SrLink
             // 
+            this.TMR_SrLink.Enabled = true;
             this.TMR_SrLink.Interval = 3000;
             this.TMR_SrLink.Tick += new System.EventHandler(this.TMR_SrLink_Tick);
             // 

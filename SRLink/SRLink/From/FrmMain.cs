@@ -34,7 +34,7 @@ namespace SRLink.From
             SrLinkService = new SrLinkService(Config, ConfigService);
             FrmDebug = new FrmDebug();
 
-            TMR_SrLink.Enabled = Config.AutoLink;
+            //TMR_SrLink.Enabled = Config.AutoLink;
 
 
             //Application.ApplicationExit += (sender, args) =>
@@ -54,6 +54,7 @@ namespace SRLink.From
             if (SrLinkService.GetLinked())
             {
                 FrmDebug.WriteToBoard($"Linked = {SrLinkService.GetLinked()} 检测到网络已连接，停止计时器事件，结束");
+                // Todo: 停用TMR计时器后，之后无法开启
                 TMR_SrLink.Enabled = false;
                 return;
             }
@@ -92,10 +93,15 @@ namespace SRLink.From
                 var res = await SrLinkService.LinkVpn();
                 // Todo: 考虑一下是否添加自动重连功能
                 //if (res) TMR_SrLink.Enabled = false; // 连接成功后关闭定时器，否则手动断开连接后会自动重连（转移到在Timer事件中控制）
-                var resTitle = res ? "连接成功" : "连接失败";
-                var resText = res ? $"{Global.AdapterName}已连接" : "连接失败";
-
-                ShowTip(ToolTipIcon.Info, resTitle, resText);
+                if (res)
+                {
+                    ShowTip(ToolTipIcon.Info, "连接成功", $"{Global.AdapterName}已连接");
+                }
+                else
+                {
+                    Config.AutoLink = false;
+                    ShowTip(ToolTipIcon.Info, "连接失败", "已取消自动连接。请检查配置信息，并使用手动连接测试配置，连接成功后再重新开启自动连接。");
+                }
             }
 
             if (SrLinkService.SettingEnable("Mail"))
@@ -122,7 +128,10 @@ namespace SRLink.From
             {
                 断开连接ToolStripMenuItem.Visible = SrLinkService.GetLinked();
                 立即连接ToolStripMenuItem.Visible = !SrLinkService.GetLinked();
-                TryLink();
+                if (Config.AutoLink)
+                {
+                    TryLink();
+                }
             }
             catch (Exception err)
             {

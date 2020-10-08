@@ -101,7 +101,7 @@ namespace SRLink.Model
     [Serializable]
     public class SettingLink : SettingBase
     {
-        public string IpServer { get; set; }
+        public string ServerIp { get; set; }
 
         public string UserName { get; set; }
 
@@ -109,14 +109,14 @@ namespace SRLink.Model
         public SettingLink()
         {
             Enable = false;
-            IpServer = "";
+            ServerIp = "";
             UserName = "";
             Password = "";
         }
-        public SettingLink(bool able, string ipServer, string userName, string password)
+        public SettingLink(bool able, string serverIp, string userName, string password)
         {
             Enable = able;
-            IpServer = ipServer;
+            ServerIp = serverIp;
             UserName = userName;
             Password = password;
         }

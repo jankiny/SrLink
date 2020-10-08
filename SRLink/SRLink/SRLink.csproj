@@ -116,6 +116,7 @@
     <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
+    <Compile Include="Model\VpnModel.cs" />
     <Compile Include="Service\ISrLinkService.cs" />
     <Compile Include="Service\IVpnService.cs" />
     <Compile Include="Service\Impl\VpnService.cs" />

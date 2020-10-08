@@ -12,26 +12,24 @@ namespace SRLink.Service.Impl
     public class SrLinkService :  ISrLinkService
     {
         private readonly ConfigModel Config;
-        private readonly IConfigService ConfigService;
         private IVpnService VpnService;
         public bool Linked;
         public bool Running;
         public SrLinkService(ConfigModel config, IConfigService configService)
         {
             Config = config;
-            ConfigService = configService;
             Initialize();
         }
 
         private async void Initialize()
         {
             //await LinkVpn(1);
-            VpnService = new VpnService(Global.AdapterName);
+            VpnService = new VpnService();
             Linked = await TestInternet();
             Running = false;
         }
 
-        #region 属性
+        #region 属性方法
         public bool GetLinked()
         {
             return Linked;
@@ -110,18 +108,19 @@ namespace SRLink.Service.Impl
 
         public async Task<bool> LinkVpn(int times = 30)
         {
-            if (string.IsNullOrEmpty(Config.SettingLink.IpServer) ||
+            if (string.IsNullOrEmpty(Config.SettingLink.ServerIp) ||
                 string.IsNullOrEmpty(Config.SettingLink.UserName) ||
                 string.IsNullOrEmpty(Config.SettingLink.Password))
             {
                 return false;
             }
-            VpnService = new VpnService(
-                Config.SettingLink.IpServer,
-                Global.AdapterName,
-                Config.SettingLink.UserName,
-                Config.SettingLink.Password,
-                "L2TP");
+            VpnService.UpdateVpnModel(new VpnModel()
+            {
+                ServerIP = Config.SettingLink.ServerIp,
+                UserName = Config.SettingLink.UserName,
+                PassWord = Config.SettingLink.Password,
+                VpnProtocol = "L2TP"
+            });
             do
             {
                 await Task.Run(() => VpnService.Connect());

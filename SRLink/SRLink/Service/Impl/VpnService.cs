@@ -3,81 +3,30 @@ using System.Linq;
 using System.Net;
 using DotRas;
 using SRLink.Helper;
+using SRLink.Model;
 
 namespace SRLink.Service.Impl
 {
     class VpnService : IVpnService
     {
-        //RasAutoDialManager- 此组件与 Windows RAS 自动Dial 管理器进行交互。
-        //RasConnectionWatcher - 此组件监视计算机上处于活动状态的连接，这是此项目的独特功能。您不会在其他地方找到此组件！
-        //RasDialDialog - 此组件显示用于拨号连接的用户界面。
-        //RasDialer - 此组件旨在拨打 Windows 可以自行拨号的任何类型的连接。但是，自定义 VPN 连接（如思科 VPN 系统）不使用 Windows 来拨号连接，因此无法从该项目拨打。
-        //RasEntryDialog - 此组件显示用于创建或修改电话簿条目的用户界面。
-        //RasPhoneBook - 此组件旨在操作 Windows 电话簿。通过此类完成添加、删除和修改条目。您还可以修改与条目一起存储的凭据。
-        //RasPhoneBookDialog - 此组件显示主拨号网络对话框。
+        private readonly string AdapterName;
+        private readonly string PhoneBookPath;
 
+        private VpnModel VpnModel;
+        // 连接VPN需要
         private readonly RasDialer Dialer;
         private RasHandle Handle;
-
-        #region 属性
-        /// <summary>
-        /// 连接器名
-        /// </summary>
-        private string AdapterName
-        {
-            get; set;
-        }
-        /// <summary>
-        /// 服务器IP地址
-        /// </summary>
-        private string ServerIP
-        {
-            get; set;
-        }
-        /// <summary>
-        /// 登录用户名
-        /// </summary>
-        private string UserName
-        {
-            get; set;
-        }
-        /// <summary>
-        /// 登录密码
-        /// </summary>
-        private string PassWord
-        {
-            get; set;
-        }
-        /// <summary>
-        /// VPN协议
-        /// </summary>
-        private string VpnProtocol
-        {
-            get; set;
-        }
-        /// <summary>
-        /// 预共享密钥
-        /// </summary>
-        private string PreSharedKey
-        {
-            get; set;
-        }
-        #endregion
-
-        public VpnService(string adapterName)
-        {
-            AdapterName = adapterName;
-        }
-        public VpnService(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol)
+        public VpnService()
         {
             Dialer = new RasDialer();
-            ServerIP = serverIP;
-            AdapterName = adapterName;
-            UserName = userName;
-            PassWord = passWord;
-            VpnProtocol = vpnProtocol;
+            AdapterName = Global.AdapterName;
+            PhoneBookPath = StringHelper.Combine(Global.StartupPath, "SrLinkPhoneBook.pbk");
         }
 
+        public void UpdateVpnModel(VpnModel vpnModel)
+        {
+            VpnModel = vpnModel;
+        }
         //public VpnService(string serverIP, string adapterName, string userName, string passWord, string vpnProtocol, string preSharedKey)
         //{
         //    Dialer = new RasDialer();
@@ -91,21 +40,25 @@ namespace SRLink.Service.Impl
 
         public void Connect()
         {
+            if (VpnModel == null)
+            {
+                return;
+            }
             using (var phoneBook = new RasPhoneBook())
             {
                 //PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
-                phoneBook.Open(StringHelper.Combine(Global.StartupPath, "SrLinkPhoneBook.pbk"));
+                phoneBook.Open(PhoneBookPath);
                 RasEntry Entry;
 
                 if (phoneBook.Entries.Contains(AdapterName))
                 {
                     Disconnect();
                 }
-                if (VpnProtocol.Contains("PPTP"))
+                if (VpnModel.VpnProtocol.Contains("PPTP"))
                 {
                     Entry = RasEntry.CreateVpnEntry(
                         AdapterName,
-                        ServerIP,
+                        VpnModel.ServerIP,
                         RasVpnStrategy.PptpOnly,
                         RasDevice.GetDevices().First(o => o.DeviceType == RasDeviceType.Vpn));
                 }
@@ -113,7 +66,7 @@ namespace SRLink.Service.Impl
                 {
                     Entry = RasEntry.CreateVpnEntry(
                         AdapterName,
-                        ServerIP,
+                        VpnModel.ServerIP,
                         RasVpnStrategy.L2tpOnly,
                         RasDevice.GetDevices().First(o => o.DeviceType == RasDeviceType.Vpn));
                 }
@@ -133,8 +86,8 @@ namespace SRLink.Service.Impl
 
                 Dialer.EntryName = AdapterName;
                 //Dialer.PhoneBookPath = RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers);
-                Dialer.PhoneBookPath = StringHelper.Combine(Global.StartupPath, "MyAppPhoneBook.pbk");
-                Dialer.Credentials = new NetworkCredential(UserName, PassWord);
+                Dialer.PhoneBookPath = PhoneBookPath;
+                Dialer.Credentials = new NetworkCredential(VpnModel.UserName, VpnModel.PassWord);
             }
             Handle = Dialer.DialAsync();
         }
@@ -169,7 +122,7 @@ namespace SRLink.Service.Impl
             using (var phoneBook = new RasPhoneBook())
             {
                 //PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
-                phoneBook.Open(StringHelper.Combine(Global.StartupPath, "MyAppPhoneBook.pbk"));
+                phoneBook.Open(PhoneBookPath);
 
                 if (phoneBook.Entries.Contains(AdapterName))
                 {
