@@ -27,14 +27,14 @@ namespace SRLink.Service
             return res;
         }
 
-        public static async Task<bool> RegisterSchoolNet(string userId, string password, int times = 30)
+        public static async Task<bool> RegisterSchoolNetAsync(string userId, string decodePassword, int times = 30)
         {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(decodePassword))
             {
                 return false;
             }
             // 存在Config中的Config.SettingCertify.Password本来就是Base64编码
-            string param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), userId, password);
+            string param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), userId, decodePassword);
 
             do
             {
@@ -48,6 +48,23 @@ namespace SRLink.Service
                 Thread.Sleep(1000);
                 times--;
             } while (times > 0);
+
+            return false;
+        }
+        public static bool RegisterSchoolNet(string userId, string decodePassword)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(decodePassword))
+            {
+                return false;
+            }
+            // 存在Config中的Config.SettingCertify.Password本来就是Base64编码
+            string param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), userId, decodePassword);
+
+            string res = WebHelper.PostWebRequest(StringHelper.GetAppString("CertifyUrl"), param, Encoding.UTF8);
+            if (res.Split(',')[0] == "login_ok")
+            {
+                return true;
+            }
 
             return false;
         }
@@ -67,7 +84,7 @@ namespace SRLink.Service
             return false;
         }
 
-        public static async Task<bool> LinkVpn(string serverIp, string userId, string password, int times = 30)
+        public static async Task<bool> LinkVpnAsync(string serverIp, string userId, string password, int times = 30)
         {
             if (string.IsNullOrEmpty(serverIp) ||
                 string.IsNullOrEmpty(userId) ||
@@ -103,7 +120,7 @@ namespace SRLink.Service
             Global.Linked = false;
         }
 
-        public static async Task<bool> SendIp(string address, int times = 30)
+        public static async Task<bool> SendIpAsync(string address, int times = 30)
         {
             if (string.IsNullOrEmpty(address))
             {

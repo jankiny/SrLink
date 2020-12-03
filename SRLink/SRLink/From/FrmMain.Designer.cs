@@ -53,6 +53,7 @@
             this.显示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.切换网络ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -135,42 +136,43 @@
             this.NotifyIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.立即连接ToolStripMenuItem1,
             this.断开连接ToolStripMenuItem1,
+            this.切换网络ToolStripMenuItem,
             this.toolStripSeparator2,
             this.显示ToolStripMenuItem1,
             this.退出ToolStripMenuItem1});
             this.NotifyIconMenuStrip.Name = "NotifyIconMenuStrip";
-            this.NotifyIconMenuStrip.Size = new System.Drawing.Size(125, 98);
+            this.NotifyIconMenuStrip.Size = new System.Drawing.Size(181, 142);
             // 
             // 立即连接ToolStripMenuItem1
             // 
             this.立即连接ToolStripMenuItem1.Name = "立即连接ToolStripMenuItem1";
-            this.立即连接ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.立即连接ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.立即连接ToolStripMenuItem1.Text = "立即连接";
             this.立即连接ToolStripMenuItem1.Click += new System.EventHandler(this.立即连接ToolStripMenuItem_Click);
             // 
             // 断开连接ToolStripMenuItem1
             // 
             this.断开连接ToolStripMenuItem1.Name = "断开连接ToolStripMenuItem1";
-            this.断开连接ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.断开连接ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.断开连接ToolStripMenuItem1.Text = "断开连接";
             this.断开连接ToolStripMenuItem1.Click += new System.EventHandler(this.断开连接ToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(121, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // 显示ToolStripMenuItem1
             // 
             this.显示ToolStripMenuItem1.Name = "显示ToolStripMenuItem1";
-            this.显示ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.显示ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.显示ToolStripMenuItem1.Text = "显示窗口";
             this.显示ToolStripMenuItem1.Click += new System.EventHandler(this.显示ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem1
             // 
             this.退出ToolStripMenuItem1.Name = "退出ToolStripMenuItem1";
-            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.退出ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.退出ToolStripMenuItem1.Text = "退出";
             this.退出ToolStripMenuItem1.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -206,6 +208,13 @@
             this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
+            // 切换网络ToolStripMenuItem
+            // 
+            this.切换网络ToolStripMenuItem.Name = "切换网络ToolStripMenuItem";
+            this.切换网络ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.切换网络ToolStripMenuItem.Text = "切换网络";
+            this.切换网络ToolStripMenuItem.Click += new System.EventHandler(this.切换网络ToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -246,6 +255,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 显示ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 切换网络ToolStripMenuItem;
     }
 }
 

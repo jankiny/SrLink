@@ -429,7 +429,7 @@
             this.RBT_Student.TabStop = true;
             this.RBT_Student.Text = "学生";
             this.RBT_Student.UseVisualStyleBackColor = true;
-            this.RBT_Student.CheckedChanged += new System.EventHandler(this.RBT_Student_CheckedChanged);
+            this.RBT_Student.CheckedChanged += new System.EventHandler(this.RBT_Student_CheckedChangedAsync);
             // 
             // PNL_Student
             // 

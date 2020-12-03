@@ -162,7 +162,7 @@ namespace SRLink.From
             }
         }
 
-        private void RBT_Student_CheckedChanged(object sender, EventArgs e)
+        private async void RBT_Student_CheckedChangedAsync(object sender, EventArgs e)
         {
             if (((RadioButton) sender).Checked == true)
             {
@@ -175,12 +175,17 @@ namespace SRLink.From
                     string.IsNullOrEmpty(Config.StudentNet.SettingCertify.UserId) ||
                     string.IsNullOrEmpty(Config.StudentNet.SettingCertify.Password))
                 {
-                    FrmCertify f = new FrmCertify();
+                    var f = new FrmCertify();
                     if (f.ShowDialog() != DialogResult.Yes)
                     {
                         RBT_Teacher.Checked = true;
                         Config.NetType = 1;
                     }
+                }
+                else
+                {
+                    await SrLinkService.RegisterSchoolNetAsync(Config.StudentNet.SettingCertify.UserId,
+                        Config.StudentNet.SettingCertify.Password, 1);
                 }
 
                 ConfigService.SaveConfig(ref Config);
@@ -197,6 +202,7 @@ namespace SRLink.From
                 // 判断切换是否合法
                 PNL_Student.Visible = RBT_Student.Checked;
                 PNL_Teacher.Visible = RBT_Teacher.Checked;
+                // TODO: 由于断网，下面的代码没有经过测试
                 if (VpnService.Worked())
                 {
                     if (MessageBox.Show("警告：如果切换网络类型，会断开当前网络。是否切换？", "当前网络正在使用", MessageBoxButtons.YesNo,
@@ -210,7 +216,6 @@ namespace SRLink.From
                         Config.NetType = 0;
                     }
                 }
-
                 ConfigService.SaveConfig(ref Config);
                 ReFreshUi();
             }
@@ -220,12 +225,9 @@ namespace SRLink.From
         {
             var id = UInput_CertifyId.Content;
             var pwd = UInput_CertifyPassword.Content;
-            var param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), id, StringHelper.Base64Encode(pwd));
-            var res = WebHelper.PostWebRequest(StringHelper.GetAppString("CertifyUrl"), param, Encoding.UTF8);
-            Console.WriteLine(id + " : " + res);
-            if (res.Split(',')[0] == "login_ok")
+            if (SrLinkService.RegisterSchoolNet(id, StringHelper.Base64Encode(pwd)))
             {
-                MessageBox.Show(id + " : " + res, "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(id + "登录成功", "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 ConfigService.SaveConfig(ref Config);
             }
             else
@@ -248,12 +250,9 @@ namespace SRLink.From
         {
             var id = UInput_Teacher_CertifyId.Content;
             var pwd = UInput_Teacher_CertifyPassword.Content;
-            var param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), id, StringHelper.Base64Encode(pwd));
-            var res = WebHelper.PostWebRequest(StringHelper.GetAppString("CertifyUrl"), param, Encoding.UTF8);
-            Console.WriteLine(id + " : " + res);
-            if (res.Split(',')[0] == "login_ok")
+            if (SrLinkService.RegisterSchoolNet(id, StringHelper.Base64Encode(pwd)))
             {
-                MessageBox.Show(id + " : " + res, "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(id + "登录成功", "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 ConfigService.SaveConfig(ref Config);
             }
             else

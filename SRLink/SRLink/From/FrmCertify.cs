@@ -19,7 +19,6 @@ namespace SRLink.From
             var pwd = UInput_CertifyPassword.Content;
             var param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), id, StringHelper.Base64Encode(pwd));
             var res = WebHelper.PostWebRequest(StringHelper.GetAppString("CertifyUrl"), param, Encoding.UTF8);
-            Console.WriteLine(id + " : " + res);
             if (res.Split(',')[0] == "login_ok")
             {
                 MessageBox.Show(id + " : " + res, "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
