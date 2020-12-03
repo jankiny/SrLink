@@ -90,7 +90,7 @@ namespace SRLink.Helper
         /// <param name="paramData">提交的参数</param>
         /// <param name="dataEncode">编码方式</param>
         /// <returns></returns>
-        public static string PostWebRequest(string postUrl, string paramData, long contentLength, Encoding dataEncode)
+        public static string PostWebRequest(string postUrl, string paramData, Encoding dataEncode)
         {
             string responseContent = string.Empty;
             try
@@ -103,7 +103,7 @@ namespace SRLink.Helper
 
                 byte[] byteArray = dataEncode.GetBytes(paramData); //转化
                 webReq.Accept = "application/json, text/javascript, */*; q=0.01";
-                webReq.ContentLength = contentLength;
+                webReq.ContentLength = byteArray.Length;
 
                 using (Stream reqStream = webReq.GetRequestStream())
                 {

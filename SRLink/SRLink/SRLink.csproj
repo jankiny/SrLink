@@ -69,6 +69,12 @@
     <Compile Include="From\BaseForm.Designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="From\SubFrmCertify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="From\SubFrmCertify.Designer.cs">
+      <DependentUpon>SubFrmCertify.cs</DependentUpon>
+    </Compile>
     <Compile Include="From\FrmDebug.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +135,9 @@
     <Compile Include="Service\Impl\SrLinkService.cs" />
     <EmbeddedResource Include="From\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="From\SubFrmCertify.resx">
+      <DependentUpon>SubFrmCertify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>

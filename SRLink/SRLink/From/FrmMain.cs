@@ -310,6 +310,9 @@ namespace SRLink.From
                 case "连接器":
                     ShowScreen(new SubFrmSLink());
                     break;
+                case "手动认证":
+                    ShowScreen(new SubFrmCertify());
+                    break;
                 case "关于":
                     ShowScreen(new SubFrmAbout());
                     break;

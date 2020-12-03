@@ -2,7 +2,7 @@
 
 namespace SRLink
 {
-    internal class Global
+    public class Global
     {
         #region 全局变量
         public static string StartupPath { get => Application.StartupPath; }
@@ -15,18 +15,17 @@ namespace SRLink
         /// info
         /// </summary>
         public const string SoftwareName = "SRLink";
-        public const string Version = "v2.2.7_beta";
+        public const string Version = "v2.2.9_beta";
 
         /// <summary>
         /// 校园认证地址
         /// </summary>
-        public const string Certify_Url = @"http://172.8.231.22:802/include/auth_action.php";
+        public const string Certify_Url = @"http://172.8.231.22:803/include/auth_action.php";
 
         /// <summary>
         /// 认证地址Query参数格式（配合string.format()使用，需要输入用户名和密码）
         /// </summary>
         public const string Certify_UrlParam = @"action=login&username={0}&password={{B}}{1}&ac_id=2&user_ip=&nas_ip=&user_mac=&save_me=1&ajax=1";
-
         /// <summary>
         /// 发送邮件使用的账号
         /// </summary>

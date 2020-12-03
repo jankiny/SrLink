@@ -78,7 +78,7 @@ namespace SRLink.Service.Impl
             do
             {
                 string res = await Task.Run(() =>
-                    WebHelper.PostWebRequest(Global.Certify_Url, param, 107, Encoding.UTF8));
+                    WebHelper.PostWebRequest(Global.Certify_Url, param,  Encoding.UTF8));
                 
                 if (res.Split(',')[0] == "login_ok")
                 {
