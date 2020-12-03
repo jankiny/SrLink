@@ -34,7 +34,7 @@ namespace SRLink.Service
         //}
 
 
-        public static int LoadConfig(ref ConfigModel config)
+        public static int LoadConfig(ConfigModel config)
         {
             var path = SystemHelper.Combine(StartupPath, ConfigFileName);
             var result = StringHelper.LoadResource(path);

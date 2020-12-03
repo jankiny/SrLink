@@ -16,7 +16,7 @@ namespace SRLink.From
         {
             InitializeComponent();
 
-            ConfigService.LoadConfig(ref Config);
+            ConfigService.LoadConfig(Config);
             if (Config == null)
             {
                 ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。", false);
