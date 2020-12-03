@@ -73,12 +73,12 @@ namespace SRLink.Service.Impl
                 return false;
             }
             // 存在Config中的Config.SettingCertify.Password本来就是Base64编码
-            string param = string.Format(Global.Certify_UrlParam, Config.SettingCertify.StudentId, Config.SettingCertify.Password);
+            string param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), Config.SettingCertify.StudentId, Config.SettingCertify.Password);
 
             do
             {
                 string res = await Task.Run(() =>
-                    WebHelper.PostWebRequest(Global.Certify_Url, param,  Encoding.UTF8));
+                    WebHelper.PostWebRequest(StringHelper.GetAppString("CertifyUrl"), param,  Encoding.UTF8));
                 
                 if (res.Split(',')[0] == "login_ok")
                 {
@@ -95,7 +95,7 @@ namespace SRLink.Service.Impl
         {
             do
             {
-                var res = await Task.Run(() => WebHelper.IsConnectInternet(Global.TestConnectionUrl));
+                var res = await Task.Run(() => WebHelper.IsConnectInternet(StringHelper.GetAppString("TestConnectionUrl")));
                 if (res)
                 {
                     return true;
@@ -152,9 +152,9 @@ namespace SRLink.Service.Impl
             {
                 bool res = await Task.Run(() =>
                     WebHelper.SendMail(
-                        Global.Mail_User,
-                        Global.Mail_AuthorizationCode,
-                        Global.Mail_Host,
+                        StringHelper.GetAppString("MailUser"),
+                        StringHelper.GetAppString("MailAuthorizationCode"),
+                        StringHelper.GetAppString("MailHost"),
                         Config.SettingMail.Address,
                         "IP地址",
                         SystemHelper.ExecuteCommand("ipconfig")));
@@ -172,7 +172,7 @@ namespace SRLink.Service.Impl
         public string TestMail(string address)
         {
             string code = StringHelper.GenerateRandomString(6);
-            WebHelper.SendMail(Global.Mail_User, Global.Mail_AuthorizationCode, Global.Mail_Host,
+            WebHelper.SendMail(StringHelper.GetAppString("MailUser"), StringHelper.GetAppString("MailAuthorizationCode"), StringHelper.GetAppString("MailHost"),
                 address, "验证邮箱", "请将收到的验证码填入AutoLink中，验证码：\n" + code);
             return code;
         }

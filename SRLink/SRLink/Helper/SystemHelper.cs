@@ -39,7 +39,7 @@ namespace SRLink.Helper
         {
             // 问题：开机启动时，Environment.CurrentDirectory不能获取到应用程序的目录。
             // 先直接在窗体应用里使用 Application
-            string startupPath = Environment.CurrentDirectory;
+            string startupPath = Global.StartupPath;
             if (string.IsNullOrEmpty(fileName))
             {
                 return startupPath;

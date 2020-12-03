@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
+using SRLink.Helper;
 
 namespace SRLink.From
 {
@@ -11,7 +13,7 @@ namespace SRLink.From
         public FrmDebug()
         {
             InitializeComponent();
-            WriteToBoard(string.Format("{0}[{1}] " + Environment.NewLine, Global.SoftwareName, Global.Version));
+            WriteToBoard(string.Format("{0}[{1}] " + Environment.NewLine, StringHelper.GetAppString("SoftwareName"), StringHelper.GetAppString("Version")));
             WriteToBoard("当前配置：");
             WriteToBoard($"RunAtStartup(开机启动) - {Config.RunAtStartup}");
             WriteToBoard($"Debug(调试) - {Config.Debug}");

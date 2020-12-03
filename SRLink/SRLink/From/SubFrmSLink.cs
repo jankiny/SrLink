@@ -88,7 +88,7 @@ namespace SRLink.From
 
         private void BTN_SetDefault_Click(object sender, EventArgs e)
         {
-            UInput_LinkServer.Content = Global.IpServerDefault;
+            UInput_LinkServer.Content = StringHelper.GetAppString("IpServerDefault");
         }
 
         private void UInput_LinkUserName_UcContentTextChanged(object sender, EventArgs e)

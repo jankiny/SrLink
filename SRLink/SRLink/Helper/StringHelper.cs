@@ -1,12 +1,22 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
 namespace SRLink.Helper
 {
-    public class StringHelper
+    public static class StringHelper
     {
+        /// <summary>
+        /// 获取AppSettings值
+        /// </summary>
+        /// <param name="key">关键字</param>
+        /// <returns>AppSettings中的value值</returns>
+        public static string GetAppString(string key)
+        {
+            return ConfigurationManager.AppSettings[key];
+        }
 
         /// <summary>
         /// 生成n位的随机字符串

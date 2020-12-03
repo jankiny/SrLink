@@ -9,7 +9,7 @@ namespace SRLink.Service.Impl
         private readonly string LogDirectory;
         public LoggerService()
         {
-            LogDirectory = Path.Combine(Application.StartupPath, "Logs");
+            LogDirectory = Path.Combine(Global.StartupPath, "Logs");
         }
         public void SaveLog(string strContent)
         {

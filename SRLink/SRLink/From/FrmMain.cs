@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SRLink.Helper;
 using SRLink.Model;
 using SRLink.Service;
 using SRLink.Service.Impl;
@@ -93,7 +94,7 @@ namespace SRLink.From
                 //if (res) TMR_SrLink.Enabled = false; // 连接成功后关闭定时器，否则手动断开连接后会自动重连（转移到在Timer事件中控制）
                 if (res)
                 {
-                    ShowTip(ToolTipIcon.Info, "连接成功", $"{Global.AdapterName}已连接");
+                    ShowTip(ToolTipIcon.Info, "连接成功", $"{StringHelper.GetAppString("AdapterName")}已连接");
                 }
                 else
                 {

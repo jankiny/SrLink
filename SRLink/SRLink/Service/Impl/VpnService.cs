@@ -19,7 +19,7 @@ namespace SRLink.Service.Impl
         public VpnService()
         {
             Dialer = new RasDialer();
-            AdapterName = Global.AdapterName;
+            AdapterName = StringHelper.GetAppString("AdapterName");
             PhoneBookPath = SystemHelper.Combine(Global.StartupPath, "SrLinkPhoneBook.pbk");
         }
 

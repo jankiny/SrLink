@@ -21,7 +21,7 @@ namespace SRLink.From
         private void CHK_AutoRun_CheckedChanged(object sender, EventArgs e)
         {
             Config.RunAtStartup = CHK_AutoRun.Checked;
-            SystemHelper.SetAutoRun(Global.autoRunRegPath, Global.autoRunName, Config.RunAtStartup);
+            SystemHelper.SetAutoRun(StringHelper.GetAppString("AutoRunRegPath"), StringHelper.GetAppString("AutoRunName"), Config.RunAtStartup);
         }
 
         private void CHK_Debug_CheckedChanged(object sender, EventArgs e)

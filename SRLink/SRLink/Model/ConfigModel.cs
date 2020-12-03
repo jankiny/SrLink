@@ -1,5 +1,6 @@
 ﻿using System;
 using SRLink.Helper;
+using SRLink.Service.Impl;
 
 namespace SRLink.Model
 {
@@ -56,7 +57,7 @@ namespace SRLink.Model
 
         public ConfigModel GetAllAsync()
         {
-            var path = SystemHelper.Combine(Global.StartupPath, Global.ConfigFileName); 
+            var path = SystemHelper.Combine(Global.StartupPath, StringHelper.GetAppString("ConfigFileName")); 
             string result = StringHelper.LoadResource(path);
             var config = StringHelper.FromJson<ConfigModel>(result);
             return config;
@@ -64,14 +65,14 @@ namespace SRLink.Model
 
         public int UpdateAsync(ConfigModel config)
         {
-            var path = SystemHelper.Combine(Global.StartupPath, Global.ConfigFileName);
+            var path = SystemHelper.Combine(Global.StartupPath, StringHelper.GetAppString("ConfigFileName"));
             return StringHelper.ToJsonFile(config, path);
         }
 
         public bool EnableTryLink()
         {
             int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
-            return (AutoLink && now >= StartTime.Hour * 60 + StartTime.Minute && now < Global.NightNotLink);
+            return AutoLink && now >= StartTime.Hour * 60 + StartTime.Minute && now < int.Parse(StringHelper.GetAppString("NightNotLink"));
         }
     }
 

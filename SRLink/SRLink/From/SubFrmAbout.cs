@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using SRLink.Helper;
 
 namespace SRLink.From
 {
@@ -15,7 +9,7 @@ namespace SRLink.From
         public SubFrmAbout()
         {
             InitializeComponent();
-            UDisplay_Version.Content = Global.Version;
+            UDisplay_Version.Content = StringHelper.GetAppString("Version");
         }
 
         private void UDisplay_Note_Click(object sender, EventArgs e)
