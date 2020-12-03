@@ -53,10 +53,22 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.PNL_Certify = new System.Windows.Forms.Panel();
+            this.BTN_Certify = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.PNL_Link = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.PNL_Mail = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.RBT_Teacher = new System.Windows.Forms.RadioButton();
+            this.RBT_Student = new System.Windows.Forms.RadioButton();
+            this.PNL_Student = new System.Windows.Forms.Panel();
+            this.PNL_Teacher = new System.Windows.Forms.Panel();
+            this.BTN__Teacher_Certify = new System.Windows.Forms.Button();
+            this.UInput_Teacher_CertifyId = new SRLink.From.UInput();
+            this.UInput_Teacher_CertifyPassword = new SRLink.From.UInput();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.PNL_Certify.SuspendLayout();
@@ -64,6 +76,9 @@
             this.PNL_Link.SuspendLayout();
             this.panel4.SuspendLayout();
             this.PNL_Mail.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.PNL_Student.SuspendLayout();
+            this.PNL_Teacher.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -132,9 +147,9 @@
             // 
             // BTN_SetDefault
             // 
-            this.BTN_SetDefault.Location = new System.Drawing.Point(185, 27);
+            this.BTN_SetDefault.Location = new System.Drawing.Point(197, 28);
             this.BTN_SetDefault.Name = "BTN_SetDefault";
-            this.BTN_SetDefault.Size = new System.Drawing.Size(47, 23);
+            this.BTN_SetDefault.Size = new System.Drawing.Size(75, 23);
             this.BTN_SetDefault.TabIndex = 33;
             this.BTN_SetDefault.Text = "默认服务器";
             this.BTN_SetDefault.UseVisualStyleBackColor = true;
@@ -309,6 +324,7 @@
             // 
             // PNL_Certify
             // 
+            this.PNL_Certify.Controls.Add(this.BTN_Certify);
             this.PNL_Certify.Controls.Add(this.UInput_CertifyId);
             this.PNL_Certify.Controls.Add(this.UInput_CertifyPassword);
             this.PNL_Certify.Dock = System.Windows.Forms.DockStyle.Top;
@@ -316,6 +332,16 @@
             this.PNL_Certify.Name = "PNL_Certify";
             this.PNL_Certify.Size = new System.Drawing.Size(439, 110);
             this.PNL_Certify.TabIndex = 45;
+            // 
+            // BTN_Certify
+            // 
+            this.BTN_Certify.Location = new System.Drawing.Point(197, 78);
+            this.BTN_Certify.Name = "BTN_Certify";
+            this.BTN_Certify.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Certify.TabIndex = 39;
+            this.BTN_Certify.Text = "手动认证";
+            this.BTN_Certify.UseVisualStyleBackColor = true;
+            this.BTN_Certify.Click += new System.EventHandler(this.BTN_Certify_Click);
             // 
             // panel3
             // 
@@ -360,18 +386,140 @@
             this.PNL_Mail.Size = new System.Drawing.Size(439, 58);
             this.PNL_Mail.TabIndex = 49;
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.label5);
+            this.panel5.Controls.Add(this.RBT_Teacher);
+            this.panel5.Controls.Add(this.RBT_Student);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(0, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(439, 41);
+            this.panel5.TabIndex = 50;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("黑体", 12F);
+            this.label5.Location = new System.Drawing.Point(12, 13);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(72, 16);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "网络类型";
+            // 
+            // RBT_Teacher
+            // 
+            this.RBT_Teacher.AutoSize = true;
+            this.RBT_Teacher.Location = new System.Drawing.Point(225, 15);
+            this.RBT_Teacher.Name = "RBT_Teacher";
+            this.RBT_Teacher.Size = new System.Drawing.Size(47, 16);
+            this.RBT_Teacher.TabIndex = 1;
+            this.RBT_Teacher.Text = "教师";
+            this.RBT_Teacher.UseVisualStyleBackColor = true;
+            this.RBT_Teacher.CheckedChanged += new System.EventHandler(this.RBT_Teacher_CheckedChanged);
+            // 
+            // RBT_Student
+            // 
+            this.RBT_Student.AutoSize = true;
+            this.RBT_Student.Checked = true;
+            this.RBT_Student.Location = new System.Drawing.Point(128, 15);
+            this.RBT_Student.Name = "RBT_Student";
+            this.RBT_Student.Size = new System.Drawing.Size(47, 16);
+            this.RBT_Student.TabIndex = 1;
+            this.RBT_Student.TabStop = true;
+            this.RBT_Student.Text = "学生";
+            this.RBT_Student.UseVisualStyleBackColor = true;
+            this.RBT_Student.CheckedChanged += new System.EventHandler(this.RBT_Student_CheckedChanged);
+            // 
+            // PNL_Student
+            // 
+            this.PNL_Student.Controls.Add(this.PNL_Mail);
+            this.PNL_Student.Controls.Add(this.panel4);
+            this.PNL_Student.Controls.Add(this.PNL_Link);
+            this.PNL_Student.Controls.Add(this.panel3);
+            this.PNL_Student.Controls.Add(this.PNL_Certify);
+            this.PNL_Student.Controls.Add(this.panel2);
+            this.PNL_Student.Controls.Add(this.panel1);
+            this.PNL_Student.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PNL_Student.Location = new System.Drawing.Point(0, 41);
+            this.PNL_Student.Name = "PNL_Student";
+            this.PNL_Student.Size = new System.Drawing.Size(439, 567);
+            this.PNL_Student.TabIndex = 51;
+            // 
+            // PNL_Teacher
+            // 
+            this.PNL_Teacher.Controls.Add(this.BTN__Teacher_Certify);
+            this.PNL_Teacher.Controls.Add(this.UInput_Teacher_CertifyId);
+            this.PNL_Teacher.Controls.Add(this.UInput_Teacher_CertifyPassword);
+            this.PNL_Teacher.Controls.Add(this.label7);
+            this.PNL_Teacher.Controls.Add(this.label6);
+            this.PNL_Teacher.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PNL_Teacher.Location = new System.Drawing.Point(0, 608);
+            this.PNL_Teacher.Name = "PNL_Teacher";
+            this.PNL_Teacher.Size = new System.Drawing.Size(439, 146);
+            this.PNL_Teacher.TabIndex = 52;
+            this.PNL_Teacher.Visible = false;
+            // 
+            // BTN__Teacher_Certify
+            // 
+            this.BTN__Teacher_Certify.Location = new System.Drawing.Point(194, 112);
+            this.BTN__Teacher_Certify.Name = "BTN__Teacher_Certify";
+            this.BTN__Teacher_Certify.Size = new System.Drawing.Size(75, 23);
+            this.BTN__Teacher_Certify.TabIndex = 46;
+            this.BTN__Teacher_Certify.Text = "手动认证";
+            this.BTN__Teacher_Certify.UseVisualStyleBackColor = true;
+            this.BTN__Teacher_Certify.Click += new System.EventHandler(this.BTN__Teacher_Certify_Click);
+            // 
+            // UInput_Teacher_CertifyId
+            // 
+            this.UInput_Teacher_CertifyId.Content = "";
+            this.UInput_Teacher_CertifyId.Location = new System.Drawing.Point(12, 38);
+            this.UInput_Teacher_CertifyId.Name = "UInput_Teacher_CertifyId";
+            this.UInput_Teacher_CertifyId.Password = false;
+            this.UInput_Teacher_CertifyId.Size = new System.Drawing.Size(176, 47);
+            this.UInput_Teacher_CertifyId.TabIndex = 44;
+            this.UInput_Teacher_CertifyId.Title = "账号";
+            this.UInput_Teacher_CertifyId.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_Teacher_CertifyId_UcContentTextChanged);
+            // 
+            // UInput_Teacher_CertifyPassword
+            // 
+            this.UInput_Teacher_CertifyPassword.Content = "";
+            this.UInput_Teacher_CertifyPassword.Location = new System.Drawing.Point(12, 88);
+            this.UInput_Teacher_CertifyPassword.Name = "UInput_Teacher_CertifyPassword";
+            this.UInput_Teacher_CertifyPassword.Password = true;
+            this.UInput_Teacher_CertifyPassword.Size = new System.Drawing.Size(176, 47);
+            this.UInput_Teacher_CertifyPassword.TabIndex = 45;
+            this.UInput_Teacher_CertifyPassword.Title = "密码";
+            this.UInput_Teacher_CertifyPassword.UcContentTextChanged += new SRLink.From.UInput.ContentTextChanged(this.UInput_Teacher_CertifyPassword_UcContentTextChanged);
+            // 
+            // label7
+            // 
+            this.label7.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(126, 13);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(303, 22);
+            this.label7.TabIndex = 43;
+            this.label7.Text = "Tip：教师网只需认证即可访问网络。不需要每次连接。";
+            this.label7.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("黑体", 12F);
+            this.label6.Location = new System.Drawing.Point(12, 13);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 16);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "内网认证";
+            // 
             // SubFrmSLink
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(439, 665);
-            this.Controls.Add(this.PNL_Mail);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.PNL_Link);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.PNL_Certify);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(439, 771);
+            this.Controls.Add(this.PNL_Teacher);
+            this.Controls.Add(this.PNL_Student);
+            this.Controls.Add(this.panel5);
             this.Name = "SubFrmSLink";
             this.Text = "SubFRM_SLink";
             this.Load += new System.EventHandler(this.SubFrmSLink_Load);
@@ -386,6 +534,11 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.PNL_Mail.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.PNL_Student.ResumeLayout(false);
+            this.PNL_Teacher.ResumeLayout(false);
+            this.PNL_Teacher.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -420,5 +573,17 @@
         private System.Windows.Forms.Panel PNL_Link;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel PNL_Mail;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.RadioButton RBT_Teacher;
+        private System.Windows.Forms.RadioButton RBT_Student;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button BTN_Certify;
+        private System.Windows.Forms.Panel PNL_Student;
+        private System.Windows.Forms.Panel PNL_Teacher;
+        private System.Windows.Forms.Button BTN__Teacher_Certify;
+        private UInput UInput_Teacher_CertifyId;
+        private UInput UInput_Teacher_CertifyPassword;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }

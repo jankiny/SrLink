@@ -1,17 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms; // 引用了Forms; Application需要
 
-namespace SRLink.Service.Impl
+// 引用了Forms; Application需要
+
+namespace SRLink.Service
 {
-    public class LoggerService : ILoggerService
+    public class LoggerService
     {
-        private readonly string LogDirectory;
-        public LoggerService()
-        {
-            LogDirectory = Path.Combine(Global.StartupPath, "Logs");
-        }
-        public void SaveLog(string strContent)
+        private static readonly string LogDirectory = Path.Combine(Global.StartupPath, "Logs");
+        public static void SaveLog(string strContent)
         {
             try
             {
@@ -40,7 +37,7 @@ namespace SRLink.Service.Impl
             }
             catch { }
         }
-        public void SaveLog(string strTitle, Exception exc)
+        public static void SaveLog(string strTitle, Exception exc)
         {
             try
             {

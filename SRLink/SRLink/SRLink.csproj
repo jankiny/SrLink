@@ -33,7 +33,8 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -66,14 +67,14 @@
     <Compile Include="From\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\BaseForm.Designer.cs">
+    <Compile Include="From\BaseForm.designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="From\SubFrmCertify.cs">
+    <Compile Include="From\FrmCertify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="From\SubFrmCertify.Designer.cs">
-      <DependentUpon>SubFrmCertify.cs</DependentUpon>
+    <Compile Include="From\FrmCertify.Designer.cs">
+      <DependentUpon>FrmCertify.cs</DependentUpon>
     </Compile>
     <Compile Include="From\FrmDebug.cs">
       <SubType>Form</SubType>
@@ -123,21 +124,17 @@
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\VpnModel.cs" />
-    <Compile Include="Service\ISrLinkService.cs" />
-    <Compile Include="Service\IVpnService.cs" />
-    <Compile Include="Service\Impl\VpnService.cs" />
+    <Compile Include="Service\VpnService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Impl\ConfigService.cs" />
-    <Compile Include="Service\IConfigService.cs" />
-    <Compile Include="Service\ILoggerService.cs" />
-    <Compile Include="Service\Impl\LoggerService.cs" />
-    <Compile Include="Service\Impl\SrLinkService.cs" />
+    <Compile Include="Service\ConfigService.cs" />
+    <Compile Include="Service\LoggerService.cs" />
+    <Compile Include="Service\SrLinkService.cs" />
     <EmbeddedResource Include="From\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="From\SubFrmCertify.resx">
-      <DependentUpon>SubFrmCertify.cs</DependentUpon>
+    <EmbeddedResource Include="From\FrmCertify.resx">
+      <DependentUpon>FrmCertify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
@@ -184,18 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="icon.ico" />
-    <Content Include="Resources\check_error.png" />
-    <Content Include="Resources\check_normal.png" />
-    <Content Include="Resources\check_ok.png" />
-    <Content Include="Resources\mail_error.png" />
-    <Content Include="Resources\mail_normal.png" />
-    <Content Include="Resources\mail_ok.png" />
-    <Content Include="Resources\network_error.png" />
-    <Content Include="Resources\network_normal.png" />
-    <Content Include="Resources\network_ok.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

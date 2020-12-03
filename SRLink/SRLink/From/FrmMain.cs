@@ -4,36 +4,41 @@ using System.Windows.Forms;
 using SRLink.Helper;
 using SRLink.Model;
 using SRLink.Service;
-using SRLink.Service.Impl;
 
 namespace SRLink.From
 {
     public partial class FrmMain : BaseForm
     {
-        public FrmDebug FrmDebug;
-        public ISrLinkService SrLinkService;
+        private readonly FrmDebug _frmDebug;
 
         public FrmMain()
         {
             InitializeComponent();
 
-            Config = ConfigService.LoadConfig();
+            ConfigService.LoadConfig(ref Config);
             if (Config == null)
             {
                 ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。", false);
                 Config = new ConfigModel
                 {
+                    RunAtStartup = false,
+                    StudentNet = new StudentNet
+                    {
+                        StartTime = DateTime.Parse("08:00"),
+                        LastLinkTime = DateTime.Now.AddDays(-1),
+                        SettingCertify = new SettingCertify(),
+                        SettingLink = new SettingLink(),
+                        SettingMail = new SettingMail(),
+                        AutoLink = false
+                    },
+                    TeacherNet = new TeacherNet
+                    {
+                        SettingCertify = new SettingCertify(),
+                    }
                     //HasConfig = false,
-                    StartTime = DateTime.Parse("08:00"),
-                    LastLinkTime = DateTime.Now.AddDays(-1),
-                    SettingCertify = new SettingCertify(),
-                    SettingLink = new SettingLink(),
-                    SettingMail = new SettingMail(),
-                    RunAtStartup = false
                 };
             }
-            SrLinkService = new SrLinkService(Config, ConfigService);
-            FrmDebug = new FrmDebug();
+            _frmDebug = new FrmDebug();
 
             //TMR_SrLink.Enabled = Config.AutoLink;
 
@@ -41,8 +46,8 @@ namespace SRLink.From
             Application.ApplicationExit += (sender, args) =>
             {
                 SrLinkService.DisconnectVpn();
-                FrmDebug.Dispose();
-                ConfigService.SaveConfig(Config);
+                _frmDebug.Dispose();
+                ConfigService.SaveConfig(ref Config);
             };
         }
 
@@ -50,46 +55,43 @@ namespace SRLink.From
 
         public async void TryLink(bool force = false)
         {
-            if (SrLinkService.GetLinked())
+            if (Global.Linked)
             {
-                FrmDebug.WriteToBoard($"Linked = {SrLinkService.GetLinked()} 检测到网络已连接，停止计时器事件，结束");
+                _frmDebug.WriteToBoard($"Linked = {Global.Linked} 检测到网络已连接，停止计时器事件，结束");
                 // Todo: 停用TMR计时器后，之后无法开启
                 TMR_SrLink.Enabled = false;
                 return;
             }
-            FrmDebug.WriteToBoard($"Linked = {SrLinkService.GetLinked()} 网络未连接 - 可连接");
-            if (SrLinkService.GetRunning())
+            _frmDebug.WriteToBoard($"Linked = {Global.Linked} 网络未连接 - 可连接");
+            if (Global.Running)
             {
-                FrmDebug.WriteToBoard($"Running = {SrLinkService.GetRunning()} 检测到线程忙，结束");
+                _frmDebug.WriteToBoard($"Running = {Global.Running} 检测到线程忙，结束");
                 return;
             }
-            FrmDebug.WriteToBoard($"Running = {SrLinkService.GetRunning()} 线程空闲 - 可连接");
+            _frmDebug.WriteToBoard($"Running = {Global.Running} 线程空闲 - 可连接");
 
-            if (!Config.EnableTryLink() && !force)
+            if (!ConfigService.EnableTryLink(ref Config) && !force)
             {
-                FrmDebug.WriteToBoard($"EnableTryLink = {Config.EnableTryLink()} 未启用自动连接，结束");
+                _frmDebug.WriteToBoard($"EnableTryLink = {ConfigService.EnableTryLink(ref Config)} 未启用自动连接，结束");
                 return;
             }
-            FrmDebug.WriteToBoard($"EnableTryLink = {Config.EnableTryLink()}, force = {force} 开始执行连接");
+            _frmDebug.WriteToBoard($"EnableTryLink = {ConfigService.EnableTryLink(ref Config)}, force = {force} 开始执行连接");
 
-            //await Task.Run(async () =>
-            //{
-            //});
 
-            SrLinkService.SetRunning(true);
+            Global.Running = true;
 
-            if (SrLinkService.SettingEnable("Certify"))
+            if (SrLinkService.SettingEnable(ref Config, "Certify"))
             {
-                var res = await SrLinkService.RegisterSchoolNet();
+                var res = await SrLinkService.RegisterSchoolNet(Config.StudentNet.SettingCertify.UserId, Config.StudentNet.SettingCertify.Password);
                 if (res)
-                    FrmDebug.WriteToBoard("认证成功");
+                    _frmDebug.WriteToBoard("认证成功");
                 else
                     ShowTip(ToolTipIcon.Error, "认证失败", "内网认证失败");
             }
 
-            if (SrLinkService.SettingEnable("Link"))
+            if (SrLinkService.SettingEnable(ref Config, "Link"))
             {
-                var res = await SrLinkService.LinkVpn();
+                var res = await SrLinkService.LinkVpn(Config.StudentNet.SettingLink.ServerIp, Config.StudentNet.SettingLink.UserId, Config.StudentNet.SettingLink.Password);
                 // Todo: 考虑一下是否添加自动重连功能
                 //if (res) TMR_SrLink.Enabled = false; // 连接成功后关闭定时器，否则手动断开连接后会自动重连（转移到在Timer事件中控制）
                 if (res)
@@ -98,23 +100,22 @@ namespace SRLink.From
                 }
                 else
                 {
-                    Config.AutoLink = false;
+                    Config.StudentNet.AutoLink = false;
                     ShowTip(ToolTipIcon.Info, "连接失败", "已取消自动连接。请检查配置信息，并使用手动连接测试配置，连接成功后再重新开启自动连接。");
                 }
             }
 
-            if (SrLinkService.SettingEnable("Mail"))
+            if (SrLinkService.SettingEnable(ref Config, "Mail"))
             {
-                var res = await SrLinkService.SendIp();
+                var res = await SrLinkService.SendIp(Config.StudentNet.SettingMail.Address);
                 if (res)
-                    FrmDebug.WriteToBoard("Ip发送成功");
+                    _frmDebug.WriteToBoard("Ip发送成功");
                 else
                     ShowTip(ToolTipIcon.Error, "Ip发送失败", "响应超时");
             }
 
-
-            SrLinkService.SetRunning(false);
-            FrmDebug.WriteToBoard("连接结束");
+            Global.Running = false;
+            _frmDebug.WriteToBoard("连接结束");
         }
 
         #endregion
@@ -125,16 +126,14 @@ namespace SRLink.From
         {
             try
             {
-                断开连接ToolStripMenuItem.Visible = SrLinkService.GetLinked();
-                立即连接ToolStripMenuItem.Visible = !SrLinkService.GetLinked();
-                if (Config.AutoLink)
+                if (Config.StudentNet.AutoLink)
                 {
                     TryLink();
                 }
             }
             catch (Exception err)
             {
-                Logger.SaveLog("TMR_SrLink_Tick", err);
+                LoggerService.SaveLog("TMR_SrLink_Tick", err);
             }
         }
 
@@ -147,11 +146,11 @@ namespace SRLink.From
             try
             {
                 WindowState = FormWindowState.Minimized;
-                ShowScreen(new SubFrmNormal(FrmDebug));
+                ShowScreen(new SubFrmNormal(_frmDebug));
             }
             catch (Exception err)
             {
-                Logger.SaveLog("FRM_Main_Load", err);
+                LoggerService.SaveLog("FRM_Main_Load", err);
             }
         }
 
@@ -163,7 +162,7 @@ namespace SRLink.From
             }
             catch (Exception err)
             {
-                Logger.SaveLog("FrmMain_SizeChanged", err);
+                LoggerService.SaveLog("FrmMain_SizeChanged", err);
             }
         }
 
@@ -184,7 +183,7 @@ namespace SRLink.From
             }
             catch (Exception err)
             {
-                Logger.SaveLog("FrmMain_SizeChanged", err);
+                LoggerService.SaveLog("FrmMain_SizeChanged", err);
             }
         }
 
@@ -205,39 +204,39 @@ namespace SRLink.From
             }
             catch (Exception err)
             {
-                Logger.SaveLog("NotifyIcon_DoubleClick", err);
+                LoggerService.SaveLog("NotifyIcon_DoubleClick", err);
             }
         }
 
         private void 断开连接ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmDebug.WriteToBoard("(用户操作)执行断开连接");
+            _frmDebug.WriteToBoard("(用户操作)执行断开连接");
             try
             {
-                if (SrLinkService.GetLinked())
+                if (Global.Linked)
                     SrLinkService.DisconnectVpn();
                 else
                     ShowTip(ToolTipIcon.Warning, "无效操作", "网络还未连接");
             }
             catch (Exception err)
             {
-                Logger.SaveLog("断开连接ToolStripMenuItem_Click", err);
+                LoggerService.SaveLog("断开连接ToolStripMenuItem_Click", err);
             }
         }
 
         private void 立即连接ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmDebug.WriteToBoard("(用户操作)执行立即连接");
+            _frmDebug.WriteToBoard("(用户操作)执行立即连接");
             try
             {
-                if (SrLinkService.GetLinked())
+                if (Global.Linked)
                     ShowTip(ToolTipIcon.Warning, "无效操作", "网络已连接");
                 else
                     TryLink(true);
             }
             catch (Exception err)
             {
-                Logger.SaveLog("立即连接ToolStripMenuItem_Click", err);
+                LoggerService.SaveLog("立即连接ToolStripMenuItem_Click", err);
             }
         }
 
@@ -254,7 +253,7 @@ namespace SRLink.From
             }
             catch (Exception err)
             {
-                Logger.SaveLog("显示ToolStripMenuItem_Click", err);
+                LoggerService.SaveLog("显示ToolStripMenuItem_Click", err);
             }
         }
 
@@ -266,7 +265,7 @@ namespace SRLink.From
             }
             catch (Exception err)
             {
-                Logger.SaveLog("退出ToolStripMenuItem_Click", err);
+                LoggerService.SaveLog("退出ToolStripMenuItem_Click", err);
                 Environment.Exit(0);
             }
         }
@@ -274,7 +273,7 @@ namespace SRLink.From
         private void ShowTip(ToolTipIcon icon, string title, string text, bool debug = true)
         {
             NotifyIcon.ShowBalloonTip(3000, title, text, icon);
-            if (debug) FrmDebug.WriteToBoard($"显示提示：{text}");
+            if (debug) _frmDebug.WriteToBoard($"显示提示：{text}");
         }
 
         #endregion
@@ -297,7 +296,7 @@ namespace SRLink.From
             }
             catch (Exception err)
             {
-                Logger.SaveLog("LVW_Menu_MouseClick", err);
+                LoggerService.SaveLog("LVW_Menu_MouseClick", err);
             }
         }
 
@@ -306,13 +305,10 @@ namespace SRLink.From
             switch (name)
             {
                 case "常规":
-                    ShowScreen(new SubFrmNormal(FrmDebug));
+                    ShowScreen(new SubFrmNormal(_frmDebug));
                     break;
                 case "连接器":
                     ShowScreen(new SubFrmSLink());
-                    break;
-                case "手动认证":
-                    ShowScreen(new SubFrmCertify());
                     break;
                 case "关于":
                     ShowScreen(new SubFrmAbout());

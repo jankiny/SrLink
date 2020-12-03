@@ -2,12 +2,13 @@
 using System.Text;
 using System.Windows.Forms;
 using SRLink.Helper;
+using SRLink.Service;
 
 namespace SRLink.From
 {
-    public partial class SubFrmCertify : Form
+    public partial class FrmCertify : BaseForm
     {
-        public SubFrmCertify()
+        public FrmCertify()
         {
             InitializeComponent();
         }
@@ -22,10 +23,24 @@ namespace SRLink.From
             if (res.Split(',')[0] == "login_ok")
             {
                 MessageBox.Show(id + " : " + res, "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Config.StudentNet.SettingCertify.Enable = true;
+                Config.StudentNet.SettingCertify.UserId = UInput_CertifyId.Content;
+                Config.StudentNet.SettingCertify.Password = UInput_CertifyPassword.Content;
+                ConfigService.SaveConfig(ref Config);
+                DialogResult = DialogResult.Yes;
+                Close();
             }
             else
             {
                 MessageBox.Show("用户名/密码错误", "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void FrmCertify_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult != DialogResult.Yes)
+            {
+                DialogResult = DialogResult.Cancel;
             }
         }
     }

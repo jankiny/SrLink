@@ -31,8 +31,8 @@
             this.CHK_AutoRun = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.CHK_Debug = new System.Windows.Forms.CheckBox();
             this.LBL_Tip_Debug = new System.Windows.Forms.Label();
+            this.BTN_Debug = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CHK_AutoRun
@@ -66,17 +66,6 @@
             this.label1.TabIndex = 24;
             this.label1.Text = "调试";
             // 
-            // CHK_Debug
-            // 
-            this.CHK_Debug.AutoSize = true;
-            this.CHK_Debug.Location = new System.Drawing.Point(19, 88);
-            this.CHK_Debug.Name = "CHK_Debug";
-            this.CHK_Debug.Size = new System.Drawing.Size(48, 16);
-            this.CHK_Debug.TabIndex = 25;
-            this.CHK_Debug.Text = "启用";
-            this.CHK_Debug.UseVisualStyleBackColor = true;
-            this.CHK_Debug.CheckedChanged += new System.EventHandler(this.CHK_Debug_CheckedChanged);
-            // 
             // LBL_Tip_Debug
             // 
             this.LBL_Tip_Debug.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -87,13 +76,23 @@
             this.LBL_Tip_Debug.Text = "Tip：主要用于调试程序，正常使用时没必要开启。";
             this.LBL_Tip_Debug.Visible = false;
             // 
+            // BTN_Debug
+            // 
+            this.BTN_Debug.Location = new System.Drawing.Point(19, 88);
+            this.BTN_Debug.Name = "BTN_Debug";
+            this.BTN_Debug.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Debug.TabIndex = 44;
+            this.BTN_Debug.Text = "调试窗口";
+            this.BTN_Debug.UseVisualStyleBackColor = true;
+            this.BTN_Debug.Click += new System.EventHandler(this.BTN_Debug_Click);
+            // 
             // SubFrmNormal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 308);
+            this.Controls.Add(this.BTN_Debug);
             this.Controls.Add(this.LBL_Tip_Debug);
-            this.Controls.Add(this.CHK_Debug);
             this.Controls.Add(this.CHK_AutoRun);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label5);
@@ -110,7 +109,7 @@
         private System.Windows.Forms.CheckBox CHK_AutoRun;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox CHK_Debug;
         private System.Windows.Forms.Label LBL_Tip_Debug;
+        private System.Windows.Forms.Button BTN_Debug;
     }
 }

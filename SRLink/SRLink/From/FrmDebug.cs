@@ -14,13 +14,12 @@ namespace SRLink.From
         {
             InitializeComponent();
             WriteToBoard(string.Format("{0}[{1}] " + Environment.NewLine, StringHelper.GetAppString("SoftwareName"), StringHelper.GetAppString("Version")));
-            WriteToBoard("当前配置：");
-            WriteToBoard($"RunAtStartup(开机启动) - {Config.RunAtStartup}");
-            WriteToBoard($"Debug(调试) - {Config.Debug}");
-            WriteToBoard($"AutoLink(自动连接) - {Config.AutoLink}");
-            WriteToBoard($"SettingCertify.Enable(启用认证) - {Config.SettingCertify.Enable}");
-            WriteToBoard($"SettingLink.Enable(启用连接网络) - {Config.SettingLink.Enable}");
-            WriteToBoard($"SettingMail.Enable(启用发送Ip) - {Config.SettingMail.Enable}" + Environment.NewLine + Environment.NewLine);
+            LBL_RunAtStartup.Text = $"RunAtStartup(开机启动): {Config.RunAtStartup}";
+            LBL_AutoLink.Text = $"AutoLink(自动连接): {Config.StudentNet.AutoLink}";
+            LBL_SettingCertify.Text = $"SettingCertify.Enable(启用认证): {Config.StudentNet.SettingCertify.Enable}";
+            LBL_SettingLink.Text = $"SettingLink.Enable(启用连接网络): {Config.StudentNet.SettingLink.Enable}";
+            LBL_SettingMail.Text = $"SettingMail.Enable(启用发送Ip): {Config.StudentNet.SettingMail.Enable}";
+            WriteToBoard( Environment.NewLine);
         }
 
         #region 窗口事件
