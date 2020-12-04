@@ -10,13 +10,16 @@ namespace SRLink.Helper
 {
     public class WebHelper
     {
-        /// <summary>
-        /// 发送邮件
-        /// </summary>
-        /// <param name="address">目标邮箱</param>
-        /// <param name="title">邮件标题</param>
-        /// <param name="context">邮件内容</param>
-        /// <returns>是否发送成功</returns>
+     /// <summary>
+     /// 发送邮件
+     /// </summary>
+     /// <param name="user">用户名</param>
+     /// <param name="pwd">密码</param>
+     /// <param name="host">主机</param>
+     /// <param name="address">目标邮箱</param>
+     /// <param name="title">邮件标题</param>
+     /// <param name="context">邮件内容</param>
+     /// <returns></returns>
         public static bool SendMail(string user, string pwd, string host, string address, string title, string context)
         {
             try
@@ -71,16 +74,19 @@ namespace SRLink.Helper
                 {
                     using (Stream myResponseStream = response.GetResponseStream())
                     {
-                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8))
-                        {
-                            responseContent = myStreamReader.ReadToEnd().ToString();
-                        }
+                        if (myResponseStream != null)
+                            using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8))
+                            {
+                                responseContent = myStreamReader.ReadToEnd();
+                            }
                     }
                 }
             }
             catch (Exception)
             {
+                // ignored
             }
+
             return responseContent;
         }
         /// <summary>
@@ -114,23 +120,26 @@ namespace SRLink.Helper
                 {
                     using (Stream myResponseStream = response.GetResponseStream())
                     {
-                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8))
-                        {
-                            responseContent = myStreamReader.ReadToEnd().ToString();
-                        }
+                        if (myResponseStream != null)
+                            using (StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8))
+                            {
+                                responseContent = myStreamReader.ReadToEnd();
+                            }
                     }
                 }
             }
             catch (Exception)
             {
+                // ignored
             }
+
             return responseContent;
         }
 
 
         #region 检测网络状态
-        private const int INTERNET_CONNECTION_MODEM = 1;
-        private const int INTERNET_CONNECTION_LAN = 2;
+        private const int InternetConnectionModem = 1;
+        private const int InternetConnectionLan = 2;
         /// <summary>
         ///  返回本地系统的网络连接状态
         /// </summary>
@@ -148,7 +157,7 @@ namespace SRLink.Helper
         {
             try
             {
-                System.Int32 dwFlag = new Int32();
+                var dwFlag = new int();
                 if (!InternetGetConnectedState(ref dwFlag, 0))
                 {
                     //Console.WriteLine("LocalConnectionStatus--未连网!");
@@ -156,12 +165,12 @@ namespace SRLink.Helper
                 }
                 else
                 {
-                    if ((dwFlag & INTERNET_CONNECTION_MODEM) != 0)
+                    if ((dwFlag & InternetConnectionModem) != 0)
                     {
                         //Console.WriteLine("LocalConnectionStatus--采用调制解调器上网。");
                         return true;
                     }
-                    else if ((dwFlag & INTERNET_CONNECTION_LAN) != 0)
+                    else if ((dwFlag & InternetConnectionLan) != 0)
                     {
                         //Console.WriteLine("LocalConnectionStatus--采用网卡上网。");
                         return true;
@@ -176,62 +185,28 @@ namespace SRLink.Helper
         }
 
         /// <summary>
-        /// Ping命令检测网络是否畅通
-        /// </summary>
-        /// <param name="urls">URL数据</param>
-        /// <param name="errorCount">ping时连接失败个数</param>
-        /// <returns></returns>
-        public static bool IsConnectInternet(string[] urls, out int errorCount)
-        {
-            bool isconn = true;
-            Ping ping = new Ping();
-            errorCount = 0;
-            try
-            {
-                PingReply pr;
-                for (int i = 0; i < urls.Length; i++)
-                {
-                    pr = ping.Send(urls[i]);
-                    if (pr.Status != IPStatus.Success)
-                    {
-                        isconn = false;
-                        errorCount++;
-                    }
-                    Console.WriteLine("Ping " + urls[i] + "    " + pr.Status.ToString());
-                }
-            }
-            catch (Exception)
-            {
-                isconn = false;
-                errorCount = urls.Length;
-            }
-            //if (errorCount > 0 && errorCount < 3)
-            //  isconn = true;
-            return isconn;
-        }
-        /// <summary>
         /// 判断是否有网
         /// </summary>
         /// <returns>true为有网，false为无网</returns>
         public static bool IsConnectInternet(string url)
         {
-            bool isconn = true;
-            Ping ping = new Ping();
+            var connection = true;
+            var ping = new Ping();
             try
             {
                 PingReply pr;
                 pr = ping.Send(url);
-                if (pr.Status != IPStatus.Success)
+                if (pr != null && pr.Status != IPStatus.Success)
                 {
-                    isconn = false;
+                    connection = false;
                 }
             }
             catch (Exception)
             {
-                isconn = false;
+                connection = false;
                 // 如果没有联网，直接ping网页的Url会报异常：不知道这样的主机
             }
-            return isconn;
+            return connection;
         }
         #endregion
     }

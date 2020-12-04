@@ -6,7 +6,7 @@ using SRLink.Model;
 
 namespace SRLink.Service
 {
-    public class SrLinkService
+    public static class SrLinkService
     {
         public static bool SettingEnable(ref ConfigModel config, string configName)
         {

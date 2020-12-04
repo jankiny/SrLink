@@ -1,7 +1,5 @@
 ﻿using System.Windows.Forms;
 using DotRas;
-using SRLink.Model;
-using SRLink.Service;
 
 namespace SRLink
 {

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SRLink.Helper;
 using SRLink.Service;
@@ -14,7 +7,7 @@ namespace SRLink.From
 {
     public partial class SubFrmSLink : BaseForm
     {
-        private int Count = 0;
+        private int _count;
 
         public SubFrmSLink()
         {
@@ -143,13 +136,13 @@ namespace SRLink.From
             //TODO: (功能还不可用)注入SrLinkService
             BTN_TestMail.Enabled = false;
             BTN_TestMail.Text = "15s";
-            Count = 15;
+            _count = 15;
             //.TestMail(UInput_MailAddress.Content);
             TMR_ReSent.Enabled = true;
         }
         private void TMR_ReSent_Tick(object sender, EventArgs e)
         {
-            if (Count == 1)
+            if (_count == 1)
             {
                 BTN_TestMail.Enabled = true;
                 TMR_ReSent.Enabled = false;
@@ -157,14 +150,14 @@ namespace SRLink.From
             }
             else
             {
-                Count--;
-                BTN_TestMail.Text = Count.ToString() + "s";
+                _count--;
+                BTN_TestMail.Text = _count.ToString() + "s";
             }
         }
 
         private async void RBT_Student_CheckedChangedAsync(object sender, EventArgs e)
         {
-            if (((RadioButton) sender).Checked == true)
+            if (((RadioButton) sender).Checked)
             {
                 // 保存配置
                 Config.NetType = 0;
@@ -195,7 +188,7 @@ namespace SRLink.From
 
         private void RBT_Teacher_CheckedChanged(object sender, EventArgs e)
         {
-            if (((RadioButton) sender).Checked == true)
+            if (((RadioButton) sender).Checked)
             {
                 // 保存配置
                 Config.NetType = 1;

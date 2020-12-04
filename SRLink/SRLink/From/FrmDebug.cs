@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Configuration;
-using System.Drawing;
 using System.Windows.Forms;
 using SRLink.Helper;
 
@@ -49,8 +47,8 @@ namespace SRLink.From
                     if (TBX_Board.Disposing || TBX_Board.IsDisposed) return;
                 }
 
-                SetTextCallback d = new SetTextCallback(WriteToBoard);
-                label1.Invoke(d, new object[] { msg });
+                SetTextCallback d = WriteToBoard;
+                label1.Invoke(d, msg);
             }
             else
             {

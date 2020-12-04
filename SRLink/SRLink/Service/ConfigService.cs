@@ -4,10 +4,11 @@ using SRLink.Model;
 
 namespace SRLink.Service
 {
-    class ConfigService
+    internal class ConfigService
     {
         private static readonly string ConfigFileName = StringHelper.GetAppString("ConfigFileName");
         private static readonly string StartupPath = Global.StartupPath;
+
         private static readonly int NightNotLink = int.Parse(StringHelper.GetAppString("NightNotLink"));
         //public ConfigModel Config;
         //public ConfigService()
@@ -34,8 +35,9 @@ namespace SRLink.Service
         //}
 
 
-        public static int LoadConfig(ConfigModel config)
+        public static int LoadConfig(ref ConfigModel config)
         {
+            if (config == null) throw new ArgumentNullException(nameof(config));
             var path = SystemHelper.Combine(StartupPath, ConfigFileName);
             var result = StringHelper.LoadResource(path);
             config = StringHelper.FromJson<ConfigModel>(result);
@@ -50,8 +52,49 @@ namespace SRLink.Service
 
         public static bool EnableTryLink(ref ConfigModel config)
         {
-            int now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
-            return config.StudentNet.AutoLink && now >= config.StudentNet.StartTime.Hour * 60 + config.StudentNet.StartTime.Minute && now < NightNotLink;
+            var now = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            return config.StudentNet.AutoLink &&
+                   now >= config.StudentNet.StartTime.Hour * 60 + config.StudentNet.StartTime.Minute &&
+                   now < NightNotLink;
+        }
+
+        public static bool IsEmpty(ref ConfigModel config)
+        {
+            if (config == null) return true;
+            if (config.NetType == 0 && config.RunAtStartup == false &&
+                config.StudentNet.SettingCertify.Enable == false && config.StudentNet.SettingCertify.UserId == "" &&
+                config.StudentNet.SettingCertify.Password == "" && config.StudentNet.SettingLink.Enable == false &&
+                config.StudentNet.SettingLink.ServerIp == "" && config.StudentNet.SettingLink.UserId == "" &&
+                config.StudentNet.SettingLink.Password == "" && config.StudentNet.SettingMail.Enable == false &&
+                config.StudentNet.SettingMail.Address == "" && config.TeacherNet.SettingCertify.Enable == false &&
+                config.TeacherNet.SettingCertify.UserId == "" &&
+                config.TeacherNet.SettingCertify.Password == "") return true;
+
+            return false;
+        }
+
+        public static void InitialConfig(ref ConfigModel config)
+        {
+            if (config == null) throw new ArgumentNullException(nameof(config));
+            config = new ConfigModel
+            {
+                RunAtStartup = false,
+                NetType = 0,
+                StudentNet = new StudentNet
+                {
+                    StartTime = DateTime.Parse("08:00"),
+                    LastLinkTime = DateTime.Now.AddDays(-1),
+                    SettingCertify = new SettingCertify(),
+                    SettingLink = new SettingLink(),
+                    SettingMail = new SettingMail(),
+                    AutoLink = false
+                },
+                TeacherNet = new TeacherNet
+                {
+                    SettingCertify = new SettingCertify()
+                }
+                //HasConfig = false,
+            };
         }
     }
 }

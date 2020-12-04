@@ -20,9 +20,9 @@ namespace SRLink.Service
                 }
                 if (!File.Exists(path))
                 {
-                    FileStream FsCreate = new FileStream(path, FileMode.Create);
-                    FsCreate.Close();
-                    FsCreate.Dispose();
+                    FileStream fsCreate = new FileStream(path, FileMode.Create);
+                    fsCreate.Close();
+                    fsCreate.Dispose();
                 }
                 FileStream fileStream = new FileStream(path, FileMode.Append, FileAccess.Write);
                 using (StreamWriter sWrite = new StreamWriter(fileStream))
@@ -35,7 +35,10 @@ namespace SRLink.Service
                     sWrite.Close();
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
         public static void SaveLog(string strTitle, Exception exc)
         {
@@ -49,16 +52,17 @@ namespace SRLink.Service
                 }
                 if (!File.Exists(path))
                 {
-                    FileStream FsCreate = new FileStream(path, FileMode.Create);
-                    FsCreate.Close();
-                    FsCreate.Dispose();
+                    FileStream fsCreate = new FileStream(path, FileMode.Create);
+                    fsCreate.Close();
+                    fsCreate.Dispose();
                 }
                 FileStream fileStream = new FileStream(path, FileMode.Append, FileAccess.Write);
                 using (StreamWriter sWrite = new StreamWriter(fileStream))
                 {
                     string strContent = exc.ToString();
 
-                    sWrite.WriteLine(string.Format("{0}{1}[{2}]{3}", "----------------------", strTitle, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), "----------------------"));
+                    sWrite.WriteLine(
+                        $"{"----------------------"}{strTitle}[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}]{"----------------------"}");
                     sWrite.Write(strContent);
                     sWrite.WriteLine(Environment.NewLine);
                     sWrite.WriteLine(" ");
@@ -66,7 +70,10 @@ namespace SRLink.Service
                     sWrite.Close();
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

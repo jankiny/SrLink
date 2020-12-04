@@ -39,7 +39,9 @@ namespace SRLink.Helper
             }
             catch (Exception)
             {
+                // ignored
             }
+
             return checkCode;
         }
         #region 编码
@@ -113,7 +115,9 @@ namespace SRLink.Helper
             }
             catch (Exception)
             {
+                // ignored
             }
+
             return result;
         }
 
@@ -152,7 +156,9 @@ namespace SRLink.Helper
             }
             catch (Exception)
             {
+                // ignored
             }
+
             return result;
         }
 

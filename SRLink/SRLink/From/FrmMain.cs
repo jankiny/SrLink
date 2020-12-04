@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using SRLink.Helper;
 using SRLink.Model;
@@ -15,29 +14,12 @@ namespace SRLink.From
         public FrmMain()
         {
             InitializeComponent();
-
-            ConfigService.LoadConfig(Config);
-            if (Config == null)
+            Config = new ConfigModel();
+            ConfigService.LoadConfig(ref Config);
+            if (ConfigService.IsEmpty(ref Config))
             {
-                ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "第一次启动请先到配置页面设置连接信息。", false);
-                Config = new ConfigModel
-                {
-                    RunAtStartup = false,
-                    StudentNet = new StudentNet
-                    {
-                        StartTime = DateTime.Parse("08:00"),
-                        LastLinkTime = DateTime.Now.AddDays(-1),
-                        SettingCertify = new SettingCertify(),
-                        SettingLink = new SettingLink(),
-                        SettingMail = new SettingMail(),
-                        AutoLink = false
-                    },
-                    TeacherNet = new TeacherNet
-                    {
-                        SettingCertify = new SettingCertify()
-                    }
-                    //HasConfig = false,
-                };
+                ShowTip(ToolTipIcon.Info, "欢迎使用SrLink", "检测到当前配置为空，请先到配置页面设置连接信息。", false);
+                ConfigService.InitialConfig(ref Config);
             }
 
             _frmDebug = new FrmDebug();

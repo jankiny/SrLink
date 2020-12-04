@@ -23,7 +23,7 @@ namespace SRLink.Service
             {
                 //PhoneBook.Open(RasPhoneBook.GetPhoneBookPath(RasPhoneBookType.AllUsers));
                 phoneBook.Open(PhoneBookPath);
-                RasEntry Entry;
+                RasEntry entry;
 
                 if (phoneBook.Entries.Contains(AdapterName))
                 {
@@ -31,7 +31,7 @@ namespace SRLink.Service
                 }
                 if (vpnModel.VpnProtocol.Contains("PPTP"))
                 {
-                    Entry = RasEntry.CreateVpnEntry(
+                    entry = RasEntry.CreateVpnEntry(
                         AdapterName,
                         vpnModel.ServerIp,
                         RasVpnStrategy.PptpOnly,
@@ -39,18 +39,18 @@ namespace SRLink.Service
                 }
                 else
                 {
-                    Entry = RasEntry.CreateVpnEntry(
+                    entry = RasEntry.CreateVpnEntry(
                         AdapterName,
                         vpnModel.ServerIp,
                         RasVpnStrategy.L2tpOnly,
                         RasDevice.GetDevices().First(o => o.DeviceType == RasDeviceType.Vpn));
                 }
 
-                phoneBook.Entries.Add(Entry);
-                Entry.Options.PreviewDomain = false;
-                Entry.Options.ShowDialingProgress = false;
-                Entry.Options.PromoteAlternates = false;
-                Entry.Options.DoNotNegotiateMultilink = false;
+                phoneBook.Entries.Add(entry);
+                entry.Options.PreviewDomain = false;
+                entry.Options.ShowDialingProgress = false;
+                entry.Options.PromoteAlternates = false;
+                entry.Options.DoNotNegotiateMultilink = false;
 
                 //if (VpnProtocol.Equals("L2TP"))
                 //{
@@ -109,7 +109,7 @@ namespace SRLink.Service
             {
                 if (connection.EntryName == AdapterName)
                 {
-                    connection?.HangUp();
+                    connection.HangUp();
                 }
             }
 
