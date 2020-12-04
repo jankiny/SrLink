@@ -67,6 +67,7 @@ namespace SRLink.From
 
 
             Global.Running = true;
+            ShowTip(ToolTipIcon.None, "L2TP连接中", "请耐心等待");
 
             if (SrLinkService.SettingEnable(ref Config, "Certify"))
             {

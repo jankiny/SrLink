@@ -75,7 +75,6 @@ namespace SRLink.Service
 
         public static void InitialConfig(ref ConfigModel config)
         {
-            if (config == null) throw new ArgumentNullException(nameof(config));
             config = new ConfigModel
             {
                 RunAtStartup = false,
