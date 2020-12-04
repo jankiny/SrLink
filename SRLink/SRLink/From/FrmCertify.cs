@@ -17,14 +17,13 @@ namespace SRLink.From
         {
             var id = UInput_CertifyId.Content;
             var pwd = UInput_CertifyPassword.Content;
-            var param = string.Format(StringHelper.GetAppString("CertifyUrlParam"), id, StringHelper.Base64Encode(pwd));
-            var res = WebHelper.PostWebRequest(StringHelper.GetAppString("CertifyUrl"), param, Encoding.UTF8);
-            if (res.Split(',')[0] == "login_ok")
+
+            if (SrLinkService.RegisterSchoolNet(id, StringHelper.Base64Encode(pwd)))
             {
-                MessageBox.Show(id + " : " + res, "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(id + "登录成功", "登录成功", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 Config.StudentNet.SettingCertify.Enable = true;
                 Config.StudentNet.SettingCertify.UserId = UInput_CertifyId.Content;
-                Config.StudentNet.SettingCertify.Password = UInput_CertifyPassword.Content;
+                Config.StudentNet.SettingCertify.Password = StringHelper.Base64Encode(UInput_CertifyPassword.Content);
                 ConfigService.SaveConfig(ref Config);
                 DialogResult = DialogResult.Yes;
                 Close();

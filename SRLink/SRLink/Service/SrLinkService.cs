@@ -102,8 +102,12 @@ namespace SRLink.Service
             do
             {
                 VpnService.Connect(ref vpnModel);
-                Global.Linked = await TestInternet();
-                if (Global.Linked)
+                //Global.Linked = await TestInternet();
+                //if (Global.Linked)
+                //{
+                //    return true;
+                //}
+                if (await TestInternet())
                 {
                     return true;
                 }
@@ -117,7 +121,7 @@ namespace SRLink.Service
         public static void DisconnectVpn()
         {
             VpnService.Abort();
-            Global.Linked = false;
+            //Global.Linked = false;
         }
 
         public static async Task<bool> SendIpAsync(string address, int times = 30)

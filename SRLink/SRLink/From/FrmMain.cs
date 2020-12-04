@@ -39,15 +39,15 @@ namespace SRLink.From
 
         public async void TryLink(bool force = false)
         {
-            if (Global.Linked)
-            {
-                _frmDebug.WriteToBoard($"Linked = {Global.Linked} 检测到网络已连接，停止计时器事件，结束");
-                // Todo: 停用TMR计时器后，之后无法开启
-                TMR_SrLink.Enabled = false;
-                return;
-            }
+            //if (Global.Linked)
+            //{
+            //    _frmDebug.WriteToBoard($"Linked = {Global.Linked} 检测到网络已连接，停止计时器事件，结束");
+            //    // Todo: 停用TMR计时器后，之后无法开启
+            //    TMR_SrLink.Enabled = false;
+            //    return;
+            //}
 
-            _frmDebug.WriteToBoard($"Linked = {Global.Linked} 网络未连接 - 可连接");
+            //_frmDebug.WriteToBoard($"Linked = {Global.Linked} 网络未连接 - 可连接");
             if (Global.Running)
             {
                 _frmDebug.WriteToBoard($"Running = {Global.Running} 检测到线程忙，结束");
@@ -195,15 +195,19 @@ namespace SRLink.From
             }
         }
 
-        private void 断开连接ToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void 断开连接ToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
             _frmDebug.WriteToBoard("(用户操作)执行断开连接");
             try
             {
-                if (Global.Linked)
+                if(await SrLinkService.TestInternet())
                     SrLinkService.DisconnectVpn();
                 else
                     ShowTip(ToolTipIcon.Warning, "无效操作", "网络还未连接");
+                //if (Global.Linked)
+                //    SrLinkService.DisconnectVpn();
+                //else
+                //    ShowTip(ToolTipIcon.Warning, "无效操作", "网络还未连接");
             }
             catch (Exception err)
             {
@@ -211,15 +215,19 @@ namespace SRLink.From
             }
         }
 
-        private void 立即连接ToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void 立即连接ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _frmDebug.WriteToBoard("(用户操作)执行立即连接");
             try
             {
-                if (Global.Linked)
+                if (await SrLinkService.TestInternet())
                     ShowTip(ToolTipIcon.Warning, "无效操作", "网络已连接");
                 else
                     TryLink(true);
+                //if (Global.Linked)
+                //    ShowTip(ToolTipIcon.Warning, "无效操作", "网络已连接");
+                //else
+                //    TryLink(true);
             }
             catch (Exception err)
             {
@@ -257,6 +265,75 @@ namespace SRLink.From
             }
         }
 
+        private void 切换网络ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (Config.NetType)
+            {
+                case 0:
+                    Config.NetType = 1;
+                    // TODO: 由于断网，下面的代码没有经过测试
+                    if (VpnService.Worked())
+                    {
+                        if (MessageBox.Show("警告：如果切换网络类型，会断开当前网络。是否切换？", "当前网络正在使用", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning) == DialogResult.Yes)
+                        {
+                            VpnService.Abort();
+                            if (SrLinkService.RegisterSchoolNet(Config.TeacherNet.SettingCertify.UserId,
+                                Config.TeacherNet.SettingCertify.Password))
+                            {
+                                ShowTip(ToolTipIcon.Info, "切换到教师网", $"{Config.TeacherNet.SettingCertify.UserId}登录成功",
+                                    false);
+                                ConfigService.SaveConfig(ref Config);
+                            }
+                            else
+                            {
+                                Config.NetType = 0;
+                                ShowTip(ToolTipIcon.Error, "切换到教师网", "登录失败：用户名/密码错误。请进入配置页面手动尝试。", false);
+                            }
+                        }
+                        else
+                        {
+                            Config.NetType = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (SrLinkService.RegisterSchoolNet(Config.TeacherNet.SettingCertify.UserId,
+                            Config.TeacherNet.SettingCertify.Password))
+                        {
+                            ShowTip(ToolTipIcon.Info, "切换到教师网", $"{Config.TeacherNet.SettingCertify.UserId}登录成功",
+                                false);
+                            ConfigService.SaveConfig(ref Config);
+                        }
+                        else
+                        {
+                            Config.NetType = 0;
+                            ShowTip(ToolTipIcon.Error, "切换到教师网", "登录失败：用户名/密码错误。请进入配置页面手动尝试。", false);
+                        }
+                    }
+
+                    break;
+                case 1:
+                    Config.NetType = 0;
+                    if (Config.StudentNet.SettingCertify.Enable == false ||
+                        string.IsNullOrEmpty(Config.StudentNet.SettingCertify.UserId) ||
+                        string.IsNullOrEmpty(Config.StudentNet.SettingCertify.Password))
+                    {
+                        var f = new FrmCertify();
+                        if (f.ShowDialog() != DialogResult.Yes) Config.NetType = 1;
+                    }
+                    else
+                    {
+                        SrLinkService.RegisterSchoolNet(Config.StudentNet.SettingCertify.UserId,
+                            Config.StudentNet.SettingCertify.Password);
+                        TryLink(true);
+                    }
+
+                    break;
+            }
+
+            ConfigService.SaveConfig(ref Config);
+        }
         private void ShowTip(ToolTipIcon icon, string title, string text, bool debug = true)
         {
             NotifyIcon.ShowBalloonTip(3000, title, text, icon);
@@ -320,75 +397,6 @@ namespace SRLink.From
             splitContainer1.Panel2.Controls.Add(ctl);
         }
 
-        private async void 切换网络ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            switch (Config.NetType)
-            {
-                case 0:
-                    Config.NetType = 1;
-                    // TODO: 由于断网，下面的代码没有经过测试
-                    if (VpnService.Worked())
-                    {
-                        if (MessageBox.Show("警告：如果切换网络类型，会断开当前网络。是否切换？", "当前网络正在使用", MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Warning) == DialogResult.Yes)
-                        {
-                            VpnService.Abort();
-                            if (SrLinkService.RegisterSchoolNet(Config.TeacherNet.SettingCertify.UserId, Config.TeacherNet.SettingCertify.Password))
-                            {
-                                ShowTip(ToolTipIcon.Info, "切换到教师网", $"{Config.TeacherNet.SettingCertify.UserId}登录成功", false);
-                                ConfigService.SaveConfig(ref Config);
-                            }
-                            else
-                            {
-                                Config.NetType = 0;
-                                ShowTip(ToolTipIcon.Error, "切换到教师网", "登录失败：用户名/密码错误。请进入配置页面手动尝试。", false);
-                            }
-                        }
-                        else
-                        {
-                            Config.NetType = 0;
-                        }
-                    }
-                    else
-                    {
-
-                        if (SrLinkService.RegisterSchoolNet(Config.TeacherNet.SettingCertify.UserId, Config.TeacherNet.SettingCertify.Password))
-                        {
-                            ShowTip(ToolTipIcon.Info, "切换到教师网", $"{Config.TeacherNet.SettingCertify.UserId}登录成功", false);
-                            ConfigService.SaveConfig(ref Config);
-                        }
-                        else
-                        {
-                            Config.NetType = 0;
-                            ShowTip(ToolTipIcon.Error, "切换到教师网", "登录失败：用户名/密码错误。请进入配置页面手动尝试。", false);
-                        }
-                    }
-
-                    break;
-                case 1:
-                    Config.NetType = 0;
-                    if (Config.StudentNet.SettingCertify.Enable == false ||
-                        string.IsNullOrEmpty(Config.StudentNet.SettingCertify.UserId) ||
-                        string.IsNullOrEmpty(Config.StudentNet.SettingCertify.Password))
-                    {
-                        var f = new FrmCertify();
-                        if (f.ShowDialog() != DialogResult.Yes)
-                        {
-                            Config.NetType = 1;
-                        }
-                    }
-                    else
-                    {
-                        await SrLinkService.RegisterSchoolNetAsync(Config.StudentNet.SettingCertify.UserId,
-                            Config.StudentNet.SettingCertify.Password, 1);
-                        TryLink(true);
-                    }
-
-                    break;
-            }
-
-            ConfigService.SaveConfig(ref Config);
-        }
     }
 
     #endregion

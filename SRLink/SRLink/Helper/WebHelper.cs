@@ -195,7 +195,7 @@ namespace SRLink.Helper
             try
             {
                 PingReply pr;
-                pr = ping.Send(url);
+                pr = ping.Send(url, 500);
                 if (pr != null && pr.Status != IPStatus.Success)
                 {
                     connection = false;

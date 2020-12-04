@@ -155,7 +155,7 @@
             this.断开连接ToolStripMenuItem1.Name = "断开连接ToolStripMenuItem1";
             this.断开连接ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.断开连接ToolStripMenuItem1.Text = "断开连接";
-            this.断开连接ToolStripMenuItem1.Click += new System.EventHandler(this.断开连接ToolStripMenuItem_Click);
+            this.断开连接ToolStripMenuItem1.Click += new System.EventHandler(this.断开连接ToolStripMenuItem_ClickAsync);
             // 
             // toolStripSeparator2
             // 
@@ -181,7 +181,7 @@
             this.断开连接ToolStripMenuItem.Name = "断开连接ToolStripMenuItem";
             this.断开连接ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.断开连接ToolStripMenuItem.Text = "断开连接";
-            this.断开连接ToolStripMenuItem.Click += new System.EventHandler(this.断开连接ToolStripMenuItem_Click);
+            this.断开连接ToolStripMenuItem.Click += new System.EventHandler(this.断开连接ToolStripMenuItem_ClickAsync);
             // 
             // 立即连接ToolStripMenuItem
             // 
