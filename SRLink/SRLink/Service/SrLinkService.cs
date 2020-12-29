@@ -69,11 +69,13 @@ namespace SRLink.Service
             return false;
         }
 
-        public static async Task<bool> TestInternet(int times = 30)
+
+        public static bool TestInternet(int times = 30)
         {
+            // 慎用测试网络功能，如果网络未连接，测试速度会很慢，坏消息传的慢。如果要使用，保证测试时网络已连接的情况远远多于未连接。
             do
             {
-                var res = await Task.Run(() => WebHelper.IsConnectInternet(StringHelper.GetAppString("TestConnectionUrl")));
+                var res =  WebHelper.IsConnectInternet(StringHelper.GetAppString("TestConnectionUrl"));
                 if (res)
                 {
                     return true;
@@ -84,7 +86,7 @@ namespace SRLink.Service
             return false;
         }
 
-        public static async Task<bool> LinkVpnAsync(string serverIp, string userId, string password, int times = 30)
+        public static bool LinkVpnAsync(string serverIp, string userId, string password, int times = 30)
         {
             if (string.IsNullOrEmpty(serverIp) ||
                 string.IsNullOrEmpty(userId) ||
@@ -102,16 +104,16 @@ namespace SRLink.Service
             do
             {
                 VpnService.Connect(ref vpnModel);
-                //Global.Linked = await TestInternet();
+                //Global.Linked = await TestInternetAsync();
                 //if (Global.Linked)
                 //{
                 //    return true;
                 //}
-                if (await TestInternet())
+                Thread.Sleep(1000);
+                if (TestInternet(5))
                 {
                     return true;
                 }
-                Thread.Sleep(1000);
                 times--;
             } while (times > 0);
 

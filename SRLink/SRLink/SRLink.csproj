@@ -120,6 +120,12 @@
     <Compile Include="From\SubFrmSLink.Designer.cs">
       <DependentUpon>SubFrmSLink.cs</DependentUpon>
     </Compile>
+    <Compile Include="From\SubFrmWorking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="From\SubFrmWorking.Designer.cs">
+      <DependentUpon>SubFrmWorking.cs</DependentUpon>
+    </Compile>
     <Compile Include="From\UDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="From\SubFrmSLink.resx">
       <DependentUpon>SubFrmSLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="From\SubFrmWorking.resx">
+      <DependentUpon>SubFrmWorking.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="From\UDisplay.resx">
       <DependentUpon>UDisplay.cs</DependentUpon>

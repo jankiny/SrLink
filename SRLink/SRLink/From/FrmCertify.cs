@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
 using SRLink.Helper;
 using SRLink.Service;

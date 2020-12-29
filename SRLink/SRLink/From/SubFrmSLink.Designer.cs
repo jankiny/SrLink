@@ -64,7 +64,7 @@
             this.RBT_Student = new System.Windows.Forms.RadioButton();
             this.PNL_Student = new System.Windows.Forms.Panel();
             this.PNL_Teacher = new System.Windows.Forms.Panel();
-            this.BTN__Teacher_Certify = new System.Windows.Forms.Button();
+            this.BTN_Teacher_Certify = new System.Windows.Forms.Button();
             this.UInput_Teacher_CertifyId = new SRLink.From.UInput();
             this.UInput_Teacher_CertifyPassword = new SRLink.From.UInput();
             this.label7 = new System.Windows.Forms.Label();
@@ -272,11 +272,11 @@
             // LBL_Tip_AutoLink
             // 
             this.LBL_Tip_AutoLink.Font = new System.Drawing.Font("楷体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LBL_Tip_AutoLink.Location = new System.Drawing.Point(195, 17);
+            this.LBL_Tip_AutoLink.Location = new System.Drawing.Point(180, 17);
             this.LBL_Tip_AutoLink.Name = "LBL_Tip_AutoLink";
-            this.LBL_Tip_AutoLink.Size = new System.Drawing.Size(203, 36);
+            this.LBL_Tip_AutoLink.Size = new System.Drawing.Size(249, 36);
             this.LBL_Tip_AutoLink.TabIndex = 42;
-            this.LBL_Tip_AutoLink.Text = "Tip：启用后，会自动按配置进行连接（执行顺序即配置页面的顺序）。请确保以下配置是正确。";
+            this.LBL_Tip_AutoLink.Text = "Tip：启用后，如果检测到网络未连接，会自动按配置进行连接，请确保以下配置是正确。";
             this.LBL_Tip_AutoLink.Visible = false;
             // 
             // LBL_Tip_Certify
@@ -448,7 +448,7 @@
             // 
             // PNL_Teacher
             // 
-            this.PNL_Teacher.Controls.Add(this.BTN__Teacher_Certify);
+            this.PNL_Teacher.Controls.Add(this.BTN_Teacher_Certify);
             this.PNL_Teacher.Controls.Add(this.UInput_Teacher_CertifyId);
             this.PNL_Teacher.Controls.Add(this.UInput_Teacher_CertifyPassword);
             this.PNL_Teacher.Controls.Add(this.label7);
@@ -460,15 +460,15 @@
             this.PNL_Teacher.TabIndex = 52;
             this.PNL_Teacher.Visible = false;
             // 
-            // BTN__Teacher_Certify
+            // BTN_Teacher_Certify
             // 
-            this.BTN__Teacher_Certify.Location = new System.Drawing.Point(194, 112);
-            this.BTN__Teacher_Certify.Name = "BTN__Teacher_Certify";
-            this.BTN__Teacher_Certify.Size = new System.Drawing.Size(75, 23);
-            this.BTN__Teacher_Certify.TabIndex = 46;
-            this.BTN__Teacher_Certify.Text = "手动认证";
-            this.BTN__Teacher_Certify.UseVisualStyleBackColor = true;
-            this.BTN__Teacher_Certify.Click += new System.EventHandler(this.BTN__Teacher_Certify_Click);
+            this.BTN_Teacher_Certify.Location = new System.Drawing.Point(194, 112);
+            this.BTN_Teacher_Certify.Name = "BTN_Teacher_Certify";
+            this.BTN_Teacher_Certify.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Teacher_Certify.TabIndex = 46;
+            this.BTN_Teacher_Certify.Text = "手动认证";
+            this.BTN_Teacher_Certify.UseVisualStyleBackColor = true;
+            this.BTN_Teacher_Certify.Click += new System.EventHandler(this.BTN_Teacher_Certify_Click);
             // 
             // UInput_Teacher_CertifyId
             // 
@@ -580,7 +580,7 @@
         private System.Windows.Forms.Button BTN_Certify;
         private System.Windows.Forms.Panel PNL_Student;
         private System.Windows.Forms.Panel PNL_Teacher;
-        private System.Windows.Forms.Button BTN__Teacher_Certify;
+        private System.Windows.Forms.Button BTN_Teacher_Certify;
         private UInput UInput_Teacher_CertifyId;
         private UInput UInput_Teacher_CertifyPassword;
         private System.Windows.Forms.Label label7;

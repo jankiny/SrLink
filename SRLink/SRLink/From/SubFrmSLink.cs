@@ -239,7 +239,7 @@ namespace SRLink.From
             Config.TeacherNet.SettingCertify.Password = StringHelper.Base64Encode(UInput_Teacher_CertifyPassword.Content);
         }
 
-        private void BTN__Teacher_Certify_Click(object sender, EventArgs e)
+        private void BTN_Teacher_Certify_Click(object sender, EventArgs e)
         {
             var id = UInput_Teacher_CertifyId.Content;
             var pwd = UInput_Teacher_CertifyPassword.Content;

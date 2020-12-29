@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using SRLink.Helper;
 
 namespace SRLink.From
