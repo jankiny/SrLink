@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.LBL_Key = new System.Windows.Forms.Label();
-            this.split = new System.Windows.Forms.Label();
             this.LBL_Content = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -40,15 +39,6 @@
             this.LBL_Key.Size = new System.Drawing.Size(61, 12);
             this.LBL_Key.TabIndex = 0;
             this.LBL_Key.Text = "Key";
-            // 
-            // split
-            // 
-            this.split.AutoSize = true;
-            this.split.Location = new System.Drawing.Point(73, 5);
-            this.split.Name = "split";
-            this.split.Size = new System.Drawing.Size(11, 12);
-            this.split.TabIndex = 0;
-            this.split.Text = ":";
             // 
             // LBL_Content
             // 
@@ -64,7 +54,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.LBL_Content);
-            this.Controls.Add(this.split);
             this.Controls.Add(this.LBL_Key);
             this.Name = "UDisplay";
             this.Size = new System.Drawing.Size(286, 23);
@@ -76,7 +65,6 @@
         #endregion
 
         private System.Windows.Forms.Label LBL_Key;
-        private System.Windows.Forms.Label split;
         private System.Windows.Forms.Label LBL_Content;
     }
 }

@@ -236,7 +236,7 @@ namespace SRLink.From
             }
         }
 
-        private void 显示ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -375,9 +375,9 @@ namespace SRLink.From
                 case "连接器":
                     ShowScreen(new SubFrmSLink());
                     break;
-                case "关于":
-                    ShowScreen(new SubFrmAbout());
-                    break;
+                //case "关于":
+                //    ShowScreen(new SubFrmAbout());
+                //    break;
             }
         }
 
@@ -398,6 +398,11 @@ namespace SRLink.From
             splitContainer1.Panel2.Controls.Add(ctl);
         }
 
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var f = new SubFrmAbout();
+            f.ShowDialog();
+        }
     }
 
     #endregion
