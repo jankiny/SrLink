@@ -133,6 +133,7 @@ namespace SRLink.From
         {
             try
             {
+                版本ToolStripMenuItem.Text = StringHelper.GetAppString("Version");
                 WindowState = FormWindowState.Minimized;
                 ShowScreen(new SubFrmNormal(_frmDebug));
             }
